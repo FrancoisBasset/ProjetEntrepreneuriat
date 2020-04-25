@@ -1,0 +1,133 @@
+openapi: 3.0.2
+
+info:
+  title: mainapi
+  version: 0.0.1
+
+servers:
+  - url: http://localhost
+
+paths:
+  /domains:
+    get:
+      tags: 
+        - domains
+      summary: Get all domains
+      parameters:
+        - in: query
+          name: search
+          description: Keyword to search
+          required: false
+          schema:
+            type: string
+            example: Histoire
+          
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                example:
+                  id: 1
+                  name: Histoire
+
+    post:
+      tags:
+        - domains
+      summary: Create domain
+      requestBody:
+        description: Domain name
+        required: true
+        content:
+          application/json:
+            schema:
+              example:
+                name: Histoire
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                example:
+                  id: 1
+                  name: Histoire
+
+    put:
+      tags:
+        - domains
+      summary: Update domain
+      requestBody:
+        description: Domain object with id and name
+        required: true
+        content:
+          application/json:
+            schema:
+              example:
+                id: 1
+                name: Géographie
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                example:
+                  id: 1
+                  name: Géographie
+
+    delete:
+      tags:
+        - domains
+      summary: Delete domain
+      requestBody:
+        description: Domain ID
+        required: true
+        content:
+          application/json:
+            schema:
+              example:
+                id: 1
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                example:
+                  id: 1
+                  name: Géographie
+
+  /domains/{domainId}:
+    get:
+      tags:
+        - domains
+      summary: Get domain by ID
+      parameters:
+        - in: path
+          name: domainId
+          description: Domain ID
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                example:
+                  id: 1
+                  name: Histoire
+      
+components:
+  schemas:
+    Domains:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
