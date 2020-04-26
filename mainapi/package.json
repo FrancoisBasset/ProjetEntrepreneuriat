@@ -7,7 +7,7 @@
 		"dev": "nodemon index.js --watch swagger.yml",
 		"eslint": "eslint .",
 		"start": "node index.js",
-		"test": "mocha -w"
+		"test": "mocha tests -w"
 	},
 	"repository": {
 		"type": "git",
@@ -44,6 +44,8 @@
 		"yamljs": "^0.3.0"
 	},
 	"dependencies": {
-		"express": "^4.17.1"
+		"express": "^4.17.1",
+		"mysql2": "^2.1.0",
+		"sequelize": "^5.21.7"
 	}
 }
