@@ -10,7 +10,8 @@ app.listen(80, function() {
 });
 
 const { database } = require('./models');
+const { createRoutes } = require('./routes');
 
 database.authenticate().then(function() {
-	
+	createRoutes(app);
 });

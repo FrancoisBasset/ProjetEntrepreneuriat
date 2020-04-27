@@ -5,14 +5,15 @@ const database = new Sequelize({
 	host: 'localhost',
 	username: 'root',
 	password: 'root',
-	dialect: 'mysql'
+	dialect: 'mysql',
+	logging: false
 });
 
 const Domains = require('./domains')(database);
 
-database.sync({
+/*database.sync({
 	force: true
-});
+});*/
 
 module.exports = {
 	database,
