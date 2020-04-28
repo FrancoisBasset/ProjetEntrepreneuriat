@@ -23,12 +23,12 @@ module.exports = function() {
 		response.body.should.be.an('array');
 	});
 
-	it('response body length should be equals 0', async function() {
+	it('response body should length 0', async function() {
 		const response = await chai.request('http://localhost').get('/domains');
-		response.body.length.should.be.equals(0);
+		response.body.should.length(0);
 	});
 
-	it('response body length should be equals 3', async function() {
+	it('response body should length 3', async function() {
 		await Domains.bulkCreate([
 			{ name: 'Histoire'},
 			{ name: 'Géographie'},
@@ -36,7 +36,7 @@ module.exports = function() {
 		]);
 
 		const response = await chai.request('http://localhost').get('/domains');
-		response.body.length.should.be.equals(3);
+		response.body.should.length(3);
 	});
 
 	it('domain getDataValue name should be equals Histoire', async function() {

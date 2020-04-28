@@ -22,16 +22,16 @@ module.exports = function() {
 		domains.should.be.an('array');
 	});
 
-	it('domains length should be equals 1', async function() {
+	it('domains should length 1', async function() {
 		await Domains.create({
 			name: 'Histoire'
 		});
 		
 		const domains = await DomainsController.getAllDomains();
-		domains.length.should.be.equals(1);
+		domains.should.length(1);
 	});
 
-	it('domains length should be equals 3', async function() {
+	it('domains should length 3', async function() {
 		await Domains.bulkCreate([
 			{name: 'Histoire'},
 			{name: 'Géographie'},
@@ -39,7 +39,7 @@ module.exports = function() {
 		]);
 		
 		const domains = await DomainsController.getAllDomains();
-		domains.length.should.be.equals(3);
+		domains.should.length(3);
 	});
 
 	it('domain getDataValue name should be equals Histoire', async function() {
