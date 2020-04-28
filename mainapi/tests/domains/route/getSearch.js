@@ -1,8 +1,9 @@
 const { it, beforeEach } = require('mocha');
 const chai = require('chai');
+chai.should();
+
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
-chai.should();
 
 const { Domains } = require('../../../models');
 

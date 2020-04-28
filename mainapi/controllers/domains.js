@@ -14,5 +14,13 @@ module.exports = {
 				}
 			}
 		});
+	},
+
+	getDomainById: function(id) {
+		return Domains.findOne({
+			where: {
+				id: id
+			}
+		});
 	}
 };

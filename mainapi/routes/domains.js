@@ -19,4 +19,17 @@ router.get('/', function(req, res) {
 	}
 });
 
+router.get('/:domainId', function(req, res) {
+	DomainsController
+		.getDomainById(req.params.domainId)
+		.then(function(domain) {
+			if (domain == null) {
+				res.status(404).end();
+				return;
+			}
+			
+			res.json(domain);
+		});
+});
+
 module.exports = router;
