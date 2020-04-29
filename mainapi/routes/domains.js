@@ -11,13 +11,19 @@ router.get('/', function(req, res) {
 		DomainsController
 			.getDomainsByName(req.query.search)
 			.then(function(domains) {
-				res.json(domains);
+				res.json({
+					success: true,
+					response: domains
+				});
 			});
 	} else {
 		DomainsController
 			.getAllDomains()
 			.then(function(domains) {
-				res.json(domains);
+				res.json({
+					success: true,
+					response: domains
+				});
 			});
 	}
 });
@@ -27,24 +33,47 @@ router.get('/:domainId', function(req, res) {
 		.getDomainById(req.params.domainId)
 		.then(function(domain) {
 			if (domain == null) {
-				res.status(404).end();
-				return;
+				res.status(404).json({
+					success: false,
+					message: 'Domain not found'
+				});
+			} else {
+				res.json({
+					success: true,
+					response: domain
+				});
 			}
-			
-			res.json(domain);
 		});
 });
 
 router.post('/', function(req, res) {
 	if (req.body.name == undefined) {
-		res.status(400).end();
-	}	
+		res.status(400).json({
+			success: false,
+			message: 'Name parameter not given'
+		});
+		return;
+	}
 
 	DomainsController
-		.createDomain(req.body.name)
+		.getDomainByName(req.body.name)
 		.then(function(domain) {
-			res.status(201).json(domain);
-		});
+			if (domain != null) {
+				res.status(400).json({
+					success: false,
+					message: 'Domain name already exists'
+				});
+			} else {
+				DomainsController
+					.createDomain(req.body.name)
+					.then(function(domain) {
+						res.status(201).json({
+							success: true,
+							response: domain
+						});
+					});
+			}
+		});	
 });
 
 module.exports = router;

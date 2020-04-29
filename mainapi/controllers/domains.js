@@ -3,7 +3,17 @@ const { Domains } = require('../models');
 
 module.exports = {
 	getAllDomains: function() {
-		return Domains.findAll();
+		return Domains.findAll({
+			order: ['id']
+		});
+	},
+
+	getDomainByName: function(name) {
+		return Domains.findOne({
+			where: {
+				name: name
+			}
+		});
 	},
 
 	getDomainsByName: function(name) {
@@ -12,7 +22,8 @@ module.exports = {
 				name: {
 					[Op.like]: '%' + name + '%'
 				}
-			}
+			},
+			order: ['id']
 		});
 	},
 
