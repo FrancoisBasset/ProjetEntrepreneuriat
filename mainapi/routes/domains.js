@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+const bodyParser = require('body-parser');
+router.use(bodyParser.json());
+
 const { DomainsController } = require('../controllers');
 
 router.get('/', function(req, res) {
@@ -29,6 +32,18 @@ router.get('/:domainId', function(req, res) {
 			}
 			
 			res.json(domain);
+		});
+});
+
+router.post('/', function(req, res) {
+	if (req.body.name == undefined) {
+		res.status(400).end();
+	}	
+
+	DomainsController
+		.createDomain(req.body.name)
+		.then(function(domain) {
+			res.status(201).json(domain);
 		});
 });
 

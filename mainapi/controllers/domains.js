@@ -22,5 +22,11 @@ module.exports = {
 				id: id
 			}
 		});
+	},
+
+	createDomain: function(name) {
+		return Domains.create({
+			name: name
+		});
 	}
 };
