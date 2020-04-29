@@ -14,17 +14,17 @@ module.exports = function() {
 		});
 	});
 
-	it('response status should be equals 201', async function() {
+	it('response status should equal 201', async function() {
 		const response = await chai.request('http://localhost').post('/domains').send({
 			name: 'Histoire'
 		});
 
-		response.status.should.be.equals(201);
+		response.status.should.equal(201);
 	});
 
-	it('response status should be equals 400', async function() {
+	it('response status should equal 400', async function() {
 		const response = await chai.request('http://localhost').post('/domains').send({});
-		response.status.should.be.equals(400);
+		response.status.should.equal(400);
 	});
 
 	it('response body should have property id', async function() {
@@ -43,12 +43,12 @@ module.exports = function() {
 		response.body.should.have.property('name');
 	});
 
-	it('response body should be equals Histoire', async function() {
+	it('response body should equal Histoire', async function() {
 		const response = await chai.request('http://localhost').post('/domains').send({
 			name: 'Histoire'
 		});
 
-		response.body.name.should.be.equals('Histoire');
+		response.body.name.should.equal('Histoire');
 	});
 
 	it('response body should length 3', async function() {
@@ -66,7 +66,7 @@ module.exports = function() {
 		response.body.should.length(3);
 	});
 
-	it('response body name should be equals Géographie', async function() {
+	it('response body name should equal Géographie', async function() {
 		await chai.request('http://localhost').post('/domains').send({
 			name: 'Histoire'
 		});
@@ -75,6 +75,6 @@ module.exports = function() {
 		});
 
 		const response = await chai.request('http://localhost').get('/domains/2');
-		response.body.name.should.be.equals('Géographie');
+		response.body.name.should.equal('Géographie');
 	});
 };

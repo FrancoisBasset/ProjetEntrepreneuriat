@@ -35,22 +35,22 @@ module.exports = function() {
 		chai.expect(domain).to.be.null;
 	});
 
-	it('domain name should be equals Histoire', async function() {
+	it('domain name should equal Histoire', async function() {
 		await Domains.create({
 			name: 'Histoire'
 		});
 
 		const domain = await DomainsController.getDomainById(1);
-		domain.name.should.be.equals('Histoire');
+		domain.name.should.equal('Histoire');
 	});
 
-	it('domain name should be equals Géographie', async function() {
+	it('domain name should equal Géographie', async function() {
 		await Domains.bulkCreate([
 			{ name: 'Histoire' },
 			{ name: 'Géographie'}
 		]);
 
 		const domain = await DomainsController.getDomainById(2);
-		domain.name.should.be.equals('Géographie');
+		domain.name.should.equal('Géographie');
 	});
 };

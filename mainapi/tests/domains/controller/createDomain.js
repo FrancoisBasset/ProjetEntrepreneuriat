@@ -27,9 +27,9 @@ module.exports = function() {
 		domain.should.have.property('name');
 	});
 
-	it('domain name should be equals Histoire', async function() {
+	it('domain name should equal Histoire', async function() {
 		const domain = await DomainsController.createDomain('Histoire');
-		domain.name.should.be.equals('Histoire');
+		domain.name.should.equal('Histoire');
 	});
 
 	it('domains should length 3', async function() {
@@ -41,9 +41,9 @@ module.exports = function() {
 		domains.should.length(3);
 	});
 
-	it('domain name should be equals Géographie', async function() {
+	it('domain name should equal Géographie', async function() {
 		await DomainsController.createDomain('Géographie');
 		const domain = await DomainsController.getDomainById(1);
-		domain.name.should.be.equals('Géographie');
+		domain.name.should.equal('Géographie');
 	});
 };

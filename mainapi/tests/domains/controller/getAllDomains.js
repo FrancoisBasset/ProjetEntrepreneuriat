@@ -42,11 +42,11 @@ module.exports = function() {
 		domains.should.length(3);
 	});
 
-	it('domain getDataValue name should be equals Histoire', async function() {
+	it('domain getDataValue name should equal Histoire', async function() {
 		const domain = await Domains.create({
 			name: 'Histoire'
 		});
 
-		domain.getDataValue('name').should.be.equals('Histoire');
+		domain.getDataValue('name').should.equal('Histoire');
 	});
 };

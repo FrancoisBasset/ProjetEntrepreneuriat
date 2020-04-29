@@ -14,9 +14,9 @@ module.exports = function() {
 		});
 	});
 
-	it('response status should be equals 200', async function() {
+	it('response status should equal 200', async function() {
 		const response = await chai.request('http://localhost').get('/domains');
-		response.status.should.be.equals(200);
+		response.status.should.equal(200);
 	});
 
 	it('response body should be an array', async function() {
@@ -40,12 +40,12 @@ module.exports = function() {
 		response.body.should.length(3);
 	});
 
-	it('domain getDataValue name should be equals Histoire', async function() {
+	it('domain getDataValue name should equal Histoire', async function() {
 		await Domains.create({
 			name: 'Histoire'
 		});
 
 		const response = await chai.request('http://localhost').get('/domains');
-		response.body[0].name.should.be.equals('Histoire');
+		response.body[0].name.should.equal('Histoire');
 	});
 };

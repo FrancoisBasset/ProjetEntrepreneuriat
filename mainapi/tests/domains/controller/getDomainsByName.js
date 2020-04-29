@@ -55,7 +55,7 @@ module.exports = function() {
 		domains.should.length(2);
 	});
 
-	it('domains[0] name should equals Histoire', async function() {
+	it('domains[0] name should equal Histoire', async function() {
 		await Domains.bulkCreate([
 			{ name: 'Histoire'},
 			{ name: 'Géographie'},
@@ -63,6 +63,6 @@ module.exports = function() {
 		]);
 
 		const domains = await DomainsController.getDomainsByName('hist');
-		domains[0].name.should.equals('Histoire');
+		domains[0].name.should.equal('Histoire');
 	});
 };
