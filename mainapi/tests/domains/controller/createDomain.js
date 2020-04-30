@@ -12,27 +12,12 @@ module.exports = function() {
 		});
 	});
 
-	it('domain should not be null', async function() {
-		const domain = await DomainsController.createDomain('Histoire');
-		domain.should.not.be.null;
-	});
-
-	it('domain should have property id', async function() {
-		const domain = await DomainsController.createDomain('Histoire');
-		domain.should.have.property('id');
-	});
-
-	it('domain should have property name', async function() {
-		const domain = await DomainsController.createDomain('Histoire');
-		domain.should.have.property('name');
-	});
-
-	it('domain name should equal Histoire', async function() {
+	it('creating 1 domain, correct name', async function() {
 		const domain = await DomainsController.createDomain('Histoire');
 		domain.name.should.equal('Histoire');
 	});
 
-	it('domains should length 3', async function() {
+	it('creating 3 domains, correct length', async function() {
 		await DomainsController.createDomain('Histoire');
 		await DomainsController.createDomain('Géographie');
 		await DomainsController.createDomain('Code');
@@ -41,7 +26,7 @@ module.exports = function() {
 		domains.should.length(3);
 	});
 
-	it('domain name should equal Géographie', async function() {
+	it('creating 1 domain, correct name getDomainById(1)', async function() {
 		await DomainsController.createDomain('Géographie');
 		const domain = await DomainsController.getDomainById(1);
 		domain.name.should.equal('Géographie');

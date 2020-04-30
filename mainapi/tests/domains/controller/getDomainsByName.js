@@ -12,57 +12,27 @@ module.exports = function() {
 		});
 	});
 
-	it('domains should not be null', async function() {
-		const domains = await DomainsController.getDomainsByName('hist');
-		domains.should.not.be.null;
-	});
-
-	it('domains should be an array', async function() {
-		const domains = await DomainsController.getDomainsByName('hist');
-		domains.should.be.an('array');
-	});
-
-	it('domains should length 0', async function() {
-		await Domains.bulkCreate([
-			{ name: 'Histoire'},
-			{ name: 'Géographie'},
-			{ name: 'Code'}
-		]);
+	it('length 0 when name not found', async function() {
+		await DomainsController.createDomain('Histoire');
+		await DomainsController.createDomain('Géographie');
+		await DomainsController.createDomain('Code');
 
 		const domains = await DomainsController.getDomainsByName('name');
 		domains.should.length(0);
 	});
 
-	it('domains should length 1', async function() {
-		await Domains.bulkCreate([
-			{ name: 'Histoire'},
-			{ name: 'Géographie'},
-			{ name: 'Code'}
-		]);
+	it('correct length and result', async function() {
+		await DomainsController.createDomain('Histoire');
+		await DomainsController.createDomain('Géographie');
+		await DomainsController.createDomain('Code');
 
-		const domains = await DomainsController.getDomainsByName('hist');
+		var domains = await DomainsController.getDomainsByName('hist');
 		domains.should.length(1);
-	});
 
-	it('domains should length 2', async function() {
-		await Domains.bulkCreate([
-			{ name: 'Histoire'},
-			{ name: 'Géographie'},
-			{ name: 'Code'}
-		]);
-
-		const domains = await DomainsController.getDomainsByName('r');
+		domains = await DomainsController.getDomainsByName('r');
 		domains.should.length(2);
-	});
 
-	it('domains[0] name should equal Histoire', async function() {
-		await Domains.bulkCreate([
-			{ name: 'Histoire'},
-			{ name: 'Géographie'},
-			{ name: 'Code'}
-		]);
-
-		const domains = await DomainsController.getDomainsByName('hist');
+		domains = await DomainsController.getDomainsByName('hist');
 		domains[0].name.should.equal('Histoire');
 	});
 };
