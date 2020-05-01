@@ -10,29 +10,39 @@ module.exports = function() {
 		await Domains.destroy({
 			truncate: true
 		});
-	});
 
-	it('length 0 when name not found', async function() {
 		await DomainsController.createDomain('Histoire');
 		await DomainsController.createDomain('Géographie');
 		await DomainsController.createDomain('Code');
-
-		const domains = await DomainsController.getDomainsByName('name');
-		domains.should.length(0);
 	});
 
-	it('correct length and result', async function() {
-		await DomainsController.createDomain('Histoire');
-		await DomainsController.createDomain('Géographie');
-		await DomainsController.createDomain('Code');
+	it('result success = true', async function() {
+		const result = await DomainsController.getDomainsByName('Histoire');
 
-		var domains = await DomainsController.getDomainsByName('hist');
-		domains.should.length(1);
+		result.success.should.be.true;
+	});
 
-		domains = await DomainsController.getDomainsByName('r');
-		domains.should.length(2);
+	it('result response length = 0', async function() {
+		const result = await DomainsController.getDomainsByName('name');
 
-		domains = await DomainsController.getDomainsByName('hist');
-		domains[0].name.should.equal('Histoire');
+		result.response.should.length(0);
+	});
+
+	it('result response length = 1', async function() {
+		const result = await DomainsController.getDomainsByName('hist');
+
+		result.response.should.length(1);
+	});
+
+	it('result response length = 2', async function() {
+		const result = await DomainsController.getDomainsByName('r');
+
+		result.response.should.length(2);
+	});
+
+	it('result response[0] name = Histoire', async function() {
+		const result = await DomainsController.getDomainsByName('hist');
+		
+		result.response[0].name.should.equal('Histoire');
 	});
 };

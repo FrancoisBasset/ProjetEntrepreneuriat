@@ -12,18 +12,31 @@ module.exports = function() {
 		});
 	});
 
-	it('domain name should equal Histoire', async function() {
-		await DomainsController.createDomain('Histoire');
+	it('result success = true', async function() {
+		const result = await DomainsController.getDomainById(1);
 
-		const domain = await DomainsController.getDomainById(1);
-		domain.name.should.equal('Histoire');
+		result.success.should.be.true;
 	});
 
-	it('domain name should equal Géographie', async function() {
+	it('result response = null', async function() {
+		const result = await DomainsController.getDomainById(1);
+
+		chai.expect(result.response).to.be.null;
+	});
+
+	it('result response name = Histoire', async function() {
 		await DomainsController.createDomain('Histoire');
 		await DomainsController.createDomain('Géographie');
+		const result = await DomainsController.getDomainById(1);
 
-		const domain = await DomainsController.getDomainById(2);
-		domain.name.should.equal('Géographie');
+		result.response.name.should.equal('Histoire');
+	});
+
+	it('result response name = Géographie', async function() {
+		await DomainsController.createDomain('Histoire');
+		await DomainsController.createDomain('Géographie');
+		const result = await DomainsController.getDomainById(2);
+		
+		result.response.name.should.equal('Géographie');
 	});
 };
