@@ -1,29 +1,30 @@
 const { Op } = require('sequelize');
 const { Domains } = require('../models');
 
-function getErrors(err) {
-	var errors = [];
-	for (const error of err.errors) {
-		errors.push(error.validatorKey);
-	}
+function handleResponse(status, success, body) {
+	return {
+		status: status,
+		success: success,
+		body: body
+	};
+}
 
-	return errors;
+function handleError(err) {
+	return {
+		status: 500,
+		success: false,
+		errors: err.name + ': ' + err.original.errno
+	};
 }
 
 module.exports = {
 	getAllDomains: function() {
 		return Domains.findAll({
 			order: ['id']
-		}).then(function(domain) {
-			return {
-				success: true,
-				response: domain
-			};
+		}).then(function(domains) {
+			return handleResponse(200, true, domains);
 		}).catch(function(err) {
-			return {
-				success: false,
-				errors: getErrors(err)
-			};
+			return handleError(err);
 		});
 	},
 
@@ -32,16 +33,10 @@ module.exports = {
 			where: {
 				name: name
 			}
-		}).then(function(domains) {
-			return {
-				success: true,
-				response: domains
-			};
+		}).then(function(domain) {
+			return handleResponse(200, true, domain);
 		}).catch(function(err) {
-			return {
-				success: false,
-				errors: getErrors(err)
-			};
+			return handleError(err);
 		});
 	},
 
@@ -54,15 +49,9 @@ module.exports = {
 			},
 			order: ['id']
 		}).then(function(domains) {
-			return {
-				success: true,
-				response: domains
-			};
+			return handleResponse(200, true, domains);
 		}).catch(function(err) {
-			return {
-				success: false,
-				errors: getErrors(err)
-			};
+			return handleError(err);
 		});
 	},
 
@@ -72,31 +61,35 @@ module.exports = {
 				id: id
 			}
 		}).then(function(domain) {
-			return {
-				success: true,
-				response: domain
-			};
+			if (domain == null) {
+				return handleResponse(404, false, 'Domain not found with id ' + id);
+			} else {
+				return handleResponse(200, true, domain);
+			}
 		}).catch(function(err) {
-			return {
-				success: false,
-				errors: getErrors(err)
-			};
+			return handleError(err);
 		});
 	},
 
 	createDomain: function(name) {
-		return Domains.create({
-			name: name
+		return Domains.findOne({
+			where: {
+				name: name
+			}
 		}).then(function(domain) {
-			return {
-				success: true,
-				response: domain
-			};
+			if (domain != null) {
+				return handleResponse(400, false, 'Domain ' + name + ' already exists');
+			} else {
+				return Domains.create({
+					name: name
+				}).then(function(domain) {
+					return handleResponse(201, true, domain);
+				}).catch(function(err) {
+					return handleError(err);
+				});
+			}
 		}).catch(function(err) {
-			return {
-				success: false,
-				errors: getErrors(err)
-			};
+			return handleError(err);
 		});
 	}
 };

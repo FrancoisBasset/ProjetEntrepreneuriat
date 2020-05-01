@@ -7,48 +7,31 @@ router.use(bodyParser.json());
 const { DomainsController } = require('../controllers');
 
 router.get('/', function(req, res) {
+	var promise;
+
 	if (req.query.search != undefined) {
-		DomainsController
-			.getDomainsByName(req.query.search)
-			.then(function(domains) {
-				res.json({
-					success: true,
-					response: domains
-				});
-			});
+		promise = DomainsController.getDomainsByName(req.query.search);
 	} else {
-		DomainsController
-			.getAllDomains()
-			.then(function(domains) {
-				res.json({
-					success: true,
-					response: domains
-				});
-			});
+		promise = DomainsController.getAllDomains();
 	}
+
+	promise.then(function(response) {
+		res.status(response.status).json(response);
+	});
 });
 
 router.get('/:domainId', function(req, res) {
 	DomainsController
 		.getDomainById(req.params.domainId)
-		.then(function(domain) {
-			if (domain == null) {
-				res.status(404).json({
-					success: false,
-					message: 'Domain not found'
-				});
-			} else {
-				res.json({
-					success: true,
-					response: domain
-				});
-			}
+		.then(function(response) {
+			res.status(response.status).json(response);
 		});
 });
 
 router.post('/', function(req, res) {
 	if (req.body.name == undefined) {
 		res.status(400).json({
+			status: 400,
 			success: false,
 			message: 'Name parameter not given'
 		});
@@ -56,23 +39,9 @@ router.post('/', function(req, res) {
 	}
 
 	DomainsController
-		.getDomainByName(req.body.name)
-		.then(function(domain) {
-			if (domain != null) {
-				res.status(400).json({
-					success: false,
-					message: 'Domain name already exists'
-				});
-			} else {
-				DomainsController
-					.createDomain(req.body.name)
-					.then(function(domain) {
-						res.status(201).json({
-							success: true,
-							response: domain
-						});
-					});
-			}
+		.createDomain(req.body.name)
+		.then(function(response) {
+			res.status(response.status).json(response);
 		});	
 });
 
