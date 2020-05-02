@@ -33,7 +33,7 @@ router.post('/', function(req, res) {
 		res.status(400).json({
 			status: 400,
 			success: false,
-			message: 'Name parameter not given'
+			body: 'Name parameter not given'
 		});
 		return;
 	}

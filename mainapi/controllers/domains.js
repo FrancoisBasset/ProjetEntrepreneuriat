@@ -13,7 +13,7 @@ function handleError(err) {
 	return {
 		status: 500,
 		success: false,
-		errors: err.name + ': ' + err.original.errno
+		error: err.name + ': ' + err.original.errno
 	};
 }
 
@@ -23,18 +23,6 @@ module.exports = {
 			order: ['id']
 		}).then(function(domains) {
 			return handleResponse(200, true, domains);
-		}).catch(function(err) {
-			return handleError(err);
-		});
-	},
-
-	getDomainByName: function(name) {
-		return Domains.findOne({
-			where: {
-				name: name
-			}
-		}).then(function(domain) {
-			return handleResponse(200, true, domain);
 		}).catch(function(err) {
 			return handleError(err);
 		});

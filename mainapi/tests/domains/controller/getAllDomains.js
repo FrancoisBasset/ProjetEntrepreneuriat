@@ -12,32 +12,22 @@ module.exports = function() {
 		});
 	});
 
-	it('result success = true', async function() {
-		const result = await DomainsController.createDomain('Histoire');
+	it('no domains', async function() {
+		const response = await DomainsController.getAllDomains();
 
-		result.success.should.be.true;
+		response.status.should.equal(200);
+		response.success.should.be.true;
+		response.body.should.length(0);
 	});
 
-	it('result response length = 1', async function() {
+	it('domains Histoire', async function() {
 		await DomainsController.createDomain('Histoire');
-		const result = await DomainsController.getAllDomains();
+		const response = await DomainsController.getAllDomains();
 
-		result.response.should.length(1);
-	});
-
-	it('result response length = 3', async function() {
-		await DomainsController.createDomain('Histoire');
-		await DomainsController.createDomain('Géographie');
-		await DomainsController.createDomain('Code');
-		const result = await DomainsController.getAllDomains();
-
-		result.response.should.length(3);
-	});
-
-	it('result response[0] name = Histoire', async function() {
-		await DomainsController.createDomain('Histoire');
-		const result = await DomainsController.getAllDomains();
-
-		result.response[0].name.should.equal('Histoire');
+		response.status.should.equal(200);
+		response.success.should.be.true;
+		response.body.should.length(1);
+		response.body[0].id.should.equal(1);
+		response.body[0].name.should.equal('Histoire');
 	});
 };

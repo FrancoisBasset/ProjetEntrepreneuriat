@@ -12,38 +12,26 @@ module.exports = function() {
 		});
 	});
 
-	it('result success = true', async function() {
-		const result = await DomainsController.createDomain('Histoire');
+	it('domain Histoire', async function() {
+		var response = await DomainsController.createDomain('Histoire');
+		response.status.should.equal(201);
+		response.success.should.be.true;
+		response.body.id.should.equal(1);
+		response.body.name.should.equal('Histoire');
 
-		result.success.should.be.true;
+		response = await DomainsController.getDomainById(1);
+		response.status.should.equal(200);
+		response.success.should.be.true;
+		response.body.id.should.equal(1);
+		response.body.name.should.equal('Histoire');
 	});
 
-	it('result errors = not_unique', async function() {
+	it('domain Histoire Histoire', async function() {
 		await DomainsController.createDomain('Histoire');
-		const result = await DomainsController.createDomain('Histoire');
+		const response = await DomainsController.createDomain('Histoire');
 
-		result.errors.should.contain('not_unique');
-	});
-
-	it('result response name = Histoire', async function() {
-		const result = await DomainsController.createDomain('Histoire');
-
-		result.response.name.should.equal('Histoire');
-	});
-
-	it('result response length = 3', async function() {
-		await DomainsController.createDomain('Histoire');
-		await DomainsController.createDomain('Géographie');
-		await DomainsController.createDomain('Code');
-		const result = await DomainsController.getAllDomains();
-
-		result.response.should.length(3);
-	});
-
-	it('result response name = Géographie', async function() {
-		await DomainsController.createDomain('Géographie');
-		const result = await DomainsController.getDomainById(1);
-
-		result.response.name.should.equal('Géographie');
+		response.status.should.equal(400);
+		response.success.should.not.be.true;
+		response.body.should.equal('Domain Histoire already exists');
 	});
 };
