@@ -99,5 +99,23 @@ module.exports = {
 				return handleError(err);
 			});
 		});
+	},
+
+	deleteDomain: function(id) {
+		return this.getDomainById(id).then(response => {
+			if (response.success) {
+				return Domains.destroy({
+					where: {
+						id: id
+					}
+				}).then(() => {
+					return handleResponse(200, true, response.body);
+				}).catch(function(err) {
+					return handleError(err);
+				});
+			} else {
+				return handleResponse(400, false, 'Domain not found with id ' + id);
+			}
+		});
 	}
 };

@@ -62,4 +62,21 @@ router.put('/', function(req, res) {
 		});
 });
 
+router.delete('/', function(req, res) {
+	if (req.body.id == undefined) {
+		res.status(400).json({
+			status: 400,
+			success: false,
+			body: 'Id not given'
+		});
+		return;
+	}
+
+	DomainsController
+		.deleteDomain(req.body.id)
+		.then(function(response) {
+			res.status(response.status).json(response);
+		});
+});
+
 module.exports = router;
