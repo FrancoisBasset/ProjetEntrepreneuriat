@@ -45,4 +45,21 @@ router.post('/', function(req, res) {
 		});	
 });
 
+router.put('/', function(req, res) {
+	if (req.body.id == undefined || req.body.name == undefined) {
+		res.status(400).json({
+			status: 400,
+			success: false,
+			body: 'Id or name not given'
+		});
+		return;
+	}
+
+	DomainsController
+		.updateDomain(req.body.id, req.body.name)
+		.then(function(response) {
+			res.status(response.status).json(response);
+		});
+});
+
 module.exports = router;

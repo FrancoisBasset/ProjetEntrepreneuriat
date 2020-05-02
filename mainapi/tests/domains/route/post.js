@@ -15,7 +15,7 @@ module.exports = function() {
 	});
 
 	it('no name', async function() {
-		const response = await chai.request('http://localhost').post('/domains').send({});
+		const response = await chai.request('http://localhost').post('/domains').send();
 
 		response.status.should.equal(400);
 		response.body.status.should.equal(400);

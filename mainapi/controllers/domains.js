@@ -79,5 +79,25 @@ module.exports = {
 		}).catch(function(err) {
 			return handleError(err);
 		});
+	},
+
+	updateDomain: function(id, name) {
+		return this.getDomainById(id).then(response => {
+			if (response.success == false) {
+				return handleResponse(400, false, 'Domain not found with id ' + id);
+			}
+
+			return Domains.update({
+				name: name
+			}, {
+				where: {
+					id: id
+				}
+			}).then(() => {
+				return this.getDomainById(id);
+			}).catch(function(err) {
+				return handleError(err);
+			});
+		});
 	}
 };
