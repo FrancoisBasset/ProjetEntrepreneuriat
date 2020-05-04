@@ -1,3 +1,4 @@
 module.exports = {
-	DomainsController: require('./domains')
+	DomainsController: require('./domainsController'),
+	BranchesController: require('./branchesController')
 };

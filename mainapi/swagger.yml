@@ -21,7 +21,6 @@ paths:
           schema:
             type: string
             example: Histoire
-          
       responses:
         200:
           description: OK
@@ -99,14 +98,14 @@ paths:
                   id: 1
                   name: Géographie
 
-  /domains/{domainId}:
+  /domains/{id}:
     get:
       tags:
         - domains
       summary: Get domain by ID
       parameters:
         - in: path
-          name: domainId
+          name: id
           description: Domain ID
           required: true
           schema:
@@ -122,6 +121,118 @@ paths:
                   id: 1
                   name: Histoire
       
+  /branches:
+    get:
+      tags:
+        - branches
+      summary: Get all branches
+      parameters:
+        - in: query
+          name: search
+          description: Keyword to search
+          required: false
+          schema:
+            type: string
+            example: Moyen-Âge
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                example:
+                  id: 1
+                  name: Moyen-Âge
+
+    post:
+      tags:
+        - branches
+      summary: Create branch
+      requestBody:
+        description: Branch name
+        required: true
+        content:
+          application/json:
+            schema:
+              example:
+                name: Moyen-Âge
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                example:
+                  id: 1
+                  name: Moyen-Âge
+    
+    put:
+      tags:
+        - branches
+      summary: Update branch
+      requestBody:
+        description: Branch object with id and name
+        required: true
+        content:
+          application/json:
+            schema:
+              example:
+                id: 1
+                name: Renaissance
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                example:
+                  id: 1
+                  name: Renaissance
+
+    delete:
+      tags:
+        - branches
+      summary: Delete branch
+      requestBody:
+        description: Branch ID
+        required: true
+        content:
+          application/json:
+            schema:
+              example:
+                id: 1
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                example:
+                  id: 1
+                  name: Renaissance
+
+  /branches/{id}:
+    get:
+      tags:
+        - branches
+      summary: Get branch by ID
+      parameters:
+        - in: path
+          name: id
+          description: Branch ID
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                example:
+                  id: 1
+                  name: Moyen-Âge               
 components:
   schemas:
     Domains:

@@ -10,12 +10,25 @@ const database = new Sequelize({
 });
 
 const Domains = require('./domains')(database);
+const Branches = require('./branches')(database);
 
-/*database.sync({
+Branches.Branches.belongsTo(Domains.Domains, {
+	as: 'domain'
+});
+
+Domains.Domains.hasMany(Branches.Branches, {
+	as: 'branches',
+	foreignKey: {
+		allowNull: false
+	}
+});
+
+database.sync({
 	force: true
-});*/
+});
 
 module.exports = {
 	database,
-	Domains
+	Domains,
+	Branches
 };

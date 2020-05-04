@@ -5,12 +5,11 @@ chai.should();
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 
-const { DomainsController } = require('../../../controllers');
-const { Domains } = require('../../../models');
+const { Domains } = require('../../models');
 
 module.exports = function() {
 	beforeEach(async function() {
-		await Domains.destroy({
+		await Domains.Domains.destroy({
 			truncate: true
 		});
 	});
@@ -19,20 +18,18 @@ module.exports = function() {
 		const response = await chai.request('http://localhost').get('/domains');
 
 		response.status.should.equal(200);
-		response.body.status.should.equal(200);
 		response.body.success.should.be.true;
-		response.body.body.should.length(0);
+		response.body.response.should.length(0);
 	});
 
 	it('domain Histoire', async function() {
-		await DomainsController.createDomain('Histoire');
+		await Domains.createDomain('Histoire');
 		const response = await chai.request('http://localhost').get('/domains');
 
 		response.status.should.equal(200);
-		response.body.status.should.equal(200);
 		response.body.success.should.be.true;
-		response.body.body.should.length(1);
-		response.body.body[0].id.should.equal(1);
-		response.body.body[0].name.should.equal('Histoire');
+		response.body.response.should.length(1);
+		response.body.response[0].id.should.equal(1);
+		response.body.response[0].name.should.equal('Histoire');
 	});
 };

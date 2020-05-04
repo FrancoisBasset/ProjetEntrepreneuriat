@@ -1,19 +1,10 @@
 const { describe } = require('mocha');
 
 describe('domains', function() {
-	describe('controller', function() {
-		describe('getAllDomains', require('./domains/controller/getAllDomains'));
-		describe('getDomainsByName', require('./domains/controller/getDomainsByName'));
-		describe('getDomainById', require('./domains/controller/getDomainById'));
-		describe('createDomain', require('./domains/controller/createDomain'));
-		describe('updateDomain', require('./domains/controller/updateDomain'));
-	});
-
-	describe('route', function() {
-		describe('GET', require('./domains/route/get'));
-		describe('GET/?search', require('./domains/route/getSearch'));
-		describe('GET/:id', require('./domains/route/getId'));
-		describe('POST', require('./domains/route/post'));
-		describe('PUT', require('./domains/route/updateDomain'));
-	});
+	describe('GET /domains', require('./domains/get'));
+	describe('GET /domains?search', require('./domains/getSearch'));
+	describe('GET /domains/:id', require('./domains/getId'));
+	/*describe('POST /domains', require('./domains/post'));
+	describe('PUT /domains/:id', require('./domains/put'));*/
+	//delete
 });
