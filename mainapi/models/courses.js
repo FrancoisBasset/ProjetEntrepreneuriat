@@ -6,7 +6,7 @@ const { DataTypes, Sequelize, Op } = require('sequelize');
  * @param {Sequelize} database 
  */
 module.exports = function(database) {
-	const Branches = database.define('branches', {
+	const Courses = database.define('courses', {
 		id: {
 			primaryKey: true,
 			autoIncrement: true,
@@ -27,29 +27,29 @@ module.exports = function(database) {
 	});
 
 	return {
-		Branches: Branches,
+		Courses: Courses,
 
 		getAll: function() {
-			return Branches.findAll({
+			return Courses.findAll({
 				attributes: {
-					exclude: 'domainId'
+					exclude: 'branchId'
 				},
 				include: [
-					'domain',
-					'courses'
+					'chapters',
+					'branch'
 				],
 				order: ['id']
 			});
 		},
 
 		getById: function(id) {
-			return Branches.findOne({
+			return Courses.findOne({
 				attributes: {
-					exclude: 'domainId'
+					exclude: 'branchId'
 				},
 				include: [
-					'domain',
-					'courses'
+					'chapters',
+					'branch'
 				],
 				where: {
 					id: id
@@ -58,13 +58,13 @@ module.exports = function(database) {
 		},
 
 		getByName: function(name) {
-			return Branches.findAll({
+			return Courses.findAll({
 				attributes: {
-					exclude: 'domainId'
+					exclude: 'branchId'
 				},
 				include: [
-					'domain',
-					'courses'
+					'chapters',
+					'branch'
 				],
 				where: {
 					name: {
@@ -75,28 +75,28 @@ module.exports = function(database) {
 			});
 		},
 
-		exists: function(name, domainId) {
-			return Branches.findOne({
+		exists: function(name, branchId) {
+			return Courses.findOne({
 				where: {
 					name: name,
-					domainId: domainId
+					branchId: branchId
 				}
-			}).then(function(branch) {
-				return branch != null;
+			}).then(function(course) {
+				return course != null;
 			});
 		},
 
-		create: function(name, domainId) {
-			return Branches.create({
+		create: function(name, branchId) {
+			return Courses.create({
 				name: name,
-				domainId: domainId
-			}).then(branch => {
-				return this.getById(branch.id);
+				branchId: branchId
+			}).then(course => {
+				return this.getById(course.id);
 			});
 		},
 
 		update: function(id, name) {
-			return Branches.update({
+			return Courses.update({
 				name: name
 			}, {
 				where: {
@@ -108,7 +108,7 @@ module.exports = function(database) {
 		},
 
 		delete: function(id) {
-			return Branches.destroy({
+			return Courses.destroy({
 				where: {
 					id: id
 				}

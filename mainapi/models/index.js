@@ -11,16 +11,37 @@ const database = new Sequelize({
 
 const Domains = require('./domains')(database);
 const Branches = require('./branches')(database);
-
-Branches.Branches.belongsTo(Domains.Domains, {
-	as: 'domain'
-});
+const Courses = require('./courses')(database);
+const Chapters = require('./chapters')(database);
 
 Domains.Domains.hasMany(Branches.Branches, {
 	as: 'branches',
 	foreignKey: {
 		allowNull: false
 	}
+});
+Branches.Branches.belongsTo(Domains.Domains, {
+	as: 'domain'
+});
+
+Branches.Branches.hasMany(Courses.Courses, {
+	as: 'courses',
+	foreignKey: {
+		allowNull: false
+	}
+});
+Courses.Courses.belongsTo(Branches.Branches, {
+	as: 'branch'
+});
+
+Courses.Courses.hasMany(Chapters.Chapters, {
+	as: 'chapters',
+	foreignKey: {
+		allowNull: false
+	}
+});
+Chapters.Chapters.belongsTo(Courses.Courses, {
+	as: 'course'
 });
 
 database.sync({
@@ -30,5 +51,7 @@ database.sync({
 module.exports = {
 	database,
 	Domains,
-	Branches
+	Branches,
+	Courses,
+	Chapters
 };

@@ -6,7 +6,7 @@ const { DataTypes, Sequelize, Op } = require('sequelize');
  * @param {Sequelize} database 
  */
 module.exports = function(database) {
-	const Branches = database.define('branches', {
+	const Chapters = database.define('chapters', {
 		id: {
 			primaryKey: true,
 			autoIncrement: true,
@@ -19,7 +19,12 @@ module.exports = function(database) {
 			allowNull: false,
 	
 			type: DataTypes.STRING(100)
-		}
+		},
+		index: {
+			allowNull: false,
+
+			type: DataTypes.INTEGER
+		},
 	}, {
 		paranoid: false,
 		createdAt: false,
@@ -27,30 +32,24 @@ module.exports = function(database) {
 	});
 
 	return {
-		Branches: Branches,
+		Chapters: Chapters,
 
 		getAll: function() {
-			return Branches.findAll({
+			return Chapters.findAll({
 				attributes: {
-					exclude: 'domainId'
+					exclude: 'courseId'
 				},
-				include: [
-					'domain',
-					'courses'
-				],
+				include: 'course',
 				order: ['id']
 			});
 		},
 
 		getById: function(id) {
-			return Branches.findOne({
+			return Chapters.findOne({
 				attributes: {
-					exclude: 'domainId'
+					exclude: 'courseId'
 				},
-				include: [
-					'domain',
-					'courses'
-				],
+				include: 'course',
 				where: {
 					id: id
 				}
@@ -58,14 +57,11 @@ module.exports = function(database) {
 		},
 
 		getByName: function(name) {
-			return Branches.findAll({
+			return Chapters.findAll({
 				attributes: {
-					exclude: 'domainId'
+					exclude: 'courseId'
 				},
-				include: [
-					'domain',
-					'courses'
-				],
+				include: 'course',
 				where: {
 					name: {
 						[Op.like]: '%' + name + '%'
@@ -75,29 +71,33 @@ module.exports = function(database) {
 			});
 		},
 
-		exists: function(name, domainId) {
-			return Branches.findOne({
+		exists: function(name, index, courseId) {
+			return Chapters.findOne({
 				where: {
 					name: name,
-					domainId: domainId
+					index: index,
+					courseId: courseId
 				}
-			}).then(function(branch) {
-				return branch != null;
+			}).then(function(chapter) {
+				return chapter != null;
 			});
 		},
 
-		create: function(name, domainId) {
-			return Branches.create({
+		create: function(name, index, courseId) {
+			return Chapters.create({
 				name: name,
-				domainId: domainId
-			}).then(branch => {
-				return this.getById(branch.id);
+				index: index,
+				courseId: courseId
+			}).then(chapter => {
+				return this.getById(chapter.id);
 			});
 		},
 
-		update: function(id, name) {
-			return Branches.update({
-				name: name
+		update: function(id, name, index, courseId) {
+			return Chapters.update({
+				name: name,
+				index: index,
+				courseId: courseId
 			}, {
 				where: {
 					id: id
@@ -108,7 +108,7 @@ module.exports = function(database) {
 		},
 
 		delete: function(id) {
-			return Branches.destroy({
+			return Chapters.destroy({
 				where: {
 					id: id
 				}

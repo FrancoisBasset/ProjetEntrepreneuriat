@@ -5,37 +5,36 @@ chai.should();
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 
-const { Domains } = require('../../models');
+const { database } = require('../../models');
+const check = require('../utils');
 
 module.exports = function() {
 	beforeEach(async function() {
-		await Domains.Domains.destroy({
-			truncate: true
+		await database.sync({
+			force: true
 		});
 	});
 
 	it('no domains, /domains?search=hist', async function() {
 		const response = await chai.request('http://localhost').get('/domains?search=hist');
 
-		response.status.should.equal(200);
-		response.body.success.should.be.true;
-		response.body.response.should.length(0);
+		check.checkEmpty(response);
 	});
 
 	it('domain Histoire, /domains?search=hist', async function() {
-		await Domains.createDomain('Histoire');
+		await chai.request('http://localhost').post('/domains').send({
+			name: 'Histoire'
+		});
 		var response = await chai.request('http://localhost').get('/domains?search=hist');
 
-		response.status.should.equal(200);
-		response.body.success.should.be.true;
-		response.body.response.should.length(1);
-		response.body.response[0].id.should.equal(1);
-		response.body.response[0].name.should.equal('Histoire');
+		check.checkLength(response, 1);
+		check.checkResponse(response.body.response[0], {
+			id: 1,
+			name: 'Histoire'
+		});
 
 		response = await chai.request('http://localhost').get('/domains?search=name');
 
-		response.status.should.equal(200);
-		response.body.success.should.be.true;
-		response.body.response.should.length(0);
+		check.checkEmpty(response);
 	});
 };

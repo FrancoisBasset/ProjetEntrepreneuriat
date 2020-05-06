@@ -1,14 +1,14 @@
-
 const { Domains } = require('../models');
 
 module.exports = {
+	// OK
 	get: function(req, res) {
 		var promise;
 
 		if (req.query.search != undefined) {
-			promise = Domains.getDomainsByName(req.query.search);
+			promise = Domains.getByName(req.query.search);
 		} else {
-			promise = Domains.getAllDomains();
+			promise = Domains.getAll();
 		}
 
 		promise.then(function(domains) {
@@ -19,9 +19,10 @@ module.exports = {
 		});
 	},
 
+	// OK
 	getId: function(req, res) {
 		Domains
-			.getDomainById(req.params.id)
+			.getById(req.params.id)
 			.then(function(domain) {
 				if (domain == null) {
 					res.status(404).json({
@@ -37,6 +38,7 @@ module.exports = {
 			});
 	},
 
+	// OK
 	post: function(req, res) {
 		if (req.body.name == undefined) {
 			res.status(400).json({
@@ -44,16 +46,16 @@ module.exports = {
 				response: 'Name not found'
 			});
 		} else {
-			Domains.getDomainByName(req.body.name)
-				.then(function(domain) {
-					if (domain != null) {
+			Domains.exists(req.body.name)
+				.then(function(exists) {
+					if (exists) {
 						res.status(400).json({
 							success: false,
 							response: 'Domain ' + req.body.name + ' already exists'
 						});
 					} else {
 						Domains
-							.createDomain(req.body.name)
+							.create(req.body.name)
 							.then(function(domain) {
 								res.status(201).json({
 									success: true,
@@ -65,15 +67,16 @@ module.exports = {
 		}
 	},
 
+	// OK
 	put: function(req, res) {
 		if (req.body.name == undefined) {
 			res.status(400).json({
 				success: false,
-				body: 'Name not found'
+				response: 'Name not found'
 			});
 		} else {
 			Domains
-				.getDomainById(req.params.id)
+				.getById(req.params.id)
 				.then(function(domain) {
 					if (domain == null) {
 						res.status(400).json({
@@ -82,7 +85,7 @@ module.exports = {
 						});
 					} else {
 						Domains
-							.updateDomain(req.params.id, req.body.name)
+							.update(req.params.id, req.body.name)
 							.then(function(domain) {
 								res.status(200).json({
 									success: true,
@@ -94,9 +97,10 @@ module.exports = {
 		}
 	},
 
+	// OK
 	delete: function(req, res) {
 		Domains
-			.getDomainById(req.params.id)
+			.getById(req.params.id)
 			.then(function(domain) {
 				if (domain == null) {
 					res.status(400).json({
@@ -105,8 +109,8 @@ module.exports = {
 					});
 				} else {
 					Domains
-						.deleteDomain(req.params.id)
-						.then(function(domain) {
+						.delete(req.params.id)
+						.then(function() {
 							res.status(200).json({
 								success: true,
 								response: domain

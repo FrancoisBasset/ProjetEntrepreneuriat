@@ -5,23 +5,20 @@ chai.should();
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 
-const { DomainsController } = require('../../../controllers');
-const { Domains } = require('../../../models');
+const { database } = require('../../models');
+const check = require('../utils');
 
 module.exports = function() {
 	beforeEach(async function() {
-		await Domains.destroy({
-			truncate: true
+		await database.sync({
+			force: true
 		});
 	});
 
 	it('no id or name', async function() {
 		const response = await chai.request('http://localhost').put('/domains').send();
 
-		response.status.should.equal(400);
-		response.body.status.should.equal(400);
-		response.body.success.should.not.be.true;
-		response.body.body.should.equal('Id or name not given');
+		check.checkBadRequest(response, 'Id or name not given');
 	});
 
 	it('no domains', async function() {
@@ -30,23 +27,22 @@ module.exports = function() {
 			name: 'Géographie'
 		});
 
-		response.status.should.equal(400);
-		response.body.status.should.equal(400);
-		response.body.success.should.not.be.true;
-		response.body.body.should.equal('Domain not found with id 1');
+		check.checkBadRequest(response, 'Domain not found with id 1');
 	});
 	
 	it('domain Histoire Géographie', async function() {
-		await DomainsController.createDomain('Histoire');
+		await chai.request('http://localhost').post('/domains').send({
+			name: 'Histoire'
+		});
 		const response = await chai.request('http://localhost').put('/domains').send({
 			id: 1,
 			name: 'Géographie'
-		});		
+		});
 
-		response.status.should.equal(200);
-		response.body.status.should.equal(200);
-		response.body.success.should.be.true;
-		response.body.body.id.should.equal(1);
-		response.body.body.name.should.equal('Géographie');
+		check.checkSuccess(response, 200);
+		check.checkResponse(response.body.response, {
+			id: 1,
+			name: 'Géographie'
+		});
 	});
 };

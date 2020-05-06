@@ -5,35 +5,36 @@ chai.should();
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 
-const { Domains } = require('../../models');
+const { database } = require('../../models');
+const check = require('../utils');
 
 module.exports = function() {
 	beforeEach(async function() {
-		await Domains.Domains.destroy({
-			truncate: true
+		await database.sync({
+			force: true
 		});
 	});
 
 	it('no domains', async function() {
 		const response = await chai.request('http://localhost').get('/domains/1');
 
-		response.status.should.equal(404);
-		response.body.success.should.not.be.true;
-		response.body.response.should.equal('Domain 1 not found');
+		check.checkNotFound(response, 'Domain 1 not found');
 	});
 
 	it('domain Histoire', async function() {
-		await Domains.createDomain('Histoire');
+		await chai.request('http://localhost').post('/domains').send({
+			name: 'Histoire'
+		});
 		var response = await chai.request('http://localhost').get('/domains/1');
 		
-		response.status.should.equal(200);
-		response.body.success.should.be.true;
-		response.body.response.id.should.equal(1);
-		response.body.response.name.should.equal('Histoire');
+		check.checkSuccess(response, 200);
+		check.checkResponse(response.body.response, {
+			id: 1,
+			name: 'Histoire'
+		});
 
 		response = await chai.request('http://localhost').get('/domains/2');
-		response.status.should.equal(404);
-		response.body.success.should.not.be.true;
-		response.body.response.should.equal('Domain 2 not found');
+		
+		check.checkNotFound(response, 'Domain 2 not found');
 	});
 };

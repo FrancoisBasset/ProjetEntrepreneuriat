@@ -1,4 +1,4 @@
-const { Domains, Branches } = require('../models');
+const { Branches, Courses } = require('../models');
 
 module.exports = {
 	// OK
@@ -6,33 +6,33 @@ module.exports = {
 		var promise;
 
 		if (req.query.search != undefined) {
-			promise = Branches.getByName(req.query.search);
+			promise = Courses.getByName(req.query.search);
 		} else {
-			promise = Branches.getAll();
+			promise = Courses.getAll();
 		}
 
-		promise.then(function(branches) {
+		promise.then(function(courses) {
 			res.status(200).json({
 				success: true,
-				response: branches
+				response: courses
 			});
 		});
 	},
 
 	// OK
 	getId: function(req, res) {
-		Branches
+		Courses
 			.getById(req.params.id)
-			.then(function(branch) {
-				if (branch == null) {
+			.then(function(course) {
+				if (course == null) {
 					res.status(404).json({
 						success: false,
-						response: 'Branch ' + req.params.id + ' not found'
+						response: 'Course ' + req.params.id + ' not found'
 					});
 				} else {
 					res.status(200).json({
 						success: true,
-						response: branch
+						response: course
 					});
 				}				
 			});
@@ -45,35 +45,35 @@ module.exports = {
 				success: false,
 				response: 'Name not found'
 			});
-		} else if (req.body.domainId == undefined) {
+		} else if (req.body.branchId == undefined) {
 			res.status(400).json({
 				success: false,
-				response: 'Domain not found'
+				response: 'Branch not found'
 			});
 		} else {
-			Branches.exists(req.body.name, req.body.domainId)
+			Courses.exists(req.body.name, req.body.branchId)
 				.then(function(exists) {
 					if (exists) {
 						res.status(400).json({
 							success: false,
-							response: 'Branch ' + req.body.name + ' with domain ' + req.body.domainId + ' already exists'
+							response: 'Course ' + req.body.name + ' with branch ' + req.body.branchId + ' already exists'
 						});
 					} else {
-						Domains
-							.getById(req.body.domainId)
-							.then(function(domain) {
-								if (domain == null) {
+						Branches
+							.getById(req.body.branchId)
+							.then(function(branch) {
+								if (branch == null) {
 									res.status(400).json({
 										success: false,
-										response: 'Domain ' + req.body.domainId + ' not found'
+										response: 'Branch ' + req.body.branchId + ' not found'
 									});
 								} else {
-									Branches
-										.create(req.body.name, req.body.domainId)
-										.then(function(branch) {
+									Courses
+										.create(req.body.name, req.body.branchId)
+										.then(function(course) {
 											res.status(201).json({
 												success: true,
-												response: branch
+												response: course
 											});
 										});
 								}
@@ -90,40 +90,40 @@ module.exports = {
 				success: false,
 				response: 'Name not found'
 			});
-		} else if (req.body.domainId == undefined) {
+		} else if (req.body.branchId == undefined) {
 			res.status(400).json({
 				success: false,
-				response: 'Domain not found'
+				response: 'Branch not found'
 			});
 		} else {
-			Branches
+			Courses
 				.getById(req.params.id)
-				.then(function(branch) {
-					if (branch == null) {
+				.then(function(course) {
+					if (course == null) {
 						res.status(400).json({
 							success: false,
-							response: 'Branch ' + req.params.id + ' not found'
+							response: 'Course ' + req.params.id + ' not found'
 						});
 					} else {
-						Domains
-							.getById(req.body.domainId)
-							.then(function(domain) {
-								if (domain == null) {
+						Branches
+							.getById(req.body.branchId)
+							.then(function(branch) {
+								if (branch == null) {
 									res.status(400).json({
 										success: false,
-										response: 'Domain ' + req.body.domainId + ' not found'
+										response: 'Branch ' + req.body.branchId + ' not found'
 									});
 								} else {
-									Branches
-										.update(req.params.id, req.body.name, req.body.domainId)
-										.then(function(branch) {
+									Courses
+										.update(req.params.id, req.body.name, req.body.branchId)
+										.then(function(course) {
 											res.status(200).json({
 												success: true,
-												response: branch
+												response: course
 											});
 										});
 								}
-							});						
+							});
 					}
 				});
 		}
@@ -131,24 +131,24 @@ module.exports = {
 
 	// OK
 	delete: function(req, res) {
-		Branches
+		Courses
 			.getById(req.params.id)
-			.then(function(branch) {
-				if (branch == null) {
+			.then(function(course) {
+				if (course == null) {
 					res.status(400).json({
 						success: false,
-						response: 'Branch ' + req.params.id + ' not found'
+						response: 'Course ' + req.params.id + ' not found'
 					});
 				} else {
-					Branches
+					Courses
 						.delete(req.params.id)
 						.then(function() {
 							res.status(200).json({
 								success: true,
-								response: branch
+								response: course
 							});
 						});
 				}
-			});		
+			});
 	}
 };

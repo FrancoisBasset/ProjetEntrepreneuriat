@@ -1,6 +1,5 @@
 // eslint-disable-next-line no-unused-vars
 const { DataTypes, Sequelize, Op } = require('sequelize');
-//const { Branches } = require('./index');
 
 /**
  * 
@@ -31,23 +30,23 @@ module.exports = function(database) {
 	return {
 		Domains: Domains,
 
-		getAllDomains: function() {
+		getAll: function() {
 			return Domains.findAll({
 				include: 'branches',
 				order: ['id']
 			});
 		},
 
-		getDomainByName: function(name) {
+		getById: function(id) {
 			return Domains.findOne({
 				include: 'branches',
 				where: {
-					name: name
+					id: id
 				}
 			});
 		},
-	
-		getDomainsByName: function(name) {
+		
+		getByName: function(name) {
 			return Domains.findAll({
 				include: 'branches',
 				where: {
@@ -58,25 +57,27 @@ module.exports = function(database) {
 				order: ['id']
 			});
 		},
-	
-		getDomainById: function(id) {
+
+		exists: function(name) {
 			return Domains.findOne({
 				include: 'branches',
 				where: {
-					id: id
+					name: name
 				}
+			}).then(function(domain) {
+				return domain != null;
 			});
 		},
 	
-		createDomain: function(name) {
+		create: function(name) {
 			return Domains.create({
 				name: name
 			}).then(domain => {
-				return this.getDomainById(domain.id);
+				return this.getById(domain.id);
 			});
 		},
 	
-		updateDomain: function(id, name) {
+		update: function(id, name) {
 			return Domains.update({
 				name: name
 			}, {
@@ -84,19 +85,15 @@ module.exports = function(database) {
 					id: id
 				}
 			}).then(() => {
-				return this.getDomainById(id);
+				return this.getById(id);
 			});
 		},
 	
-		deleteDomain: function(id) {
-			return this.getDomainById(id).then(function(domain) {
-				return Domains.destroy({
-					where: {
-						id: id
-					}
-				}).then(function() {
-					return domain;
-				});
+		delete: function(id) {
+			return Domains.destroy({
+				where: {
+					id: id
+				}
 			});
 		}
 	};

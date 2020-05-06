@@ -1,4 +1,6 @@
 module.exports = {
 	DomainsController: require('./domainsController'),
-	BranchesController: require('./branchesController')
+	BranchesController: require('./branchesController'),
+	CoursesController: require('./coursesController'),
+	ChaptersController: require('./chaptersController')
 };
