@@ -5,10 +5,10 @@ module.exports = {
 	get: function(req, res) {
 		var promise;
 
-		if (req.query.search != undefined) {
-			promise = Chapters.getByName(req.query.search);
-		} else {
+		if (req.query.search == undefined) {
 			promise = Chapters.getAll();
+		} else {
+			promise = Chapters.getByName(req.query.search);
 		}
 
 		promise.then(function(chapters) {
@@ -43,17 +43,17 @@ module.exports = {
 		if (req.body.index == undefined) {
 			res.status(400).json({
 				success: false,
-				response: 'Index not found'
+				response: 'Index missing'
 			});
 		} else if (req.body.name == undefined) {
 			res.status(400).json({
 				success: false,
-				response: 'Name not found'
+				response: 'Name missing'
 			});
 		} else if (req.body.courseId == undefined) {
 			res.status(400).json({
 				success: false,
-				response: 'Course not found'
+				response: 'Course missing'
 			});
 		} else {
 			Chapters.exists(req.body.name, req.body.index, req.body.courseId)
@@ -93,17 +93,17 @@ module.exports = {
 		if (req.body.index == undefined) {
 			res.status(400).json({
 				success: false,
-				response: 'Index not found'
+				response: 'Index missing'
 			});
 		} else if (req.body.name == undefined) {
 			res.status(400).json({
 				success: false,
-				response: 'Name not found'
+				response: 'Name missing'
 			});
 		} else if (req.body.courseId == undefined) {
 			res.status(400).json({
 				success: false,
-				response: 'Course not found'
+				response: 'Course missing'
 			});
 		} else {
 			Chapters

@@ -2,5 +2,6 @@ module.exports = {
 	DomainsController: require('./domainsController'),
 	BranchesController: require('./branchesController'),
 	CoursesController: require('./coursesController'),
-	ChaptersController: require('./chaptersController')
+	ChaptersController: require('./chaptersController'),
+	AccountsController: require('./accountsController')
 };

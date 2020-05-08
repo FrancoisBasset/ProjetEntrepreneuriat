@@ -5,10 +5,10 @@ module.exports = {
 	get: function(req, res) {
 		var promise;
 
-		if (req.query.search != undefined) {
-			promise = Branches.getByName(req.query.search);
-		} else {
+		if (req.query.search == undefined) {
 			promise = Branches.getAll();
+		} else {
+			promise = Branches.getByName(req.query.search);
 		}
 
 		promise.then(function(branches) {
@@ -43,12 +43,12 @@ module.exports = {
 		if (req.body.name == undefined) {
 			res.status(400).json({
 				success: false,
-				response: 'Name not found'
+				response: 'Name missing'
 			});
 		} else if (req.body.domainId == undefined) {
 			res.status(400).json({
 				success: false,
-				response: 'Domain not found'
+				response: 'Domain missing'
 			});
 		} else {
 			Branches.exists(req.body.name, req.body.domainId)
@@ -88,12 +88,12 @@ module.exports = {
 		if (req.body.name == undefined) {
 			res.status(400).json({
 				success: false,
-				response: 'Name not found'
+				response: 'Name missing'
 			});
 		} else if (req.body.domainId == undefined) {
 			res.status(400).json({
 				success: false,
-				response: 'Domain not found'
+				response: 'Domain missing'
 			});
 		} else {
 			Branches

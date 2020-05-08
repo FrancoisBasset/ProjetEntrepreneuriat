@@ -19,6 +19,11 @@ module.exports = function(database) {
 			allowNull: false,
 	
 			type: DataTypes.STRING(100)
+		},
+		authorId: {
+			allowNull: false,
+
+			type: DataTypes.INTEGER
 		}
 	}, {
 		paranoid: false,

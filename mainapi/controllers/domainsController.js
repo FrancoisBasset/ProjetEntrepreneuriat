@@ -5,10 +5,10 @@ module.exports = {
 	get: function(req, res) {
 		var promise;
 
-		if (req.query.search != undefined) {
-			promise = Domains.getByName(req.query.search);
-		} else {
+		if (req.query.search == undefined) {
 			promise = Domains.getAll();
+		} else {
+			promise = Domains.getByName(req.query.search);
 		}
 
 		promise.then(function(domains) {
@@ -43,7 +43,7 @@ module.exports = {
 		if (req.body.name == undefined) {
 			res.status(400).json({
 				success: false,
-				response: 'Name not found'
+				response: 'Name missing'
 			});
 		} else {
 			Domains.exists(req.body.name)
@@ -72,7 +72,7 @@ module.exports = {
 		if (req.body.name == undefined) {
 			res.status(400).json({
 				success: false,
-				response: 'Name not found'
+				response: 'Name missing'
 			});
 		} else {
 			Domains
