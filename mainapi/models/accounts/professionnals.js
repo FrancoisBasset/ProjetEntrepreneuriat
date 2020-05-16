@@ -24,8 +24,9 @@ module.exports = function(database) {
 	return {
 		Professionnals: Professionnals,
 
-		getById: function(id) {
-			const Accounts = require('./index').Accounts;
+		getByAccountId: function(accountId) {
+			const Accounts = require('../index').Accounts;
+			
 			return Professionnals.findOne({
 				include: [{
 					model: Accounts.Accounts,
@@ -38,27 +39,17 @@ module.exports = function(database) {
 					exclude: 'accountId'
 				},
 				where: {
-					id: id
+					accountId: accountId
 				}
 			});
 		},
 
-		getByAccountId: function(id) {
-			return Professionnals.findOne({
-				where: {
-					accountId: id
-				}
-			}).then(client => {
-				return this.getById(client.id);
-			});
-		},
-
-		create: function(accountId) {
-			return Professionnals.create({
+		create: async function(accountId) {
+			await Professionnals.create({
 				accountId: accountId
-			}).then(client => {
-				return this.getById(client.id);
 			});
+			
+			return this.getByAccountId(accountId);
 		}
 	};
 };

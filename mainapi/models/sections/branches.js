@@ -14,11 +14,6 @@ module.exports = function(database) {
 			unique: true,
 				
 			type: DataTypes.INTEGER
-		},
-		name: {
-			allowNull: false,
-	
-			type: DataTypes.STRING(100)
 		}
 	}, {
 		paranoid: false,
@@ -32,9 +27,13 @@ module.exports = function(database) {
 		getAll: function() {
 			return Branches.findAll({
 				attributes: {
-					exclude: 'domainId'
+					exclude: [
+						'sectionId',
+						'domainId'
+					]
 				},
 				include: [
+					'section',
 					'domain',
 					'courses'
 				],
@@ -42,69 +41,90 @@ module.exports = function(database) {
 			});
 		},
 
-		getById: function(id) {
+		getBySectionId: function(sectionId) {
 			return Branches.findOne({
 				attributes: {
-					exclude: 'domainId'
+					exclude: [
+						'sectionId',
+						'domainId'
+					]
 				},
 				include: [
+					'section',
 					'domain',
 					'courses'
 				],
 				where: {
-					id: id
+					sectionId: sectionId
 				}
 			});
 		},
 
 		getByName: function(name) {
+			const Sections = require('../index').Sections.Sections;
+
 			return Branches.findAll({
 				attributes: {
-					exclude: 'domainId'
+					exclude: [
+						'sectionId',
+						'domainId'
+					]
 				},
 				include: [
+					{
+						as: 'section',
+						model: Sections,
+						where: {
+							name: {
+								[Op.like]: '%' + name + '%'
+							}
+						}
+					},
 					'domain',
 					'courses'
 				],
-				where: {
-					name: {
-						[Op.like]: '%' + name + '%'
-					}
-				},
 				order: ['id']
 			});
 		},
 
-		exists: function(name, domainId) {
-			return Branches.findOne({
-				where: {
-					name: name,
-					domainId: domainId
-				}
-			}).then(function(branch) {
+		exists: async function(name, domainId) {
+			const Sections = require('./sections')(database);
+
+			const section = await Sections.getByName(name);
+					
+			if (section == null) {
+				return false;
+			} else {
+				const branch = await Branches.findOne({
+					where: {
+						sectionId: section.id,
+						domainId: domainId
+					}
+				});
+				
 				return branch != null;
-			});
+			}
 		},
 
-		create: function(name, domainId) {
-			return Branches.create({
-				name: name,
+		create: async function(sectionId, domainId) {
+			await Branches.create({
+				sectionId: sectionId,
 				domainId: domainId
-			}).then(branch => {
-				return this.getById(branch.id);
 			});
+			
+			return this.getBySectionId(sectionId);
 		},
 
-		update: function(id, name) {
-			return Branches.update({
+		update: async function(id, name) {
+			await Branches.update({
 				name: name
 			}, {
 				where: {
 					id: id
 				}
-			}).then(() => {
-				return this.getById(id);
 			});
+			
+			return this.getBySectionId(id);
 		},
 
 		delete: function(id) {

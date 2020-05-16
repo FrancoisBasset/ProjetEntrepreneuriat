@@ -45,16 +45,43 @@ module.exports = function(database) {
 	return {
 		Accounts: Accounts,
 
-		getByMail: function(mail) {
-			return Accounts.findOne({
+		getById: async function(id) {
+			const { Clients, Professionnals, Organizations, Operators } = require('../index');
+
+			const account = await Accounts.findOne({
+				where: {
+					id: id
+				}
+			});
+			
+			if (account == null) {
+				return null;
+			}
+
+			switch (account.type) {
+			case 'client':
+				return Clients.getByAccountId(id);
+			case 'professionnal':
+				return Professionnals.getByAccountId(id);
+			case 'organization':
+				return Organizations.getByAccountId(id);
+			case 'operator':
+				return Operators.getByAccountId(id);
+			}
+		},
+
+		exists: async function(mail) {
+			const account = await Accounts.findOne({
 				where: {
 					mail: mail
 				}
 			});
+
+			return account != null;
 		},
 
-		connect: function(mail, hash) {
-			return Accounts.findOne({
+		connect: async function(mail, hash) {
+			const account = await Accounts.findOne({
 				attributes: {
 					exclude: 'hash'
 				},
@@ -63,6 +90,12 @@ module.exports = function(database) {
 					hash: hash
 				}
 			});
+			
+			if (account == null) {
+				return null;
+			} else {
+				return this.getById(account.id);
+			}
 		},
 
 		create: function(mail, hash, type, permanent) {
