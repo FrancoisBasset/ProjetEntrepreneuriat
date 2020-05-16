@@ -34,7 +34,7 @@ module.exports = function(database) {
 					attributes: {
 						exclude: 'hash'
 					}
-				}],
+				}, 'courses'],
 				attributes: {
 					exclude: 'accountId'
 				},
