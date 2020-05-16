@@ -28,5 +28,5 @@ module.exports = {
 	Organizations: require('./accounts/organizations')(database),
 	Operators: require('./accounts/operators')(database),
 
-	ClientsCourses: require('./accounts/clientsCourses')(database)
+	ClientsCourses: require('./relations/clientsCourses')(database)
 };
