@@ -8,6 +8,8 @@ app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 const cors = require('cors');
 app.use(cors());
 
+app.use('/assets', express.static('./assets'));
+
 app.listen(80, function() {
 	console.log('Start on 80');
 });

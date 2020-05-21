@@ -52,8 +52,9 @@ module.exports = {
 
 	post: async function(req, res) {
 		const { name, type } = req.body;
+		const image = req.file;		
 
-		if (name == undefined || type == undefined) {
+		if (name == undefined || type == undefined || image == undefined) {
 			res.status(400).json(json(false, 'Paramètres manquants'));
 		} else if (!['domain', 'branch', 'course', 'chapter'].includes(type)) {
 			res.status(400).json(json(false, 'Type manquant ou incorrect'));
@@ -67,7 +68,7 @@ module.exports = {
 					response = `Le domaine '${name}' existe déjà`;
 				} else {
 					ok = true;
-					var section = await Sections.create(type, name);
+					var section = await Sections.create(type, name, image.filename);
 					section = await Domains.create(section.id);
 				}
 				break;
@@ -80,7 +81,7 @@ module.exports = {
 					response = `Branche '${name}' existe déjà`;
 				} else {
 					ok = true;
-					section = await Sections.create(type, name);
+					section = await Sections.create(type, name, image.filename);
 					section = await Branches.create(section.id, req.body.domainId);
 				}
 				break;
@@ -95,7 +96,7 @@ module.exports = {
 					response = `Le cours '${name}' existe déjà`;
 				} else {
 					ok = true;
-					section = await Sections.create(type, name);
+					section = await Sections.create(type, name, image.filename);
 					section = await Courses.create(section.id, req.body.branchId, req.body.authorId);
 				}
 				break;
@@ -110,7 +111,7 @@ module.exports = {
 					response = `Le chapitre ${name} existe déjà`;
 				} else {
 					ok = true;
-					section = await Sections.create(type, name);
+					section = await Sections.create(type, name, image.filename);
 					section = await Chapters.create(section.id, req.body.index, req.body.courseId);
 				}
 				break;

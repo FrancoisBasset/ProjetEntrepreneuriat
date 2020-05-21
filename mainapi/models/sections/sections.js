@@ -24,6 +24,9 @@ module.exports = function(database) {
 			allowNull: false,
 	
 			type: DataTypes.STRING(100)
+		},
+		image: {
+			type: DataTypes.STRING(1000)
 		}
 	}, {
 		paranoid: false,
@@ -50,10 +53,11 @@ module.exports = function(database) {
 			});
 		},
 
-		create: function(type, name) {
+		create: function(type, name, image) {
 			return Sections.create({
 				type: type,
-				name: name
+				name: name,
+				image: image
 			});
 		}
 	};
