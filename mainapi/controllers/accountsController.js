@@ -20,12 +20,12 @@ module.exports = {
 		if (req.body.mail != undefined && req.body.hash != undefined) {
 			return next();
 		}
-
+		
 		res.status(400).json(json(false, 'Paramètres manquants'));
 	},
 
 	middlewareCreateAccount: function(req, res, next) {
-		if (req.body.mail != undefined && req.body.hash != undefined && req.body.type && req.body.permanent) {
+		if (req.body.mail != undefined && req.body.hash != undefined && req.body.type != undefined && req.body.permanent != undefined) {
 			return next();
 		}
 
@@ -65,12 +65,12 @@ module.exports = {
 	},
 
 	createAccount: async function(req, res) {
-		const { mail, hash, type, permanent } = req.body;
+		const { mail, hash, type, permanent } = req.body;		
 
 		if (!['client', 'professionnal', 'organization', 'operator'].includes(type)) {
 			res.status(400).json(json(false, `Le type ${type} incorrect`));
 		} else if (await Accounts.exists(mail)) {
-			res.status(400).json(json(false, `Le compte '${mail}' existe déjà`));
+			res.status(409).json(json(false, `Le compte '${mail}' existe déjà`));
 		} else {
 			var account = await Accounts.create(mail, hash, type, permanent);
 				

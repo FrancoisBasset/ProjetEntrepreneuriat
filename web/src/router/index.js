@@ -7,8 +7,8 @@ import Formations from '@/views/Formations.vue';
 import Certifications from '@/views/Certifications.vue';
 import Professionnals from '@/views/Professionnals.vue';
 
-import Inscription from '@/views/Inscription.vue';
-import Connection from '@/views/Connection.vue';
+import SignUp from '@/views/SignUp.vue';
+import SignIn from '@/views/SignIn.vue';
 
 Vue.use(VueRouter);
 
@@ -34,14 +34,14 @@ const routes = [
 		component: Professionnals
 	},
 	{
-		path: '/inscription',
-		name: 'inscription',
-		component: Inscription
+		path: '/signup',
+		name: 'signup',
+		component: SignUp
 	},
 	{
-		path: '/connection',
-		name: 'connection',
-		component: Connection
+		path: '/signin',
+		name: 'signin',
+		component: SignIn
 	}
 ];
 

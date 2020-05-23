@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<router-link to="/">
+		<router-link to="/" class="link">
 			<Logo />
 		</router-link>
 
@@ -8,10 +8,10 @@
 		<router-link class="link" id="certificationsLink" to="/certifications">Certifications</router-link>
 		<router-link class="link" id="professionnalsLink" to="/professionnals">Professionnels</router-link>
 
-		<router-link class="link" id="inscriptionLink" to="/inscription">
-			<button>Inscription</button>
+		<router-link class="link" id="signUpLink" to="/signup">
+			<button>Créer un compte</button>
 		</router-link>
-		<router-link class="link" id="connectionLink" to="/connection">
+		<router-link class="link" id="signInLink" to="/signin">
 			<button>Connexion</button>
 		</router-link>
 	</div>
@@ -32,7 +32,7 @@ export default {
 	div {
 		display: inline-flex;
 		width: 100%;
-		height: 120px;
+		height: 10%;
 		background-color: burlywood;
 	}
 
@@ -55,12 +55,11 @@ export default {
 		margin-left: 100px;
 	}
 
-	#inscriptionLink {
-		margin-right: 0px;
+	#signUpLink {
+		right: 0px;
 	}
 
-	#connectionLink {
-		right: 0px;
+	#signInLink {
 		margin-right: 0px;
 	}
 </style>
