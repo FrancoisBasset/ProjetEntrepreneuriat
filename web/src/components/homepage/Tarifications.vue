@@ -59,7 +59,7 @@
 					<td id="tarif">Tarif</td>
 					<td id="tarif">Gratuit</td>
 					<td id="tarif">9.99 € / mois</td>
-					<td id="tarif">49.99 / mois</td>
+					<td id="tarif">49.99 € / mois</td>
 				</tr>
 			</tbody>
 		</table>

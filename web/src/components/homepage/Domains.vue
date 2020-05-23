@@ -4,7 +4,12 @@
 		
 		<div v-if="count > 0">
 			<div id="domainsDiv">
-				<Domain v-for="domain in domains" v-bind:key="domain.section.id" v-bind:name="domain.section.name" v-bind:image="domain.section.image" />
+				<Domain
+					v-on:click.native="showDomain(domain)"
+					v-for="domain in domains"
+					v-bind:key="domain.section.id"
+					v-bind:name="domain.section.name"
+					v-bind:image="domain.section.image" />
 			</div>
 
 			<div>
@@ -18,7 +23,7 @@
 </template>
 
 <script>
-import Domain from '@/components/homepage/Domain.vue';
+import Domain from '@/components/Domain.vue';
 
 export default {
 	name: 'Domains',
@@ -42,6 +47,15 @@ export default {
 					this.domains = this.domains.splice(0, 8);
 					this.count = this.domains.length;
 				});
+			});
+		},
+		showDomain: function(domain) {
+			this.$router.push({
+				name: 'formations',
+				params: {
+					domain
+				},
+				props: true
 			});
 		}
 	}

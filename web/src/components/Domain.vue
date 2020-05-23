@@ -19,9 +19,9 @@ export default {
 <style scoped>
 	#domainDiv {
 		width: 200px;
-		margin-left: 30px;
 
 		background-size: auto 200px;
+		cursor: pointer;
 	}
 
 	#labelDiv {
@@ -32,5 +32,6 @@ export default {
 	label {
 		color: white;
 		font-size: 30px;
+		cursor: pointer;
 	}
 </style>

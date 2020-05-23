@@ -1,6 +1,6 @@
-const { Sections, Domains, database } = require('../models');
+const { Sections, Domains, Branches, Courses, Accounts, Professionnals, database } = require('../models');
 
-async function start() {
+async function createDomains() {
 	await Sections.create('domain', 'Architecture', 'architecture.jpg');
 	await Domains.create(1);
 
@@ -32,6 +32,38 @@ async function start() {
 	await Domains.create(10);
 }
 
+async function createBranches() {
+	var branchId = 11;
+
+	for (var domainId = 1; domainId <= 10; domainId++) {
+		for (var i = 0; i < 10; i++) {
+			await Sections.create('branch', 'branch' + domainId + '_' + branchId, 'branche.jpg');
+			await Branches.create(branchId, domainId);
+
+			branchId++;
+		}
+	}
+}
+
+async function createCourses() {
+	var courseId = 111;
+
+	for (var branchId = 11; branchId <= 110; branchId++) {
+		for (var i = 0; i < 10; i++) {
+			await Sections.create('course', 'course' + branchId + '_' + courseId, 'cours.jpg');
+			await Courses.create(courseId, branchId, 1);
+
+			courseId++;
+		}
+	}
+}
+
 database.afterBulkSync(async() => {
-	start();
+	await createDomains();
+	await createBranches();
+
+	await Accounts.create('professionnal@localhost', 'hash', 'professionnal', true);
+	await Professionnals.create(1);
+
+	await createCourses();
 });
