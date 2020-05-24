@@ -79,13 +79,19 @@ module.exports = {
 			if (await Branches.getBySectionId(req.body.branchId) == null) {
 				response = `La branche '${req.body.branchId}' n'existe pas`;
 			} else if (await Accounts.getById(req.body.authorId) == null) {
-				response = `L'auteur '${req.body.authorId}' n'existe pas`;
+				response = `L'auteur n°'${req.body.authorId}' n'existe pas`;
 			} else if (await Courses.exists(name, req.body.branchId, req.body.authorId)) {
 				response = `Le cours '${name}' existe déjà`;
 			} else {
-				ok = true;
-				section = await Sections.create(type, name, image.filename);
-				section = await Courses.create(section.id, req.body.branchId, req.body.authorId);
+				const account = await Accounts.getById(req.body.authorId);
+
+				if (account.type != 'professionnal') {
+					response = `Le compte n°${req.body.authorId} ne peut pas créer un cours`;
+				} else {
+					ok = true;
+					section = await Sections.create(type, name, image.filename);
+					section = await Courses.create(section.id, req.body.branchId, req.body.authorId);
+				}
 			}
 			break;
 		case 'chapter':

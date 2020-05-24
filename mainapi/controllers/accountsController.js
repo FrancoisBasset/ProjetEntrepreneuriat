@@ -50,11 +50,17 @@ module.exports = {
 		} else if (await Courses.getBySectionId(courseId) == undefined) {
 			res.status(400).json(json(false, `Le cours n°${courseId} n'existe pas`));
 		} else {
-			await ClientsCourses.favorite(id, courseId, favorite);
+			var account = await Accounts.getById(id);
+
+			if (account.type != 'client') {
+				res.status(403).json(json(false, `Le compte n°${id} ne peut pas avoir de cours en favoris`));
+			} else {
+				await ClientsCourses.favorite(id, courseId, favorite);
 			
-			const account = await Accounts.getById(id);
+				account = await Accounts.getById(id);
 			
-			res.status(201).json(json(true, account));
+				res.status(201).json(json(true, account));
+			}
 		}
 	},
 	
@@ -66,7 +72,11 @@ module.exports = {
 		} else if (await Courses.getBySectionId(courseId) == undefined) {
 			res.status(400).json(json(false, `Le cours n°${courseId} n'existe pas`));
 		} else {
-			if (req.params.chapterId == undefined) {
+			var account = await Accounts.getById(id);
+
+			if (account.type != 'client') {
+				res.status(403).json(json(false, `Le compte n°${id} ne peut pas démarrer un cours`));
+			} else if (req.params.chapterId == undefined) {
 				await ClientsCourses.start(id, courseId, null);
 			} else if (await Chapters.getBySectionId(req.params.chapterId) == undefined) {
 				res.status(400).json(json(false, `Le chapitre n°${req.params.chapterId} n'existe pas`));
@@ -75,7 +85,7 @@ module.exports = {
 				await ClientsCourses.start(id, courseId, req.params.chapterId);
 			}
 
-			const account = await Accounts.getById(id);
+			account = await Accounts.getById(id);
 			res.status(201).json(json(true, account));
 		}
 	}
