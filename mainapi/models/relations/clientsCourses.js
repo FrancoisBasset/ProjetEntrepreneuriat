@@ -30,25 +30,23 @@ module.exports = function(database) {
 	return {
 		ClientsCourses: ClientsCourses,
 
-		favorite: async function(clientId, courseId, favorite) {
+		favorite: async function(accountId, courseId, favorite) {
 			const { Accounts, Courses } = require('../index');
 
 			const course = await Courses.getBySectionId(courseId);
-			const client = await Accounts.getById(clientId);
 
 			await ClientsCourses.upsert({
-				clientId: client.id,
+				accountId: accountId,
 				courseId: course.id,
 				favorite: favorite
 			});
 
-			return Accounts.getById(clientId);
+			return Accounts.getById(accountId);
 		},
 
-		start: async function(clientId, courseId, chapterId) {
+		start: async function(accountId, courseId, chapterId) {
 			const { Accounts, Courses, Chapters } = require('../index');
 
-			const client = await Accounts.getById(clientId);
 			const course = await Courses.getBySectionId(courseId);
 
 			if (chapterId != null) {
@@ -57,13 +55,13 @@ module.exports = function(database) {
 			}
 
 			await ClientsCourses.upsert({
-				clientId: client.id,
+				accountId: accountId,
 				courseId: course.id,
 				started: true,
 				chapterId: chapterId
 			});
 
-			return Accounts.getById(clientId);
+			return Accounts.getById(accountId);
 		}
 	};
 };

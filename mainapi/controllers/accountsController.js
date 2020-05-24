@@ -52,9 +52,9 @@ module.exports = {
 		} else {
 			await ClientsCourses.favorite(id, courseId, favorite);
 			
-			const client = await Accounts.getById(id);
+			const account = await Accounts.getById(id);
 			
-			res.status(201).json(json(true, client));
+			res.status(201).json(json(true, account));
 		}
 	},
 	
@@ -75,8 +75,8 @@ module.exports = {
 				await ClientsCourses.start(id, courseId, req.params.chapterId);
 			}
 
-			const client = await Accounts.getById(id);
-			res.status(201).json(json(true, client));
+			const account = await Accounts.getById(id);
+			res.status(201).json(json(true, account));
 		}
 	}
 
