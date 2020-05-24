@@ -1,19 +1,6 @@
-const { Accounts, Clients, Courses, Chapters, Professionnals, Organizations, Operators, ClientsCourses } = require('../models');
+const { Accounts, Courses, Chapters, ClientsCourses } = require('../models');
 const mailer = require('../mailer');
 const { json } = require('./utils');
-
-function getAccountType(type) {
-	switch (type) {
-	case 'client':
-		return Clients;
-	case 'professionnal':
-		return Professionnals;
-	case 'organization':
-		return Organizations;
-	case 'operator':
-		return Operators;
-	}
-}
 
 module.exports = {
 	getId: async function(req, res) {
@@ -46,11 +33,7 @@ module.exports = {
 		if (await Accounts.exists(mail)) {
 			res.status(409).json(json(false, `Le compte '${mail}' existe déjà`));
 		} else {
-			var account = await Accounts.create(mail, hash, type, permanent);
-				
-			const AccountType = getAccountType(type);
-
-			account = await AccountType.create(account.id);
+			const account = await Accounts.create(mail, hash, type, permanent);
 					
 			res.status(201).json(json(true, account));
 
@@ -62,14 +45,14 @@ module.exports = {
 		const { id, courseId } = req.params;
 		const { favorite } = req.body;
 
-		if (await Clients.getByAccountId(id) == undefined) {
+		if (await Accounts.getById(id) == undefined) {
 			res.status(400).json(json(false, `Le client n°${id} n'existe pas`));
 		} else if (await Courses.getBySectionId(courseId) == undefined) {
 			res.status(400).json(json(false, `Le cours n°${courseId} n'existe pas`));
 		} else {
 			await ClientsCourses.favorite(id, courseId, favorite);
 			
-			const client = await Clients.getByAccountId(id);
+			const client = await Accounts.getById(id);
 			
 			res.status(201).json(json(true, client));
 		}
@@ -78,7 +61,7 @@ module.exports = {
 	start: async function(req, res) {
 		const { id, courseId } = req.params;
 
-		if (await Clients.getByAccountId(id) == undefined) {
+		if (await Accounts.getById(id) == undefined) {
 			res.status(400).json(json(false, `Le client n°${id} n'existe pas`));
 		} else if (await Courses.getBySectionId(courseId) == undefined) {
 			res.status(400).json(json(false, `Le cours n°${courseId} n'existe pas`));
@@ -92,7 +75,7 @@ module.exports = {
 				await ClientsCourses.start(id, courseId, req.params.chapterId);
 			}
 
-			const client = await Clients.getByAccountId(id);
+			const client = await Accounts.getById(id);
 			res.status(201).json(json(true, client));
 		}
 	}

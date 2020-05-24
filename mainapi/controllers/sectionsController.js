@@ -1,4 +1,4 @@
-const { Sections, Domains, Branches, Courses, Chapters, Professionnals } = require('../models');
+const { Sections, Domains, Branches, Courses, Chapters, Accounts } = require('../models');
 const { json } = require('./utils');
 
 function getSectionType(type) {
@@ -78,7 +78,7 @@ module.exports = {
 		case 'course':
 			if (await Branches.getBySectionId(req.body.branchId) == null) {
 				response = `La branche '${req.body.branchId}' n'existe pas`;
-			} else if (await Professionnals.getByAccountId(req.body.authorId) == null) {
+			} else if (await Accounts.getById(req.body.authorId) == null) {
 				response = `L'auteur '${req.body.authorId}' n'existe pas`;
 			} else if (await Courses.exists(name, req.body.branchId, req.body.authorId)) {
 				response = `Le cours '${name}' existe déjà`;

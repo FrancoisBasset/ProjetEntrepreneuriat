@@ -23,10 +23,6 @@ module.exports = {
 	Chapters: require('./sections/chapters')(database),
 
 	Accounts: require('./accounts/accounts')(database),
-	Clients: require('./accounts/clients')(database),
-	Professionnals: require('./accounts/professionnals')(database),
-	Organizations: require('./accounts/organizations')(database),
-	Operators: require('./accounts/operators')(database),
 
 	ClientsCourses: require('./relations/clientsCourses')(database)
 };

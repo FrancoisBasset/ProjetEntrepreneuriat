@@ -37,65 +37,71 @@ module.exports = function(database) {
 			type: DataTypes.BOOLEAN
 		}
 	}, {
-		paranoid: false,
-		createdAt: false,
-		updatedAt: false
+		paranoid: false
 	});
+
+	function getInclude(id) {
+		return Accounts.findOne({
+			where: {
+				id: id
+			}
+		}).then(function(account) {
+			if (account == null) {
+				return [];
+			}
+
+			if (account.type == 'client') {
+				return ['courses'];
+			} else if (account.type == 'professionnal') {
+				return ['sentCourses'];
+			} else {
+				return [];
+			}
+		});
+	}
 
 	return {
 		Accounts: Accounts,
 
-		getById: async function(id) {
-			const { Clients, Professionnals, Organizations, Operators } = require('../index');
-
-			const account = await Accounts.findOne({
-				where: {
-					id: id
-				}
+		getById: function(id) {
+			return getInclude(id).then(function(include) {
+				return Accounts.findOne({
+					where: {
+						id: id
+					},
+					attributes: {
+						exclude: [
+							'hash'
+						]
+					},
+					include: include
+				});
 			});
-			
-			if (account == null) {
-				return null;
-			}
-
-			switch (account.type) {
-			case 'client':
-				return Clients.getByAccountId(id);
-			case 'professionnal':
-				return Professionnals.getByAccountId(id);
-			case 'organization':
-				return Organizations.getByAccountId(id);
-			case 'operator':
-				return Operators.getByAccountId(id);
-			}
 		},
 
-		exists: async function(mail) {
-			const account = await Accounts.findOne({
+		exists: function(mail) {
+			return Accounts.findOne({
 				where: {
 					mail: mail
 				}
+			}).then(function(account) {
+				return account != null;
 			});
-
-			return account != null;
 		},
 
-		connect: async function(mail, hash) {
-			const account = await Accounts.findOne({
-				attributes: {
-					exclude: 'hash'
-				},
+		connect: function(mail, hash) {
+			return Accounts.findOne({
 				where: {
 					mail: mail,
 					hash: hash
 				}
+			}).then(account => {
+				if (account == null) {
+					return null;
+				} else {
+					return this.getById(account.id);
+				}
 			});
-			
-			if (account == null) {
-				return null;
-			} else {
-				return this.getById(account.id);
-			}
 		},
 
 		create: function(mail, hash, type, permanent) {
@@ -104,6 +110,8 @@ module.exports = function(database) {
 				hash: hash,
 				type: type,
 				permanent: permanent
+			}).then(account => {
+				return this.getById(account.id);
 			});
 		},
 	};

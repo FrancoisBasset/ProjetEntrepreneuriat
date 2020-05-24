@@ -1,4 +1,4 @@
-const { Sections, Domains, Branches, Courses, Accounts, Professionnals, database } = require('../models');
+const { Sections, Domains, Branches, Courses, Accounts, database } = require('../models');
 
 async function createDomains() {
 	await Sections.create('domain', 'Architecture', 'architecture.jpg');
@@ -63,7 +63,6 @@ database.afterBulkSync(async() => {
 	await createBranches();
 
 	await Accounts.create('professionnal@localhost', 'hash', 'professionnal', true);
-	await Professionnals.create(1);
 
 	await createCourses();
 });

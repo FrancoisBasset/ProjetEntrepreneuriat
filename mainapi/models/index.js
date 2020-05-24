@@ -1,24 +1,25 @@
-const { Courses, Clients, Chapters, ClientsCourses, Professionnals } = require('./models');
+const { Accounts, Courses, Chapters, ClientsCourses } = require('./models');
 
 require('./sectionsReferences');
 require('./accountsReferences');
 
-Professionnals.Professionnals.hasMany(Courses.Courses, {
-	as: 'courses',
+Accounts.Accounts.hasMany(Courses.Courses, {
+	as: 'sentCourses',
 	foreignKey: {
 		name: 'authorId',
 		field: 'authorId',
 		allowNull: false
 	}
 });
-Courses.Courses.belongsTo(Professionnals.Professionnals, {
+Courses.Courses.belongsTo(Accounts.Accounts, {
 	as: 'author'
 });
 
-Clients.Clients.belongsToMany(Courses.Courses, {
+Accounts.Accounts.belongsToMany(Courses.Courses, {
 	through: ClientsCourses.ClientsCourses,
 	as: 'courses'
 });
+
 ClientsCourses.ClientsCourses.belongsTo(Chapters.Chapters, {
 	as: 'chapter'
 });
