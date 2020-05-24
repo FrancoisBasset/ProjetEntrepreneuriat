@@ -1,4 +1,5 @@
 module.exports = {
 	AccountsController: require('./accountsController'),
-	SectionsController: require('./sectionsController')
+	SectionsController: require('./sectionsController'),
+	CertificationsController: require('./certificationsController')
 };

@@ -28,10 +28,6 @@ module.exports = function(database) {
 		image: {
 			type: DataTypes.STRING(1000)
 		}
-	}, {
-		paranoid: false,
-		createdAt: false,
-		updatedAt: false
 	});
 
 	return {

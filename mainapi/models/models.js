@@ -24,5 +24,9 @@ module.exports = {
 
 	Accounts: require('./accounts/accounts')(database),
 
-	ClientsCourses: require('./relations/clientsCourses')(database)
+	ClientsCourses: require('./relations/clientsCourses')(database),
+
+	Certifications: require('./certifications/certifications')(database),
+	CoursesCertifications: require('./certifications/coursesCertifications')(database),
+	ClientsCertifications: require('./certifications/clientsCertifications')(database)
 };

@@ -15,10 +15,6 @@ module.exports = function(database) {
 				
 			type: DataTypes.INTEGER
 		}
-	}, {
-		paranoid: false,
-		createdAt: false,
-		updatedAt: false
 	});
 
 	return {

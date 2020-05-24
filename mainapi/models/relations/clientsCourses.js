@@ -21,10 +21,6 @@ module.exports = function(database) {
 		started: {
 			type: DataTypes.BOOLEAN
 		}
-	}, {
-		paranoid: false,
-		createdAt: false,
-		updatedAt: false
 	});
 
 	return {

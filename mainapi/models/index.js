@@ -1,4 +1,4 @@
-const { Accounts, Courses, Chapters, ClientsCourses } = require('./models');
+const { Accounts, Courses, Chapters, ClientsCourses, Certifications, CoursesCertifications, ClientsCertifications } = require('./models');
 
 require('./sectionsReferences');
 require('./accountsReferences');
@@ -22,6 +22,24 @@ Accounts.Accounts.belongsToMany(Courses.Courses, {
 
 ClientsCourses.ClientsCourses.belongsTo(Chapters.Chapters, {
 	as: 'chapter'
+});
+
+Certifications.Certifications.belongsTo(Accounts.Accounts, {
+	as: 'claimant',
+	foreignKey: {
+		allowNull: false,
+		field: 'claimantId'
+	}
+});
+
+Certifications.Certifications.belongsToMany(Courses.Courses, {
+	through: CoursesCertifications.CoursesCertifications,
+	as: 'courses'
+});
+
+Certifications.Certifications.belongsToMany(Accounts.Accounts, {
+	through: ClientsCertifications.ClientsCertifications,
+	as: 'certifications'
 });
 
 module.exports = require('./models');

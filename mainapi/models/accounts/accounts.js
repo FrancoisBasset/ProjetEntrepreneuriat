@@ -36,8 +36,6 @@ module.exports = function(database) {
 
 			type: DataTypes.BOOLEAN
 		}
-	}, {
-		paranoid: false
 	});
 
 	function getInclude(id) {
