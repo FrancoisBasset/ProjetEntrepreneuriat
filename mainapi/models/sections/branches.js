@@ -14,6 +14,14 @@ module.exports = function(database) {
 			unique: true,
 				
 			type: DataTypes.INTEGER
+		},
+		name: {
+			allowNull: false,
+	
+			type: DataTypes.STRING(100)
+		},
+		image: {
+			type: DataTypes.STRING(1000)
 		}
 	});
 
@@ -22,113 +30,84 @@ module.exports = function(database) {
 
 		getAll: function() {
 			return Branches.findAll({
+				include: ['domain', 'courses'],
 				attributes: {
-					exclude: [
-						'sectionId',
-						'domainId'
-					]
+					exclude: ['domainId']
 				},
-				include: [
-					'section',
-					'domain',
-					'courses'
-				],
 				order: ['id']
 			});
 		},
 
-		getBySectionId: function(sectionId) {
+		getById: function(id) {
 			return Branches.findOne({
+				include: ['domain', 'courses'],
 				attributes: {
-					exclude: [
-						'sectionId',
-						'domainId'
-					]
+					exclude: ['domainId']
 				},
-				include: [
-					'section',
-					'domain',
-					'courses'
-				],
 				where: {
-					sectionId: sectionId
+					id: id
 				}
 			});
 		},
 
 		getByName: function(name) {
-			const Sections = require('../index').Sections.Sections;
-
 			return Branches.findAll({
+				include: ['domain', 'courses'],
 				attributes: {
-					exclude: [
-						'sectionId',
-						'domainId'
-					]
+					exclude: ['domainId']
 				},
-				include: [
-					{
-						as: 'section',
-						model: Sections,
-						where: {
-							name: {
-								[Op.like]: '%' + name + '%'
-							}
-						}
-					},
-					'domain',
-					'courses'
-				],
-				order: ['id']
-			});
-		},
-
-		exists: async function(name, domainId) {
-			const Sections = require('./sections')(database);
-
-			const section = await Sections.getByName(name);
-					
-			if (section == null) {
-				return false;
-			} else {
-				const branch = await Branches.findOne({
-					where: {
-						sectionId: section.id,
-						domainId: domainId
+				order: ['id'],
+				where: {
+					name: {
+						[Op.like]: '%' + name + '%'
 					}
-				});
-				
-				return branch != null;
-			}
-		},
-
-		create: async function(sectionId, domainId) {
-			await Branches.create({
-				sectionId: sectionId,
-				domainId: domainId
+				}
 			});
-			
-			return this.getBySectionId(sectionId);
 		},
 
-		update: async function(id, name) {
-			await Branches.update({
+		exists: function(name, domainId) {
+			return Branches.findOne({
+				where: {
+					name: name,
+					domainId: domainId
+				}
+			}).then(function(branch) {
+				return branch != null;
+			});
+		},
+
+		create: function(name, image, domainId) {
+			return Branches.create({
+				name: name,
+				image:image,
+				domainId: domainId
+			}).then((branch) => {
+				return this.getById(branch.id);
+			});
+		},
+
+		update: function(id, name) {
+			return Branches.update({
 				name: name
 			}, {
 				where: {
 					id: id
 				}
+			}).then(() => {
+				return this.getById(id);
 			});
-			
-			return this.getBySectionId(id);
 		},
 
-		delete: function(id) {
-			return Branches.destroy({
+		delete: async function(id) {
+			const branch = await this.getById(id);
+
+			await Branches.destroy({
 				where: {
 					id: id
 				}
 			});
+
+			return branch;
 		}
 	};
 };

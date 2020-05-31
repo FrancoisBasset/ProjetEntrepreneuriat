@@ -1,22 +1,23 @@
-const { Sections, Domains, Branches, Courses, Chapters, Accounts } = require('../models');
+const { Domains, Branches, Courses, Chapters, Accounts } = require('../models');
 const { json } = require('./utils');
 
 function getSectionType(type) {
 	switch (type) {
-	case 'domain':
+	case 'domains':
 		return Domains;
-	case 'branch':
+	case 'branches':
 		return Branches;
-	case 'course':
+	case 'courses':
 		return Courses;
-	case 'chapter':
+	case 'chapters':
 		return Chapters;
 	}
 }
 
 module.exports = {
 	get: async function(req, res) {
-		const { search, type } = req.query;
+		const { type } = req.params;
+		const { search } = req.query;
 		
 		const SectionType = getSectionType(type);
 		var sections;
@@ -28,88 +29,77 @@ module.exports = {
 		}
 
 		res.status(200).json(json(true, sections));
-		
 	},
 
 	getId: async function(req, res) {
+		const { type } = req.params;
 		const { id } = req.params;
 
-		var section = await Sections.getById(id);
+		const SectionType = getSectionType(type);
+		var section = await SectionType.getById(id);
 
 		if (section == null) {
 			res.status(404).json(json(false, 'Section non trouvé'));
 		} else {
-			const SectionsType = getSectionType(section.type);
-
-			section = await SectionsType.getBySectionId(section.id);
-
 			res.status(200).json(json(true, section));
 		}
 	},
 
 	post: async function(req, res) {
-		const { name, type } = req.body;
-		const image = req.file;		
+		const { type } = req.params;
+		const { name } = req.body;
+		const image = req.file;
 
-		var ok = false;
 		var response;
+		var section;
 
 		switch (type) {
-		case 'domain':
+		case 'domains':
 			if (await Domains.exists(name)) {
 				response = `Le domaine '${name}' existe déjà`;
 			} else {
-				ok = true;
-				var section = await Sections.create(type, name, image.filename);
-				section = await Domains.create(section.id);
+				section = await Domains.create(name, image.filename);
 			}
 			break;
-		case 'branch':
-			if (await Domains.getBySectionId(req.body.domainId) == null) {
-				response = `Domaine '${req.body.domainId}' non trouvé`;
+		case 'branches':
+			if (await Domains.getById(req.body.domainId) == null) {
+				response = `Le domaine '${req.body.domainId}' n'existe pas`;
 			} else if (await Branches.exists(name, req.body.domainId)) {
-				response = `Branche '${name}' existe déjà`;
+				response = `La branche '${name}' existe déjà`;
 			} else {
-				ok = true;
-				section = await Sections.create(type, name, image.filename);
-				section = await Branches.create(section.id, req.body.domainId);
+				section = await Branches.create(name, image.filename, req.body.domainId);
 			}
 			break;
-		case 'course':
-			if (await Branches.getBySectionId(req.body.branchId) == null) {
+		case 'courses':
+			// eslint-disable-next-line no-case-declarations
+			const account = await Accounts.getById(req.body.authorId);
+
+			if (await Branches.getById(req.body.branchId) == null) {
 				response = `La branche '${req.body.branchId}' n'existe pas`;
-			} else if (await Accounts.getById(req.body.authorId) == null) {
+			} else if (account == null) {
 				response = `L'auteur n°'${req.body.authorId}' n'existe pas`;
 			} else if (await Courses.exists(name, req.body.branchId, req.body.authorId)) {
 				response = `Le cours '${name}' existe déjà`;
+			} else if (account.type != 'professionnal') {
+				response = `Le compte n°${req.body.authorId} ne peut pas créer un cours`;
 			} else {
-				const account = await Accounts.getById(req.body.authorId);
-
-				if (account.type != 'professionnal') {
-					response = `Le compte n°${req.body.authorId} ne peut pas créer un cours`;
-				} else {
-					ok = true;
-					section = await Sections.create(type, name, image.filename);
-					section = await Courses.create(section.id, req.body.branchId, req.body.authorId);
-				}
+				section = await Courses.create(name, image.filename, req.body.branchId, req.body.authorId);
 			}
 			break;
-		case 'chapter':
-			if (await Courses.getBySectionId(req.body.courseId) == undefined) {
+		case 'chapters':
+			if (await Courses.getById(req.body.courseId) == undefined) {
 				response = `Le cours ${req.body.courseId} n'existe pas`;
 			} else if (parseInt(req.body.index) < 0) {
 				response = 'L\'index doit être égal ou supérieur à 0';
 			} else if (await Chapters.exists(name, req.body.index, req.body.courseId)) {
 				response = `Le chapitre ${name} existe déjà`;
 			} else {
-				ok = true;
-				section = await Sections.create(type, name, image.filename);
-				section = await Chapters.create(section.id, req.body.index, req.body.courseId);
+				section = await Chapters.create(name, image.filename, req.body.index, req.body.courseId);
 			}
 			break;
 		}
 		
-		if (ok) {
+		if (section != null) {
 			res.status(201).json(json(true, section));
 		} else {
 			res.status(400).json(json(false, response));

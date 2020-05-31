@@ -1,18 +1,12 @@
-const { Accounts, Courses, Chapters, ClientsCourses } = require('../models');
+const { Accounts } = require('../models');
 const mailer = require('../mailer');
 const { json } = require('./utils');
 
 module.exports = {
-	getId: async function(req, res) {
-		const { id } = req.params;
-
-		var account = await Accounts.getById(id);
-			
-		if (account == null) {
-			res.status(404).json(json(false, `Compte n°${id} non trouvé`));
-		} else {
-			res.status(200).json(json(true, account));
-		}
+	get: async function(req, res) {
+		req.session.account = await Accounts.getById(req.session.account.id);
+		
+		res.status(200).json(json(true, req.session.account));
 	},
 
 	connect: async function(req, res) {
@@ -23,6 +17,8 @@ module.exports = {
 		if (account == null) {
 			res.status(401).json(json(false, 'Identifiants incorrects'));
 		} else {
+			req.session.account = account;
+			
 			res.status(200).json(json(true, account));
 		}
 	},
@@ -41,54 +37,9 @@ module.exports = {
 		}
 	},
 
-	favorite: async function(req, res) {
-		const { id, courseId } = req.params;
-		const { favorite } = req.body;
-
-		if (await Accounts.getById(id) == undefined) {
-			res.status(400).json(json(false, `Le client n°${id} n'existe pas`));
-		} else if (await Courses.getBySectionId(courseId) == undefined) {
-			res.status(400).json(json(false, `Le cours n°${courseId} n'existe pas`));
-		} else {
-			var account = await Accounts.getById(id);
-
-			if (account.type != 'client') {
-				res.status(403).json(json(false, `Le compte n°${id} ne peut pas avoir de cours en favoris`));
-			} else {
-				await ClientsCourses.favorite(id, courseId, favorite);
-			
-				account = await Accounts.getById(id);
-			
-				res.status(201).json(json(true, account));
-			}
-		}
-	},
-	
-	start: async function(req, res) {
-		const { id, courseId } = req.params;
-
-		if (await Accounts.getById(id) == undefined) {
-			res.status(400).json(json(false, `Le client n°${id} n'existe pas`));
-		} else if (await Courses.getBySectionId(courseId) == undefined) {
-			res.status(400).json(json(false, `Le cours n°${courseId} n'existe pas`));
-		} else {
-			var account = await Accounts.getById(id);
-
-			if (account.type != 'client') {
-				res.status(403).json(json(false, `Le compte n°${id} ne peut pas démarrer un cours`));
-			} else if (req.params.chapterId == undefined) {
-				await ClientsCourses.start(id, courseId, null);
-			} else if (await Chapters.getBySectionId(req.params.chapterId) == undefined) {
-				res.status(400).json(json(false, `Le chapitre n°${req.params.chapterId} n'existe pas`));
-				return;
-			} else {
-				await ClientsCourses.start(id, courseId, req.params.chapterId);
-			}
-
-			account = await Accounts.getById(id);
-			res.status(201).json(json(true, account));
-		}
-	}
+	/*disconnect: function(req, res) {
+		req.session.account = null;
+	}*/
 
 	/*,
 

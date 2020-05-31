@@ -1,33 +1,4 @@
-const { Sections, Domains, Branches, Courses, Chapters } = require('./models');
-
-Domains.Domains.belongsTo(Sections.Sections, {
-	as: 'section',
-	foreignKey: {
-		allowNull: false
-	}
-});
-
-Branches.Branches.belongsTo(Sections.Sections, {
-	as: 'section',
-	foreignKey: {
-		allowNull: false
-	}
-});
-
-Courses.Courses.belongsTo(Sections.Sections, {
-	as: 'section',
-	foreignKey: {
-		allowNull: false
-	}
-});
-
-Chapters.Chapters.belongsTo(Sections.Sections, {
-	as: 'section',
-	foreignKey: {
-		allowNull: false
-	}
-});
-
+const { Domains, Branches, Courses, Chapters } = require('./models');
 
 Domains.Domains.hasMany(Branches.Branches, {
 	as: 'branches',

@@ -14,6 +14,14 @@ module.exports = function(database) {
 			unique: true,
 				
 			type: DataTypes.INTEGER
+		},
+		name: {
+			allowNull: false,
+	
+			type: DataTypes.STRING(100)
+		},
+		image: {
+			type: DataTypes.STRING(1000)
 		}
 	});
 
@@ -22,129 +30,86 @@ module.exports = function(database) {
 
 		getAll: function() {
 			return Courses.findAll({
+				include: ['branch', 'author', 'chapters'],
 				attributes: {
-					exclude: [
-						'sectionId',
-						'branchId',
-						'authorId'
-					]
+					exclude: ['branchId', 'authorId']
 				},
-				include: [
-					'section',
-					'branch',
-					'author',
-					'chapters'
-				],
 				order: ['id']
 			});
 		},
 
-		getBySectionId: function(sectionId) {
+		getById: function(id) {
 			return Courses.findOne({
+				include: ['branch', 'author', 'chapters'],
 				attributes: {
-					exclude: [
-						'sectionId',
-						'branchId',
-						'authorId'
-					]
+					exclude: ['branchId', 'authorId']
 				},
-				include: [
-					'section',
-					'branch',
-					'author',
-					'chapters'
-				],
 				where: {
-					sectionId: sectionId
+					id: id
 				}
 			});
 		},
 
 		getByName: function(name) {
-			const Sections = require('../index').Sections.Sections;
-
 			return Courses.findAll({
+				include: ['branch', 'author', 'chapters'],
 				attributes: {
-					exclude: [
-						'sectionId',
-						'branchId',
-						'authorId'
-					]
+					exclude: ['branchId', 'authorId']
 				},
-				include: [
-					{
-						as: 'section',
-						model: Sections,
-						where: {
-							name: {
-								[Op.like]: '%' + name + '%'
-							}
-						}
-					},
-					'branch',
-					'author',
-					'chapters'
-				],
-				order: ['id']
-			});
-		},
-
-		exists: async function(name, branchId, authorId) {
-			const { Accounts, Branches, Sections } = require('../index');
-
-			const section = await Sections.getByName(name);
-			
-			if (section == null) {
-				return false;
-			} else {
-				const branch = await Branches.getBySectionId(branchId);
-				const author = await Accounts.getById(authorId);
-							
-				const course = await Courses.findOne({
-					where: {
-						sectionId: section.id,
-						branchId: branch.id,
-						authorId: author.id
+				order: ['id'],
+				where: {
+					name: {
+						[Op.like]: '%' + name + '%'
 					}
-				});
-				
-				return course != null;
-			}
-		},
-
-		create: async function(sectionId, branchId, authorId) {
-			const { Accounts, Branches } = require('../index');
-
-			const account = await Accounts.getById(authorId);
-			const branch = await Branches.getBySectionId(branchId);
-			
-			await Courses.create({
-				sectionId: sectionId,
-				branchId: branch.id,
-				authorId: account.id
+				}
 			});
-			
-			return this.getBySectionId(sectionId);
 		},
 
-		update: async function(id, name) {
-			await Courses.update({
+		exists: function(name, branchId, authorId) {
+			return Courses.findOne({
+				where: {
+					name: name,
+					branchId: branchId,
+					authorId: authorId
+				}
+			}).then(function(course) {
+				return course != null;
+			});
+		},
+
+		create: function(name, image, branchId, authorId) {
+			return Courses.create({
+				name: name,
+				image: image,
+				branchId: branchId,
+				authorId: authorId
+			}).then((course) => {
+				return this.getById(course.id);
+			});
+		},
+
+		update: function(id, name) {
+			return Courses.update({
 				name: name
 			}, {
 				where: {
 					id: id
 				}
+			}).then(() => {
+				return this.getBySectionId(id);
 			});
-			
-			return this.getBySectionId(id);
 		},
 
-		delete: function(id) {
-			return Courses.destroy({
+		delete: async function(id) {
+			const course = await this.getById(id);
+
+			await Courses.destroy({
 				where: {
 					id: id
 				}
 			});
+
+			return course;
 		}
 	};
 };

@@ -16,7 +16,6 @@ database.sync({
 module.exports = {
 	database: database,
 
-	Sections: require('./sections/sections')(database),
 	Domains: require('./sections/domains')(database),
 	Branches: require('./sections/branches')(database),
 	Courses: require('./sections/courses')(database),

@@ -15,6 +15,14 @@ module.exports = function(database) {
 				
 			type: DataTypes.INTEGER
 		},
+		name: {
+			allowNull: false,
+	
+			type: DataTypes.STRING(100)
+		},
+		image: {
+			type: DataTypes.STRING(1000)
+		},
 		index: {
 			allowNull: false,
 
@@ -27,102 +35,66 @@ module.exports = function(database) {
 
 		getAll: function() {
 			return Chapters.findAll({
+				include: ['course'],
 				attributes: {
-					exclude: [
-						'sectionId',
-						'courseId'
-					]
+					exclude: ['courseId']
 				},
-				include: [
-					'section',
-					'course',
-				],
 				order: ['id']
 			});
 		},
 
-		getBySectionId: function(sectionId) {
+		getById: function(id) {
 			return Chapters.findOne({
+				include: ['course'],
 				attributes: {
-					exclude: [
-						'sectionId',
-						'courseId'
-					]
+					exclude: ['courseId']
 				},
-				include: [
-					'section',
-					'course'
-				],
 				where: {
-					sectionId: sectionId
+					id: id
 				}
 			});
 		},
 
 		getByName: function(name) {
-			const Sections = require('../index').Sections.Sections;
-
 			return Chapters.findAll({
+				include: ['course'],
 				attributes: {
-					exclude: [
-						'sectionId',
-						'courseId'
-					]
+					exclude: ['courseId']
 				},
-				include: [
-					{
-						as: 'section',
-						model: Sections,
-						where: {
-							name: {
-								[Op.like]: '%' + name + '%'
-							}
-						}
-					},
-					'course',
-				],
-				order: ['id']
-			});
-		},
-
-		exists: async function(name, index, courseId) {
-			const { Sections, Courses } = require('../index');
-
-			const section = await Sections.getByName(name);
-			
-			if (section == null) {
-				return false;
-			} else {
-				const course = await Courses.getBySectionId(courseId);
-
-				const chapter = await Chapters.findOne({
-					where: {
-						sectionId: section.id,
-						index: index,
-						courseId: course.id
+				order: ['id'],
+				where: {
+					name: {
+						[Op.like]: '%' + name + '%'
 					}
-				});
-
-				return chapter != null;
-			}
-		},
-
-		create: async function(sectionId, index, courseId) {
-			const Courses = require('../index').Courses;
-
-			const course = await Courses.getBySectionId(courseId);
-
-			await Chapters.create({
-				sectionId: sectionId,
-				courseId: course.id,
-				index: index
+				}
 			});
-			
-			return this.getBySectionId(sectionId);
 		},
 
-		update: async function(id, name, index, courseId) {
-			await Chapters.update({
+		exists: function(name, index, courseId) {
+			return Chapters.findOne({
+				where: {
+					name: name,
+					index: index,
+					courseId: courseId
+				}
+			}).then(function(chapter) {
+				return chapter != null;
+			});
+		},
+
+		create: function(name, image, index, courseId) {
+			return Chapters.create({
+				name: name,
+				image: image,
+				index: index,
+				courseId: courseId
+			}).then((chapter) => {
+				return this.getById(chapter.id);
+			});
+		},
+
+		update: function(id, name, index, courseId) {
+			return Chapters.update({
 				name: name,
 				index: index,
 				courseId: courseId
@@ -130,17 +102,21 @@ module.exports = function(database) {
 				where: {
 					id: id
 				}
+			}).then(() => {
+				return this.getById(id);
 			});
-			
-			return this.getBySectionId(id);
 		},
 
-		delete: function(id) {
-			return Chapters.destroy({
+		delete: async function(id) {
+			const chapter = await this.getById(id);
+
+			await Chapters.destroy({
 				where: {
 					id: id
 				}
 			});
+
+			return chapter;
 		}
 	};
 };

@@ -14,6 +14,14 @@ module.exports = function(database) {
 			unique: true,
 				
 			type: DataTypes.INTEGER
+		},
+		name: {
+			allowNull: false,
+	
+			type: DataTypes.STRING(100)
+		},
+		image: {
+			type: DataTypes.STRING(1000)
 		}
 	});
 
@@ -22,98 +30,73 @@ module.exports = function(database) {
 
 		getAll: function() {
 			return Domains.findAll({
-				attributes: {
-					exclude: 'sectionId'
-				},
-				include: [
-					'section',
-					'branches'
-				],
+				include: ['branches'],
 				order: ['id']
 			});
 		},
 
-		getBySectionId: function(sectionId) {
+		getById: function(id) {
 			return Domains.findOne({
-				attributes: {
-					exclude: 'sectionId'
-				},
-				include: [
-					'section',
-					'branches'
-				],
+				include: ['branches'],
 				where: {
-					sectionId: sectionId
+					id: id
 				}
 			});
 		},
 		
 		getByName: function(name) {
-			const Sections = require('../index').Sections.Sections;
-				
 			return Domains.findAll({
-				attributes: {
-					exclude: [
-						'sectionId'
-					]
+				include: ['branches'],
+				order: ['id'],
+				where: {
+					name: {
+						[Op.like]: '%' + name + '%'
+					}
 				},
-				include: [{
-					as: 'section',
-					model: Sections,
-					where: {
-						name: {
-							[Op.like]: '%' + name + '%'
-						}
-					}
-				}, 'branches'],
-				order: [ 'id' ]
 			});
 		},
 
-		exists: async function(name) {
-			const Sections = require('./sections')(database);
-
-			const section = await Sections.getByName(name);
-			
-			if (section == null) {
-				return false;
-			} else {
-				const domain = await Domains.findOne({
-					where: {
-						sectionId: section.id
-					}
-				});
-						
+		exists: function(name) {
+			return Domains.findOne({
+				where: {
+					name: name
+				}
+			}).then(function(domain) {
 				return domain != null;
-			}
-		},
-	
-		create: async function(sectionId) {
-			await Domains.create({
-				sectionId: sectionId
 			});
-			
-			return this.getBySectionId(sectionId);
 		},
 	
-		update: async function(id, name) {
-			await Domains.update({
+		create: function(name, image) {
+			return Domains.create({
+				name: name,
+				image: image
+			}).then((domain) => {
+				return this.getById(domain.id);
+			});
+		},
+	
+		update: function(id, name) {
+			return Domains.update({
 				name: name
 			}, {
 				where: {
 					id: id
 				}
+			}).then(() => {
+				return this.getById(id);
 			});
-			
-			return this.getBySectionId(id);
 		},
 	
-		delete: function(id) {
-			return Domains.destroy({
+		delete: async function(id) {
+			const domain = await this.getById(id);
+
+			await Domains.destroy({
 				where: {
 					id: id
 				}
 			});
+
+			return domain;
 		}
 	};
 };

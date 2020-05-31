@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const {  SectionsController } = require('../controllers');
+const { SectionsController, CoursesController } = require('../controllers');
 
 const router = express.Router();
 router.use(bodyParser.json());
@@ -10,8 +10,17 @@ const upload = multer({
 	dest: './assets/images'
 });
 
-router.get('/', SectionsController.get);
-router.get('/:id', SectionsController.getId);
-router.post('/', upload.single('image'), SectionsController.post);
+const mConnect = require('./middlewares/mConnect');
+
+router.get('/:type/', SectionsController.get);
+router.get('/:type/:id', SectionsController.getId);
+
+router.post('/:type', upload.single('image'), mConnect, SectionsController.post);
+
+router.post('/courses/:id/favorite', mConnect, CoursesController.addFavorite);
+router.delete('/courses/:id/favorite', mConnect, CoursesController.deleteFavorite);
+
+router.post('/courses/:id/start', mConnect, CoursesController.start);
+router.post('/courses/:id/start/:chapterId', mConnect, CoursesController.start);
 
 module.exports = router;

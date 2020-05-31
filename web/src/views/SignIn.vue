@@ -51,7 +51,7 @@ export default {
 	},
 	methods: {
 		signin: async function() {
-			fetch('http://localhost/accounts/login', {
+			fetch('http://localhost/accounts/signin', {
 				method: 'POST',
 				headers: {
 					"Content-Type": "application/json"

@@ -7,6 +7,7 @@ router.use(bodyParser.json());
 
 router.get('/', CertificationsController.get);
 //router.get('/:id', SectionsController.getId);
+
 router.post('/', CertificationsController.post);
 
 module.exports = router;

@@ -1,44 +1,24 @@
-const { Sections, Domains, Branches, Courses, Accounts, database } = require('../models');
+const { Domains, Branches, Courses, Accounts, database } = require('../models');
 
 async function createDomains() {
-	await Sections.create('domain', 'Architecture', 'architecture.jpg');
-	await Domains.create(1);
-
-	await Sections.create('domain', 'Code', 'code.jpg');
-	await Domains.create(2);
-
-	await Sections.create('domain', 'Economie', 'economie.jpg');
-	await Domains.create(3);
-
-	await Sections.create('domain', 'Gastronomie', 'gastronomie.jpg');
-	await Domains.create(4);
-
-	await Sections.create('domain', 'Géographie', 'geographie.jpg');
-	await Domains.create(5);
-
-	await Sections.create('domain', 'Histoire', 'histoire.jpg');
-	await Domains.create(6);
-
-	await Sections.create('domain', 'Médecine', 'medecine.jpg');
-	await Domains.create(7);
-
-	await Sections.create('domain', 'Peinture', 'peinture.jpg');
-	await Domains.create(8);
-
-	await Sections.create('domain', 'Politique', 'politique.jpg');
-	await Domains.create(9);
-
-	await Sections.create('domain', 'Sport', 'sport.jpg');
-	await Domains.create(10);
+	await Domains.create('Architecture', 'architecture.jpg');
+	await Domains.create('Code', 'code.jpg');
+	await Domains.create('Economie', 'economie.jpg');
+	await Domains.create('Gastronomie', 'gastronomie.jpg');
+	await Domains.create('Géographie', 'geographie.jpg');
+	await Domains.create('Histoire', 'histoire.jpg');
+	await Domains.create('Médecine', 'medecine.jpg');
+	await Domains.create('Peinture', 'peinture.jpg');
+	await Domains.create('Politique', 'politique.jpg');
+	await Domains.create('Sport', 'sport.jpg');
 }
 
 async function createBranches() {
-	var branchId = 11;
+	var branchId = 1;
 
 	for (var domainId = 1; domainId <= 10; domainId++) {
-		for (var i = 0; i < 10; i++) {
-			await Sections.create('branch', 'branch' + domainId + '_' + branchId, 'branche.jpg');
-			await Branches.create(branchId, domainId);
+		for (var i = 1; i <= 10; i++) {
+			await Branches.create('domain' + domainId + '_branch' + branchId, 'branche.jpg', domainId);
 
 			branchId++;
 		}
@@ -46,13 +26,12 @@ async function createBranches() {
 }
 
 async function createCourses() {
-	var courseId = 111;
+	var courseId = 1;
 
-	for (var branchId = 11; branchId <= 110; branchId++) {
+	for (var branchId = 1; branchId <= 100; branchId++) {
 		for (var i = 0; i < 10; i++) {
-			await Sections.create('course', 'course' + branchId + '_' + courseId, 'cours.jpg');
-			await Courses.create(courseId, branchId, 1);
-
+			await Courses.create('branch' + branchId + '_course' + courseId, 'cours.jpg', branchId, 1);
+			
 			courseId++;
 		}
 	}

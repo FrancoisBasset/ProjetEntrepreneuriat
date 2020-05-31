@@ -5,14 +5,14 @@ const { AccountsController } = require('../controllers');
 const router = express.Router();
 router.use(bodyParser.json());
 
-router.post('/login', AccountsController.connect);
-router.get('/:id', AccountsController.getId);
-router.post('/', AccountsController.createAccount);
-router.post('/:id/favorite/:courseId', AccountsController.favorite);
-router.post('/:id/start/:courseId', AccountsController.start);
-router.post('/:id/start/:courseId/:chapterId', AccountsController.start);
+const mConnect = require('./middlewares/mConnect');
 
-/*router.put('/:id', AccountsController.modifyAccount);
-router.delete('/:id', AccountsController.deleteAccount);*/
+router.get('/', mConnect, AccountsController.get);
+
+router.post('/signin', AccountsController.connect);
+router.post('/', AccountsController.createAccount);
+
+//router.put('/:id', AccountsController.modifyAccount);
+//router.delete('/:id', AccountsController.deleteAccount);
 
 module.exports = router;
