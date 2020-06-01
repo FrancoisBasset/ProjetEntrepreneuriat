@@ -1,14 +1,14 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import HomePage from '@/views/HomePage.vue';
+import HomePage from '@/views/public/HomePage.vue';
 
-import Formations from '@/views/Formations.vue';
-import Certifications from '@/views/Certifications.vue';
-import Professionnals from '@/views/Professionnals.vue';
+import Formations from '@/views/public/Formations.vue';
+import Certifications from '@/views/public/Certifications.vue';
+import Professionnals from '@/views/public/Professionnals.vue';
 
-import SignUp from '@/views/SignUp.vue';
-import SignIn from '@/views/SignIn.vue';
+import SignUp from '@/views/public/SignUp.vue';
+import SignIn from '@/views/public/SignIn.vue';
 
 Vue.use(VueRouter);
 

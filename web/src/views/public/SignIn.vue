@@ -25,7 +25,7 @@ import MenuBar from '@/components/MenuBar.vue';
 import Modal from '@/components/Modal.vue';
 import FormLine from '@/components/FormLine.vue';
 
-import hashPassword from '../utils/hashPassword';
+import hashPassword from '../../utils/hashPassword';
 
 export default {
 	name: 'SignIn',
@@ -56,8 +56,12 @@ export default {
 				})
 			}).then(response => {
 				response.json().then(json => {
-					this.modalVisible = true;
-					this.message = json.response;
+					if (!json.success) {
+						this.modalVisible = true;
+						this.message = json.response;
+					} else {
+						localStorage.setItem('account', JSON.stringify(json.response));
+					}
 				});
 			});
 		},
