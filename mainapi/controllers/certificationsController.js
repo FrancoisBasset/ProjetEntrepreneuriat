@@ -23,7 +23,7 @@ module.exports = {
 			res.status(400).json(json(false, `La certification '${name}' existe déjà`));
 		} else {
 			for (const courseId of coursesId) {
-				if (await Courses.getBySectionId(courseId) == null) {
+				if (await Courses.getById(courseId) == null) {
 					res.status(400).json(json(false, `Le cours n°${courseId} n'existe pas`));
 					return;
 				}

@@ -1,28 +1,17 @@
-const { Accounts, Certifications, Sections, Domains, Branches, Courses, database } = require('../models');
+const { Accounts, Certifications, Domains, Branches, Courses, database } = require('../models');
 
 database.afterBulkSync(async () => {
-	await Accounts.create('professionnal@localhost', 'hash', 'professionnal', true);
-	const authorId = 1;
+	await Accounts.create('P', 'N', null, 'professionnal@localhost', 'hash', 'professionnal', true);
 
-	await Sections.create('domain', 'Histoire', 'Histoire.jpg');
-	await Domains.create(1);
+	await Domains.create('Histoire', 'Histoire.jpg');
 
-	await Sections.create('branch', 'Moyen-Âge', 'branche.jpg');
-	await Branches.create(2, 1);
-	const branchId = 2;
+	await Branches.create('Moyen-Âge', 'branche.jpg', 1);
 
-	await Sections.create('course', 'La guerre de 100 ans', 'Cours.jpg');
-	await Courses.create(3, branchId, authorId);
+	await Courses.create('La guerre de 100 ans', 'Cours.jpg', 1, 1);
+	await Courses.create('Les croisades', 'Cours.jpg', 1, 1);
+	await Courses.create('La féodalité', 'Cours.jpg', 1, 1);
+	await Courses.create('La peste noire', 'Cours.jpg', 1, 1);
 
-	await Sections.create('course', 'Les croisades', 'Cours.jpg');
-	await Courses.create(4, branchId, authorId);
-
-	await Sections.create('course', 'La féodalité', 'Cours.jpg');
-	await Courses.create(5, branchId, authorId);
-
-	await Sections.create('course', 'La peste noire', 'Cours.jpg');
-	await Courses.create(6, branchId, authorId);
-
-	await Certifications.create('Moyen-Âge 1', authorId, [3, 4]);
-	await Certifications.create('Moyen-Âge 2', authorId, [5, 6]);
+	await Certifications.create('Moyen-Âge 1', 1, [1, 2]);
+	await Certifications.create('Moyen-Âge 2', 1, [3, 4]);
 });

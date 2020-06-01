@@ -6,7 +6,7 @@
 		<div id="certificationCourses">
 			<h2>Cours</h2>
 			<div v-for="course in this.courses" v-bind:key="course.id">
-				<label>{{ course.section.name }}</label>
+				<label>{{ course.name }}</label>
 			</div>
 		</div>
 		
@@ -32,7 +32,7 @@ export default {
 			this.courses = [];
 
 			for (const course of this.certification.courses) {
-				const response = await fetch(`http://localhost/sections/${course.sectionId}`);
+				const response = await fetch(`http://localhost/sections/courses/${course.id}`);
 				const json = await response.json();
 
 				this.courses.push(json.response);

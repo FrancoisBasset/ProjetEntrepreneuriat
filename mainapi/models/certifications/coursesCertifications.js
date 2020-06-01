@@ -21,13 +21,9 @@ module.exports = function(database) {
 		CoursesCertifications: CoursesCertifications,
 
 		create: async function(certificationId, courseId) {
-			const { Courses } = require('../index');
-
-			const course = await Courses.getBySectionId(courseId);
-
 			return CoursesCertifications.create({
 				certificationId: certificationId,
-				courseId: course.id
+				courseId: courseId
 			});
 		}
 	};

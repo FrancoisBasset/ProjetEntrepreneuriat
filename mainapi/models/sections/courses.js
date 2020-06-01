@@ -96,7 +96,7 @@ module.exports = function(database) {
 					id: id
 				}
 			}).then(() => {
-				return this.getBySectionId(id);
+				return this.getById(id);
 			});
 		},
 

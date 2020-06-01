@@ -7,9 +7,9 @@
 				<Domain
 					v-on:click.native="showDomain(domain)"
 					v-for="domain in domains"
-					v-bind:key="domain.section.id"
-					v-bind:name="domain.section.name"
-					v-bind:image="domain.section.image" />
+					v-bind:key="domain.id"
+					v-bind:name="domain.name"
+					v-bind:image="domain.image" />
 			</div>
 
 			<div>
@@ -41,7 +41,7 @@ export default {
 	},
 	methods: {
 		setDomains: function() {
-			fetch('http://localhost/sections?type=domain').then(response => {
+			fetch('http://localhost/sections/domains').then(response => {
 				response.json().then(json => {
 					this.domains = json.response;
 					this.domains = this.domains.splice(0, 8);
