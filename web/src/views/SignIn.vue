@@ -6,15 +6,13 @@
 			<h1>Connexion</h1>
 
 			<form>
-				<label>Adresse mail</label>
-				<br>
-				<input type="text" v-model="mail" />
-				<br>
-				<label>Mot de passe</label>
-				<br>
-				<input type="password" v-model="password" />
-				<br>
-				<button v-on:click="signin">Se connecter</button>
+				<FormLine class="formLine" v-on:formLineChange="formLineChange"
+					name="mail" label="Adresse mail" />
+
+				<FormLine class="formLine" v-on:formLineChange="formLineChange"
+					type="password" name="password" label="Mot de passe" />
+
+				<button id="signInButton" v-on:click="signIn">Se connecter</button>
 			</form>
 		</div>
 
@@ -25,21 +23,16 @@
 <script>
 import MenuBar from '@/components/MenuBar.vue';
 import Modal from '@/components/Modal.vue';
+import FormLine from '@/components/FormLine.vue';
 
-async function hashPassword(password) {
-	const msgUint8 = new TextEncoder().encode(password);                           // encode as (utf-8) Uint8Array
-	const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);           // hash the message
-	const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
-	const hash = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
-	return hash;
-}
+import hashPassword from '../utils/hashPassword';
 
 export default {
 	name: 'SignIn',
 	data: function() {
 		return {
-			mail: 'client@localhost',
-			password: 'hash',
+			mail: null,
+			password: null,
 
 			modalVisible: false,
 			message: null
@@ -47,10 +40,11 @@ export default {
 	},
 	components: {
 		MenuBar,
-		Modal
+		Modal,
+		FormLine
 	},
 	methods: {
-		signin: async function() {
+		signIn: async function() {
 			fetch('http://localhost/accounts/signin', {
 				method: 'POST',
 				headers: {
@@ -65,8 +59,10 @@ export default {
 					this.modalVisible = true;
 					this.message = json.response;
 				});
-			})
-			
+			});
+		},
+		formLineChange: function(change) {
+			this[change[0]] = change[1];
 		}
 	}
 };
@@ -77,5 +73,21 @@ export default {
 		text-align: center;
 
 		margin-top: 10%;
+	}
+
+	.formLine {
+		padding: 10px;
+	}
+
+	#signInButton {
+		width: 200px;
+		height: 50px;
+		background-color: mediumseagreen;
+		color: white;
+		font-size: 20px;
+		border: none;
+		border-radius: 10px;
+
+		cursor: pointer;
 	}
 </style>

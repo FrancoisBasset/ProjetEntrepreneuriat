@@ -6,17 +6,17 @@ const transport = nodeMailer.createTransport({
 
 module.exports = {
 	sendMail: function(from, to, subject, text) {
-		transport.verify().then(function() {
-			transport.sendMail({
+		return transport.verify().then(function() {
+			return transport.sendMail({
 				from: from,
 				to: to,
 				subject: subject,
 				text: text
 			}).then(function() {
 				return true;
+			}).catch(function() {
+				return false;
 			});
-		}).catch(function() {
-			return false;
 		});
 	}
 };

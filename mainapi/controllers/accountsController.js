@@ -24,16 +24,19 @@ module.exports = {
 	},
 
 	createAccount: async function(req, res) {
-		const { mail, hash, type, permanent } = req.body;		
+		const { firstName, lastName, organizationName, mail, hash, type, permanent } = req.body;		
 
 		if (await Accounts.exists(mail)) {
 			res.status(409).json(json(false, `Le compte '${mail}' existe déjà`));
 		} else {
-			const account = await Accounts.create(mail, hash, type, permanent);
-					
-			res.status(201).json(json(true, account));
+			const mailerResponse = await mailer.sendMail('noreply@ecoleconfinee', mail, 'Bienvenue chez Ecole Confinee', `Bienvenue chez nous ! Vous êtes un ${type}`);
 
-			mailer.sendMail('noreply@ecoleconfinee', mail, 'Bienvenue chez Ecole Confinee', `Bienvenue chez nous ! Vous êtes un ${type}`);
+			if (mailerResponse) {
+				const account = await Accounts.create(firstName, lastName, organizationName, mail, hash, type, permanent);
+				res.status(201).json(json(true, account));
+			} else {
+				res.status(500).json(json(false, 'Impossible d\'envoyer le mail de confirmation, êtes-vous sûr de cette adresse mail ?'));
+			}
 		}
 	},
 

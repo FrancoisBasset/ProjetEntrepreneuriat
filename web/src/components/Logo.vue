@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<img src='../assets/logo.png' height="50"/>
+		<img src='../assets/logo.png' height="30"/>
 		<label id="logoText">cole confinée</label>
 	</div>
 </template>
@@ -14,7 +14,7 @@ export default {
 <style scoped>
 	#logoText {
 		color: black;
-		font-size: 70px;
+		font-size: 40px;
 		font-family: "Gruenewald";
 		cursor: pointer;
 	}

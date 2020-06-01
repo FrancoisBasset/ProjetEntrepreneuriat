@@ -15,6 +15,15 @@ module.exports = function(database) {
 				
 			type: DataTypes.INTEGER
 		},
+		firstName: {
+			type: DataTypes.STRING(100)
+		},
+		lastName: {
+			type: DataTypes.STRING(100)
+		},
+		organizationName: {
+			type: DataTypes.STRING(100)
+		},
 		mail: {
 			allowNull: false,
 			unique: true,
@@ -102,8 +111,11 @@ module.exports = function(database) {
 			});
 		},
 
-		create: function(mail, hash, type, permanent) {
+		create: function(firstName, lastName, organizationName, mail, hash, type, permanent) {
 			return Accounts.create({
+				firstName: firstName,
+				lastName: lastName,
+				organizationName: organizationName,
 				mail: mail,
 				hash: hash,
 				type: type,
