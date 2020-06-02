@@ -67,8 +67,8 @@ export default {
 	},
 	data: function() {
 		return {
-			lastName: null,
 			firstName: null,
+			lastName: null,
 			organizationName: null,
 			type: 'client',
 			mail: null,
