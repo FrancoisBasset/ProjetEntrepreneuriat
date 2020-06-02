@@ -31,8 +31,8 @@ export default {
 	name: 'SignIn',
 	data: function() {
 		return {
-			mail: null,
-			password: null,
+			mail: 'client@localhost',
+			password: 'client@localhost',
 
 			modalVisible: false,
 			message: null
@@ -60,7 +60,9 @@ export default {
 						this.modalVisible = true;
 						this.message = json.response;
 					} else {
-						localStorage.setItem('account', JSON.stringify(json.response));
+						this.$router.push({
+							name: 'professionnalHome'
+						});
 					}
 				});
 			});

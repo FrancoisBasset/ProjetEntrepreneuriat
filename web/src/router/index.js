@@ -10,6 +10,8 @@ import Professionnals from '@/views/public/Professionnals.vue';
 import SignUp from '@/views/public/SignUp.vue';
 import SignIn from '@/views/public/SignIn.vue';
 
+import ProfessionnalHome from '@/views/private/ProfessionnalHome.vue';
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -42,6 +44,11 @@ const routes = [
 		path: '/signin',
 		name: 'signin',
 		component: SignIn
+	},
+	{
+		path: '/home',
+		name: 'professionnalHome',
+		component: ProfessionnalHome
 	}
 ];
 

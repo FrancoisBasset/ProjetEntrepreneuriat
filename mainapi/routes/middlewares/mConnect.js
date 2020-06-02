@@ -1,5 +1,7 @@
+const session = require('../../session');
+
 module.exports = function(req, res, next) {
-	if (req.session.account != null) {
+	if (session.accountId != null) {
 		return next();
 	}
 

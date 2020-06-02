@@ -2,11 +2,13 @@ const { Accounts } = require('../models');
 const mailer = require('../mailer');
 const { json } = require('./utils');
 
+const session = require('../session');
+
 module.exports = {
 	get: async function(req, res) {
-		req.session.account = await Accounts.getById(req.session.account.id);
+		const account = await Accounts.getById(session.accountId);	
 		
-		res.status(200).json(json(true, req.session.account));
+		res.status(200).json(json(true, account));
 	},
 
 	connect: async function(req, res) {
@@ -17,7 +19,7 @@ module.exports = {
 		if (account == null) {
 			res.status(401).json(json(false, 'Identifiants incorrects'));
 		} else {
-			req.session.account = account;
+			session.accountId = account.id;
 			
 			res.status(200).json(json(true, account));
 		}
