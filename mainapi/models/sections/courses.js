@@ -17,11 +17,21 @@ module.exports = function(database) {
 		},
 		name: {
 			allowNull: false,
+			unique: true,
 	
 			type: DataTypes.STRING(100)
 		},
 		image: {
 			type: DataTypes.STRING(1000)
+		},
+		difficulty: {
+			type: DataTypes.INTEGER
+		},
+		objectives: {
+			type: DataTypes.STRING(1000)
+		},
+		paying: {
+			type: DataTypes.BOOLEAN
 		}
 	});
 
@@ -77,20 +87,29 @@ module.exports = function(database) {
 			});
 		},
 
-		create: function(name, image, branchId, authorId) {
+		create: function(name, image, branchId, authorId, difficulty, objectives, paying) {
 			return Courses.create({
 				name: name,
 				image: image,
 				branchId: branchId,
-				authorId: authorId
+				authorId: authorId,
+				difficulty: difficulty,
+				objectives: objectives,
+				paying: paying
 			}).then((course) => {
 				return this.getById(course.id);
 			});
 		},
 
-		update: function(id, name) {
+		update: function(id, name, image, branchId, authorId, difficulty, objectives, paying) {
 			return Courses.update({
-				name: name
+				name: name,
+				image: image,
+				branchId: branchId,
+				authorId: authorId,
+				difficulty: difficulty,
+				objectives: objectives,
+				paying: paying
 			}, {
 				where: {
 					id: id

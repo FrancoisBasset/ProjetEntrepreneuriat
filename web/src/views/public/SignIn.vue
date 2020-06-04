@@ -31,8 +31,8 @@ export default {
 	name: 'SignIn',
 	data: function() {
 		return {
-			mail: 'client@localhost',
-			password: 'client@localhost',
+			mail: 'professionnal@localhost',
+			password: 'professionnal@localhost',
 
 			modalVisible: false,
 			message: null

@@ -43,7 +43,11 @@
 			</form>
 		</div>
 		
-		<Modal v-show="modalVisible" v-on:modalClose="modalVisible = false" v-bind:message="message"/>
+		<Modal v-show="modalVisible" v-on:modalClose="modalVisible = false">
+			<div slot="content" id="content">
+				<label>{{ message }}</label>
+			</div>
+		</Modal>
 	</div>
 </template>
 

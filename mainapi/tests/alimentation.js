@@ -30,7 +30,7 @@ async function createCourses() {
 
 	for (var branchId = 1; branchId <= 100; branchId++) {
 		for (var i = 0; i < 10; i++) {
-			await Courses.create('branch' + branchId + '_course' + courseId, 'cours.jpg', branchId, 1);
+			await Courses.create('branch' + branchId + '_course' + courseId, 'cours.jpg', branchId, 1, 1, 0);
 			
 			courseId++;
 		}
@@ -41,7 +41,9 @@ database.afterBulkSync(async() => {
 	await createDomains();
 	await createBranches();
 
-	await Accounts.create('professionnal@localhost', 'hash', 'professionnal', true);
+	await Accounts.create('professionnal@localhost', 'professionnal@localhost', null, 'professionnal@localhost', '9d520a3e49fd65b9288a6283779ab8e841bc5cbc25abdddaf452511e58f490b5', 'professionnal', true);
 
 	await createCourses();
+
+	//await Accounts.create('client@localhost', 'client@localhost', null, 'client@localhost', '62a1f575c3f3f1928ad535e69f840100bc1ef62eb385931a37a3e025d161d833', 'client', true);
 });

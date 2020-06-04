@@ -83,7 +83,7 @@ module.exports = {
 			} else if (account.type != 'professionnal') {
 				response = `Le compte n°${req.body.authorId} ne peut pas créer un cours`;
 			} else {
-				section = await Courses.create(name, image.filename, req.body.branchId, req.body.authorId);
+				section = await Courses.create(name, image.filename, req.body.branchId, req.body.authorId, req.body.difficulty, req.body.objectives, req.body.paying);
 			}
 			break;
 		case 'chapters':

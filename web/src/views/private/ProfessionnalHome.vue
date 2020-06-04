@@ -1,19 +1,29 @@
 <template>
-	<h1>{{ account.id }}</h1>
+	<div>
+		<HomeBar v-if="account != null" :firstName="account.firstName" :lastName="account.lastName" />
+
+		<label>Créer</label>
+		<router-link to="/createCourse">
+			<button>Créer cours</button>
+		</router-link>
+		
+		<button>Créer classe virtuelle</button>
+	</div>
 </template>
 
 <script>
+import getAccount from '@/utils/getAccount.js'
+import HomeBar from '@/components/HomeBar.vue';
+
 export default {
 	name: 'ProfessionnalHome',
-	data: function() {
-		return {
-			account: null
-		};
+	components: {
+		HomeBar
 	},
-	created: async function() {
-		const response = await fetch('http://localhost/accounts');
-		const json = await response.json();
-		this.account = json.response;
+	asyncComputed: {
+		account: async function() {
+			return getAccount();
+		}
 	}
 }
 </script>
