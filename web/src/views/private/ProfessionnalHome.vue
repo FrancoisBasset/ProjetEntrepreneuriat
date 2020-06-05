@@ -13,7 +13,7 @@
 
 <script>
 import getAccount from '@/utils/getAccount.js'
-import HomeBar from '@/components/HomeBar.vue';
+import HomeBar from '@/components/utils/HomeBar.vue';
 
 export default {
 	name: 'ProfessionnalHome',

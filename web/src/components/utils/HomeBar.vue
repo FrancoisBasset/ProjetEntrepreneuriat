@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Logo from '@/components/Logo.vue';
+import Logo from '@/components/utils/Logo.vue';
 
 export default {
 	name: 'Homebar',

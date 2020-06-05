@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import MenuBar from '@/components/MenuBar.vue';
+import MenuBar from '@/components/utils/MenuBar.vue';
 
 export default {
 	name: 'Professionnals',

@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import MenuBar from '@/components/MenuBar.vue';
+import MenuBar from '@/components/utils/MenuBar.vue';
 import Domains from '@/components/homepage/Domains.vue';
 import Features from '@/components/homepage/features/Features.vue';
 import Tarifications from '@/components/homepage/Tarifications.vue';

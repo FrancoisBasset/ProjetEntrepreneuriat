@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import FormWarning from '@/components/FormWarning.vue';
+import FormWarning from '@/components/utils/FormWarning.vue';
 
 export default {
 	name: 'FormLine',

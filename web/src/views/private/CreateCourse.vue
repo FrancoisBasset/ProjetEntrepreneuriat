@@ -123,10 +123,10 @@
 
 <script>
 import getAccount from '@/utils/getAccount.js'
-import HomeBar from '@/components/HomeBar.vue';
-import Modal from '@/components/Modal.vue';
-import FormWarning from '@/components/FormWarning.vue';
-import Previous from '@/components/Previous.vue';
+import HomeBar from '@/components/utils/HomeBar.vue';
+import Modal from '@/components/utils/Modal.vue';
+import FormWarning from '@/components/utils/FormWarning.vue';
+import Previous from '@/components/utils/Previous.vue';
 
 export default {
 	name: 'CreateCourse',

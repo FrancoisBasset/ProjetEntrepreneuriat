@@ -55,11 +55,11 @@
 </template>
 
 <script>
-import MenuBar from '@/components/MenuBar.vue';
-import Modal from '@/components/Modal.vue';
-import FormWarning from '@/components/FormWarning.vue';
+import MenuBar from '@/components/utils/MenuBar.vue';
+import Modal from '@/components/utils/Modal.vue';
+import FormWarning from '@/components/utils/FormWarning.vue';
 import AccountTypeChoice from '@/components/AccountTypeChoice.vue';
-import FormLine from '@/components/FormLine.vue';
+import FormLine from '@/components/utils/FormLine.vue';
 
 import hashPassword from '../../utils/hashPassword';
 

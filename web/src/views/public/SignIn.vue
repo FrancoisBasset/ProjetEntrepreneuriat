@@ -28,9 +28,9 @@
 </template>
 
 <script>
-import MenuBar from '@/components/MenuBar.vue';
-import Modal from '@/components/Modal.vue';
-import FormLine from '@/components/FormLine.vue';
+import MenuBar from '@/components/utils/MenuBar.vue';
+import Modal from '@/components/utils/Modal.vue';
+import FormLine from '@/components/utils/FormLine.vue';
 
 import hashPassword from '../../utils/hashPassword';
 

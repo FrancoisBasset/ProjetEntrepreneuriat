@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<img src='../assets/logo.png' height="30"/>
+		<img src='../../assets/logo.png' height="30"/>
 		<label id="logoText">cole confinée</label>
 	</div>
 </template>
@@ -21,6 +21,6 @@ export default {
 
 	@font-face {
 		font-family: 'Gruenewald';
-		src: url('../fonts/Gruenewald.ttf');
+		src: url('../../fonts/Gruenewald.ttf');
 	}
 </style>

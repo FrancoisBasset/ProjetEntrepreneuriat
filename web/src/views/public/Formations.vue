@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import MenuBar from '@/components/MenuBar.vue';
+import MenuBar from '@/components/utils/MenuBar.vue';
 import Sections from '@/components/Sections.vue';
 
 export default {
