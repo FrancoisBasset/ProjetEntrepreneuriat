@@ -2,21 +2,14 @@
 	<div id="mask">
 		<div id="modal">
 			<slot name="content"></slot>
-			<div id="closeButton">
-				<button v-on:click="close">Fermer</button>
-			</div>
+			<slot name="controls"></slot>
 		</div>
 	</div>
 </template>
 
 <script>
 export default {
-	name: 'Modal',
-	methods: {
-		close: function() {
-			this.$emit('modalClose');
-		}
-	}
+	name: 'Modal'
 }
 </script>
 
@@ -51,7 +44,7 @@ export default {
 		top: 30px;
 	}
 
-	#closeButton {
+	#controls {
 		position: relative;
 		top: 50px;
 	}

@@ -96,11 +96,26 @@
 		</div>
 
 		<Modal v-show="modalVisible" v-on:modalClose="modalVisible = false">
-			<div slot="content" id="content">
+			<div v-if="modalReason == 'missings'" slot="content" id="content">
 				<label>Il manque:</label>
 				<div v-for="missing of missings" :key="missing">
 					<label>- {{ missing }}</label>
 				</div>
+			</div>
+			<div v-if="modalReason == 'error'" slot="content" id="content">
+				<label>{{ this.message }}</label>
+			</div>
+			<div v-if="modalReason == 'success'" slot="content" id="content">
+				<label>Le cours a bien été crée</label>
+			</div>
+
+			<div v-if="modalReason == 'success'" slot="controls" id="controls">
+				<router-link to="/home">
+					<button>Fermer</button>
+				</router-link>
+			</div>
+			<div v-else slot="controls" id="controls">
+				<button v-on:click="modalVisible = false">Fermer</button>
 			</div>
 		</Modal>
 	</div>
@@ -149,6 +164,7 @@ export default {
 			},
 			
 			modalVisible: false,
+			modalReason: null,
 			message: null,
 			missings: []
 		};
@@ -235,7 +251,7 @@ export default {
 				}				
 			}
 		},
-		checkAll: function() {
+		checkAll: async function() {
 			var missings = [];
 			if (this.createNewBranch) {
 				this.checkNewBranchName();
@@ -245,19 +261,21 @@ export default {
 				if (this.newCourse.branch == null) missings.push('Le nom de la branche');
 			}
 
-			this.checkNewCourseName();
+			await this.checkNewCourseName();
+			
 			if (!this.newCourse.nameOk) missings.push('Le nom du cours');
 			if (this.newCourse.image == null) missings.push('L\'image du cours');
 
 			return missings;
 		},
 		createCourse: async function() {
-			this.missings = this.checkAll();
+			this.missings = await this.checkAll();
 			
 			if (this.missings.length > 0) {
 				this.modalVisible = true;
+				this.modalReason = 'missings';
 				return;
-			}			
+			}
 
 			var branchId;
 
@@ -294,10 +312,14 @@ export default {
 			response = await fetch('http://localhost/sections/courses', { method: 'POST', body: formData });
 			json = await response.json();
 
+			this.modalVisible = true;
+
 			if (!json.success) {
-				this.modalVisible = true;
+				this.modalReason = 'error';
 				this.message = json.response;
-			}			
+			} else {
+				this.modalReason = 'success';
+			}
 		}
 	}
 }

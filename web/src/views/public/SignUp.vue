@@ -47,6 +47,9 @@
 			<div slot="content" id="content">
 				<label>{{ message }}</label>
 			</div>
+			<div slot="controls" id="controls">
+				<button v-on:click="modalVisible = false">Fermer</button>
+			</div>
 		</Modal>
 	</div>
 </template>
@@ -151,7 +154,9 @@ export default {
 			}).then(response => {
 				response.json().then(json => {
 					if (json.success) {
-
+						this.$router.push({
+							name: 'HomePage'
+						})
 					} else {
 						this.modalVisible = !json.success;
 						this.message = json.response;
