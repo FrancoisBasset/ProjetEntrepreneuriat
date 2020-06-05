@@ -39,11 +39,16 @@ async function createCourses() {
 
 database.afterBulkSync(async() => {
 	await createDomains();
+	console.log('1/4 Alimentated domains !');
+
 	await createBranches();
+	console.log('2/4 Alimentated branches !');
 
 	await Accounts.create('professionnal@localhost', 'professionnal@localhost', null, 'professionnal@localhost', '9d520a3e49fd65b9288a6283779ab8e841bc5cbc25abdddaf452511e58f490b5', 'professionnal', true);
-
+	console.log('3/4 Alimentated professionnal !');
+	
 	await createCourses();
+	console.log('4/4 Alimentated courses !');
 
 	//await Accounts.create('client@localhost', 'client@localhost', null, 'client@localhost', '62a1f575c3f3f1928ad535e69f840100bc1ef62eb385931a37a3e025d161d833', 'client', true);
 });

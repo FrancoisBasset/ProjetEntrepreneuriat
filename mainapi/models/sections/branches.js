@@ -87,9 +87,11 @@ module.exports = function(database) {
 			});
 		},
 
-		update: function(id, name) {
+		update: function(id, name, image, domainId) {
 			return Branches.update({
-				name: name
+				name: name,
+				image: image,
+				domainId: domainId
 			}, {
 				where: {
 					id: id

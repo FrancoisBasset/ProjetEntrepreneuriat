@@ -76,9 +76,10 @@ module.exports = function(database) {
 			});
 		},
 	
-		update: function(id, name) {
+		update: function(id, name, image) {
 			return Domains.update({
-				name: name
+				name: name,
+				image: image
 			}, {
 				where: {
 					id: id

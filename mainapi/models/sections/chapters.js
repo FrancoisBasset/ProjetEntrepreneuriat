@@ -94,9 +94,10 @@ module.exports = function(database) {
 			});
 		},
 
-		update: function(id, name, index, courseId) {
+		update: function(id, name, image, index, courseId) {
 			return Chapters.update({
 				name: name,
+				image: image,
 				index: index,
 				courseId: courseId
 			}, {

@@ -18,5 +18,6 @@ const { database } = require('./models');
 const { createRoutes } = require('./routes');
 
 database.authenticate().then(function() {
+	require('./tests/alimentation');
 	createRoutes(app);
 });
