@@ -94,7 +94,7 @@
 				<div v-if="updateMode">
 					<button v-on:click="createOrUpdateCourse">Modifier le cours</button><br>
 					<button>Editer le contenu du cours</button><br>
-					<button>Supprimer le cours</button>
+					<button v-on:click="deleteCourse">Supprimer le cours</button>
 				</div>
 				<div v-else>
 					<button v-on:click="createOrUpdateCourse">Créer le cours</button>
@@ -386,6 +386,22 @@ export default {
 			if (!json.success) {
 				this.message = json.response;
 			}
+		},
+		deleteCourse: function() {
+			fetch(`http://localhost/sections/courses/${this.oldCourse.id}`, {
+				method: 'DELETE'
+			}).then(response => {
+				response.json().then(json => {
+					if (!json.success) {
+						this.modalVisible = true;
+						this.message = json.response;
+					} else {
+						this.$router.push({
+							path: '/home'
+						});
+					}
+				});
+			});
 		}
 	}
 }
