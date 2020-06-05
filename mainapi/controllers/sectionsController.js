@@ -162,5 +162,94 @@ module.exports = {
 		} else {
 			res.status(400).json(json(false, response));
 		}
+	},
+
+	delete: async function(req, res) {
+		const { id, type } = req.params;
+
+		const account = await Accounts.getById(require('../session').accountId);
+
+		var section;
+
+		switch (type) {
+		case 'domains':
+			section = await Domains.getById(id);
+
+			if (section == null) {
+				res.status(400).json(json(false, `Le domaine n°${id} n'existe pas`));
+			} else if (account.type != 'operator') {
+				res.status(400).json(json(false, `Le compte n°${account.id} ne peut pas supprimer de domaines`));
+			} else {
+				for (var branch of section.branches) {
+					branch = await Branches.getById(branch.id);
+
+					for (var course of branch.courses) {
+						course = await Courses.getById(course.id);
+
+						for (const chapter of course.chapters) {
+							await Chapters.delete(chapter.id);
+						}
+
+						await Courses.delete(course.id);
+					}
+
+					await Branches.delete(branch.id);
+				}
+
+				section = await Domains.delete(id);
+				res.status(200).json(json(true, section));
+			}
+			break;
+		case 'branches':
+			section = await Branches.getById(id);
+
+			if (section == null) {
+				res.status(400).json(json(false, `La branche n°${id} n'existe pas`));
+			} else if (account.type != 'operator') {
+				res.status(400).json(json(false, `Le compte n°${account.id} ne peut pas supprimer de branches`));
+			} else {
+				for (var course of section.courses) {
+					course = await Courses.getById(course.id);
+					
+					for (const chapter of course.chapters) {
+						await Chapters.delete(chapter.id);
+					}
+
+					await Courses.delete(course.id);
+				}
+
+				section = await Branches.delete(id);
+				res.status(200).json(json(true, section));
+			}
+			break;
+		case 'courses':
+			section = await Courses.getById(id);
+
+			if (section == null) {
+				res.status(400).json(json(false, `Le chapitre n°${id} n'existe pas`));
+			} else if (account.type != 'professionnal') {
+				res.status(400).json(json(false, `Le compte n°${account.id} ne peut pas supprimer de cours`));
+			} else {
+				for (const chapter of section.chapters) {
+					await Chapters.delete(chapter.id);
+				}
+				
+				section = await Courses.delete(id);
+				res.status(200).json(json(true, section));
+			}
+			break;
+		case 'chapters':
+			section = await Chapters.getById(id);
+
+			if (section == null) {
+				res.status(400).json(json(false, `Le chapitre n°${id} n'existe pas`));
+			} else if (account.type != 'professionnal') {
+				res.status(400).json(json(false, `Le compte n°${account.id} ne peut pas supprimer de chapitre`));
+			} else {
+				section = await Chapters.delete(id);
+				res.status(200).json(json(true, section));
+			}
+			break;
+		}
 	}
 };
