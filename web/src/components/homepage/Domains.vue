@@ -7,9 +7,9 @@
 				<Domain
 					v-on:click.native="showDomain(domain)"
 					v-for="domain in domains"
-					v-bind:key="domain.id"
-					v-bind:name="domain.name"
-					v-bind:image="domain.image" />
+					:key="domain.id"
+					:name="domain.name"
+					:image="domain.image" />
 			</div>
 
 			<div>

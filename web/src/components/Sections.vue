@@ -4,27 +4,27 @@
 			class="domain"
 			
 			v-for="course in courses"
-			v-bind:key="course.id"
-			v-bind:name="course.name"
-			v-bind:image="course.image" />
+			:key="course.id"
+			:name="course.name"
+			:image="course.image" />
 	</div>
 	<div v-else-if="domain">
 		<Domain
 			class="domain"
 			v-on:click.native="selectBranch(branch)"
 			v-for="branch in branches"
-			v-bind:key="branch.id"
-			v-bind:name="branch.name"
-			v-bind:image="branch.image" />
+			:key="branch.id"
+			:name="branch.name"
+			:image="branch.image" />
 	</div>
 	<div v-else>
 		<Domain
 			class="domain"
 			v-on:click.native="selectDomain(domain)"
 			v-for="domain in domains"
-			v-bind:key="domain.id"
-			v-bind:name="domain.name"
-			v-bind:image="domain.image" />
+			:key="domain.id"
+			:name="domain.name"
+			:image="domain.image" />
 	</div>
 </template>
 

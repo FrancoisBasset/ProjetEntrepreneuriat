@@ -7,7 +7,7 @@
 
 		<br><br>
 
-		<Certification v-for="certification in certifications" v-bind:key="certification.id" v-bind:certification="certification" />
+		<Certification v-for="certification in certifications" :key="certification.id" :certification="certification" />
 	</div>
 </template>
 

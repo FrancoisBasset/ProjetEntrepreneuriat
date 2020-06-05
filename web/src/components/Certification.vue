@@ -5,7 +5,7 @@
 		</div>
 		<div id="certificationCourses">
 			<h2>Cours</h2>
-			<div v-for="course in this.courses" v-bind:key="course.id">
+			<div v-for="course in this.courses" :key="course.id">
 				<label>{{ course.name }}</label>
 			</div>
 		</div>

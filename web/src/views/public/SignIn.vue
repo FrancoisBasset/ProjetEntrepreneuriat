@@ -16,7 +16,14 @@
 			</form>
 		</div>
 
-		<Modal v-show="modalVisible" v-on:modalClose="modalVisible = false" v-bind:message="message"/>
+		<Modal v-show="modalVisible" v-on:modalClose="modalVisible = false" :message="message">
+			<div slot="content" id="content">
+				<label>{{ message }}</label>
+			</div>
+			<div slot="controls" id="controls">
+				<button v-on:click="modalVisible = false">Fermer</button>
+			</div>
+		</Modal>
 	</div>
 </template>
 

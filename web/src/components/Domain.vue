@@ -1,5 +1,5 @@
 <template>
-	<div id="domainDiv" v-bind:style="{ 'background-image': `url('http://localhost/assets/images/${image}')` }">
+	<div id="domainDiv" :style="{ 'background-image': `url('http://localhost/assets/images/${image}')` }">
 		<div id="labelDiv">
 			<label>{{ name }}</label>
 		</div>
