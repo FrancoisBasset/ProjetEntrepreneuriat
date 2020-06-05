@@ -63,7 +63,7 @@ async function handleCourses(id, name, image, branchId, authorId, difficulty, ob
 		response = `La branche '${branchId}' n'existe pas`;
 	} else if (account == null) {
 		response = `L'auteur n°'${authorId}' n'existe pas`;
-	} else if (await Courses.exists(name, branchId, authorId)) {
+	} else if (await Courses.exists(name, branchId, authorId) && id == null) {
 		response = `Le cours '${name}' existe déjà`;
 	} else if (account.type != 'professionnal') {
 		response = `Le compte n°${authorId} ne peut pas créer un cours`;

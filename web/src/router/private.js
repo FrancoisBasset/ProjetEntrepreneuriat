@@ -1,5 +1,5 @@
 import ProfessionnalHome from '@/views/private/ProfessionnalHome.vue';
-import CreateCourse from '@/views/private/CreateCourse.vue';
+import CourseForm from '@/views/private/CourseForm.vue';
 
 const routes = [
 	{
@@ -8,9 +8,9 @@ const routes = [
 		component: ProfessionnalHome
 	},
 	{
-		path: '/createCourse',
-		name: 'createCourse',
-		component: CreateCourse
+		path: '/courseForm',
+		name: 'courseForm',
+		component: CourseForm
 	}
 ];
 

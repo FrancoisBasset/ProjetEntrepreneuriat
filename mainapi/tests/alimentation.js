@@ -30,7 +30,7 @@ async function createCourses() {
 
 	for (var branchId = 1; branchId <= 100; branchId++) {
 		for (var i = 0; i < 10; i++) {
-			await Courses.create('branch' + branchId + '_course' + courseId, 'cours.jpg', branchId, 1, 1, 0);
+			await Courses.create('branch' + branchId + '_course' + courseId, 'cours.jpg', branchId, 1, 1, 'Apprendre;Savoir;Connaitre', 1);
 			
 			courseId++;
 		}
