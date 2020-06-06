@@ -1,6 +1,6 @@
 <template>
 	<div id="homebar">
-		<label>{{ firstName }} {{ lastName }}</label>
+		<label>{{ account.firstName }} {{ account.lastName }}</label>
 		
 		<router-link id="link" to="/home">
 			<Logo />
@@ -17,8 +17,7 @@ export default {
 		Logo
 	},
 	props: [
-		'firstName',
-		'lastName'
+		'account'
 	]
 }
 </script>

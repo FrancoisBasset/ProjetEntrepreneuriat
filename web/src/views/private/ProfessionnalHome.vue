@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<HomeBar v-if="account != null" :firstName="account.firstName" :lastName="account.lastName" />
+		<HomeBar :account="account" />
 
 		<label>Créer</label>
 		<router-link to="/courseForm">
@@ -11,10 +11,10 @@
 
 		<br>
 		<label>Mes cours</label>
-		<div v-if="account != null">
+		<div>
 			<div v-for="course of account.sentCourses" :key="course.id">
 				<router-link :to="{ path: '/courseForm', query: { courseId: course.id } }">
-					<label >{{ course.name }}</label>
+					<button style="width: 150px; height: 100px" >{{ course.name }}</button>
 				</router-link>
 			</div>
 		</div>
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import getAccount from '@/utils/getAccount.js'
+import { getAccount } from '@/utils/promises.js';
 import HomeBar from '@/components/utils/HomeBar.vue';
 
 export default {
@@ -30,10 +30,13 @@ export default {
 	components: {
 		HomeBar
 	},
-	asyncComputed: {
-		account: async function() {
-			return getAccount();
-		}
+	data: function() {
+		return {
+			account: {}
+		};
+	},
+	created: async function() {
+		this.account = await getAccount();
 	}
 }
 </script>

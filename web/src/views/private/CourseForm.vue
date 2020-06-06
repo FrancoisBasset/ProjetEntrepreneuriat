@@ -1,6 +1,6 @@
 <template>
 	<div id="root">
-		<HomeBar v-if="account != null" :firstName="account.firstName" :lastName="account.lastName" />
+		<HomeBar :account="account" />
 
 		<Previous to="/home" />
 
@@ -93,7 +93,9 @@
 
 				<div v-if="updateMode">
 					<button v-on:click="createOrUpdateCourse">Modifier le cours</button><br>
-					<button>Editer le contenu du cours</button><br>
+					<router-link :to="{ path: '/courseEditor', query: { courseId: courseId } }">
+						<button>Editer le contenu du cours</button>
+					</router-link><br>
 					<button v-on:click="deleteCourse">Supprimer le cours</button>
 				</div>
 				<div v-else>
@@ -132,7 +134,7 @@
 </template>
 
 <script>
-import getAccount from '@/utils/getAccount.js'
+import { getAccount, getDomains } from '@/utils/promises.js'
 import HomeBar from '@/components/utils/HomeBar.vue';
 import Modal from '@/components/utils/Modal.vue';
 import FormWarning from '@/components/utils/FormWarning.vue';
@@ -148,6 +150,9 @@ export default {
 	},
 	data: function() {
 		return {
+			account: {},
+			domains: {},
+
 			branches: null,
 			selectedDomain: null,
 			createNewBranch: false,
@@ -184,7 +189,10 @@ export default {
 			courseId: null
 		};
 	},
-	created: function() {
+	created: async function() {
+		this.account = await getAccount();
+		this.domains = await getDomains();
+
 		if (this.$route.query.courseId != undefined) {
 			this.updateMode = true;
 			this.courseId = this.$route.query.courseId;
@@ -224,17 +232,6 @@ export default {
 			});
 		}
 		
-	},
-	asyncComputed: {
-		account: async function() {
-			return getAccount();
-		},
-		domains: async function() {
-			var response = await fetch('http://localhost/sections/domains');
-			var json = await response.json();
-				
-			return json.response;
-		}
 	},
 	watch: {
 		selectedDomain: function() {

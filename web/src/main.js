@@ -1,10 +1,8 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
-import AsyncComputed from 'vue-async-computed';
 
 Vue.config.productionTip = false;
-Vue.use(AsyncComputed);
 
 const vue = new Vue({
 	router,
@@ -12,5 +10,7 @@ const vue = new Vue({
 		return h(App);
 	}
 });
+
+Vue.prototype.$URL_API = 'http://localhost';
 
 vue.$mount('#app');
