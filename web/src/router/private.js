@@ -1,6 +1,6 @@
 import ProfessionnalHome from '@/views/private/ProfessionnalHome.vue';
 import CourseForm from '@/views/private/CourseForm.vue';
-import CourseEditor from '@/views/private/CourseEditor.vue';
+import CourseEditorPage from '@/views/private/CourseEditorPage.vue';
 
 const routes = [
 	{
@@ -16,7 +16,7 @@ const routes = [
 	{
 		path: '/courseEditor',
 		name: 'courseEditor',
-		component: CourseEditor
+		component: CourseEditorPage
 	}
 ];
 

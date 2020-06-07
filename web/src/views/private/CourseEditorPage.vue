@@ -1,17 +1,20 @@
 <template>
 	<div>
 		<HomeBar :account="account" />
+		<CourseEditor />
 	</div>
 </template>
 
 <script>
-import { getAccount } from '@/utils/promises.js';
+import { getAccount } from '@/utils/promises';
 import HomeBar from '@/components/utils/HomeBar.vue';
+import CourseEditor from '@/components/courseEditor/CourseEditor.vue';
 
 export default {
-	name: 'CourseEditor',
+	name: 'CourseEditorPage',
 	components: {
-		HomeBar
+		HomeBar,
+		CourseEditor
 	},
 	data: function() {
 		return {

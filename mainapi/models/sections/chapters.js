@@ -36,7 +36,7 @@ module.exports = function(database) {
 
 		getAll: function() {
 			return Chapters.findAll({
-				include: ['course'],
+				include: ['course', 'pages'],
 				attributes: {
 					exclude: ['courseId']
 				},
@@ -46,7 +46,7 @@ module.exports = function(database) {
 
 		getById: function(id) {
 			return Chapters.findOne({
-				include: ['course'],
+				include: ['course', 'pages'],
 				attributes: {
 					exclude: ['courseId']
 				},
@@ -58,7 +58,7 @@ module.exports = function(database) {
 
 		getByName: function(name) {
 			return Chapters.findAll({
-				include: ['course'],
+				include: ['course', 'pages'],
 				attributes: {
 					exclude: ['courseId']
 				},

@@ -20,6 +20,7 @@ module.exports = {
 	Branches: require('./sections/branches')(database),
 	Courses: require('./sections/courses')(database),
 	Chapters: require('./sections/chapters')(database),
+	Pages: require('./sections/pages')(database),
 
 	Accounts: require('./accounts/accounts')(database),
 

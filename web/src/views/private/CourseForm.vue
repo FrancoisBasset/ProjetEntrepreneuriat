@@ -134,7 +134,7 @@
 </template>
 
 <script>
-import { getAccount, getDomains } from '@/utils/promises.js'
+import { getAccount, getDomains } from '@/utils/promises'
 import HomeBar from '@/components/utils/HomeBar.vue';
 import Modal from '@/components/utils/Modal.vue';
 import FormWarning from '@/components/utils/FormWarning.vue';

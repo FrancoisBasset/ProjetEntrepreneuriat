@@ -1,4 +1,4 @@
-const { Domains, Branches, Courses, Chapters } = require('./models');
+const { Domains, Branches, Courses, Chapters, Pages } = require('./models');
 
 Domains.Domains.hasMany(Branches.Branches, {
 	as: 'branches',
@@ -28,4 +28,14 @@ Courses.Courses.hasMany(Chapters.Chapters, {
 });
 Chapters.Chapters.belongsTo(Courses.Courses, {
 	as: 'course'
+});
+
+Chapters.Chapters.hasMany(Pages.Pages, {
+	as: 'pages',
+	foreignKey: {
+		allowNull: false
+	}
+});
+Pages.Pages.belongsTo(Chapters.Chapters, {
+	as: 'chapter'
 });

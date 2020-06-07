@@ -10,7 +10,14 @@ async function getDomains() {
 	return json.response;
 }
 
+async function getCourse(id) {
+	const response = await fetch(`http://localhost/sections/courses/${id}`);
+	const json = await response.json();
+	return json.response;
+}
+
 export {
 	getAccount,
-	getDomains
+	getDomains,
+	getCourse
 };

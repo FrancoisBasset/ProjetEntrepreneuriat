@@ -1,4 +1,4 @@
-const { Domains, Branches, Courses, Chapters, Accounts } = require('../models');
+const { Domains, Branches, Courses, Chapters, Pages, Accounts } = require('../models');
 const { json } = require('./utils');
 
 function getSectionType(type) {
@@ -11,6 +11,8 @@ function getSectionType(type) {
 		return Courses;
 	case 'chapters':
 		return Chapters;
+	case 'pages':
+		return Pages;
 	}
 }
 
@@ -104,6 +106,29 @@ async function handleChapters(id, name, image, index, courseId) {
 	};
 }
 
+async function handlePages(id, index, chapterId) {
+	var section, response;
+
+	if (await Chapters.getById(chapterId) == undefined) {
+		response = `Le chapitre ${chapterId} n'existe pas`;
+	} else if (parseInt(index) < 0) {
+		response = 'L\'index doit être égal ou supérieur à 0';
+	} else if (await Pages.exists(index, chapterId)) {
+		response = `La page n°${index + 1} existe déjà`;
+	} else {
+		if (id == undefined) {
+			section = await Pages.create(index, chapterId);
+		} else {
+			section = await Pages.update(id, index, chapterId);
+		}
+	}
+
+	return {
+		section: section,
+		response: response
+	};
+}
+
 module.exports = {
 	get: async function(req, res) {
 		const { type } = req.params;
@@ -155,6 +180,9 @@ module.exports = {
 		case 'chapters':
 			({section, response} = await handleChapters(id, name, image, req.body.index, req.body.courseId));
 			break;
+		case 'pages':
+			({section, response} = await handlePages(id, req.body.index, req.body.chapterId));
+			break;
 		}
 		
 		if (section != null) {
@@ -180,22 +208,6 @@ module.exports = {
 			} else if (account.type != 'operator') {
 				res.status(400).json(json(false, `Le compte n°${account.id} ne peut pas supprimer de domaines`));
 			} else {
-				for (var branch of section.branches) {
-					branch = await Branches.getById(branch.id);
-
-					for (var course of branch.courses) {
-						course = await Courses.getById(course.id);
-
-						for (const chapter of course.chapters) {
-							await Chapters.delete(chapter.id);
-						}
-
-						await Courses.delete(course.id);
-					}
-
-					await Branches.delete(branch.id);
-				}
-
 				section = await Domains.delete(id);
 				res.status(200).json(json(true, section));
 			}
@@ -208,16 +220,6 @@ module.exports = {
 			} else if (account.type != 'operator') {
 				res.status(400).json(json(false, `Le compte n°${account.id} ne peut pas supprimer de branches`));
 			} else {
-				for (var course of section.courses) {
-					course = await Courses.getById(course.id);
-					
-					for (const chapter of course.chapters) {
-						await Chapters.delete(chapter.id);
-					}
-
-					await Courses.delete(course.id);
-				}
-
 				section = await Branches.delete(id);
 				res.status(200).json(json(true, section));
 			}
@@ -230,10 +232,6 @@ module.exports = {
 			} else if (account.type != 'professionnal') {
 				res.status(400).json(json(false, `Le compte n°${account.id} ne peut pas supprimer de cours`));
 			} else {
-				for (const chapter of section.chapters) {
-					await Chapters.delete(chapter.id);
-				}
-				
 				section = await Courses.delete(id);
 				res.status(200).json(json(true, section));
 			}
@@ -250,6 +248,17 @@ module.exports = {
 				res.status(200).json(json(true, section));
 			}
 			break;
+		case 'pages':
+			section = await Pages.getById(id);
+
+			if (section == null) {
+				res.status(400).json(json(false, `La page n°${id} n'existe pas`));
+			} else if (account.type != 'professionnal') {
+				res.status(400).json(json(false, `Le compte n°${account.id} ne peut pas supprimer de page`));
+			} else {
+				section = await Pages.delete(id);
+				res.status(200).json(json(true, section));
+			}
 		}
 	}
 };

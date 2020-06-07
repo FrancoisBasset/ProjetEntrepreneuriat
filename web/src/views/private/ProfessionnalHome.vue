@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { getAccount } from '@/utils/promises.js';
+import { getAccount } from '@/utils/promises';
 import HomeBar from '@/components/utils/HomeBar.vue';
 
 export default {
