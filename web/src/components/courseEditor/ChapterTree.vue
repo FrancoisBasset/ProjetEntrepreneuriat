@@ -1,18 +1,12 @@
 <template>
-	<div id="chapterTree">
+	<div>
 		<div id="header" v-on:click="extended = !extended">
 			<label v-if="extended">▼</label>
 			<label v-else>►</label>
 			<label>{{ chapter.name }}</label>
 		</div>
 		<div v-show="extended">
-			<PageTree v-for="page of pages" :key="page" :id="page" :index="page - 1" />
-			
-			
-			<!--<PageTree id="2" index="1" />
-			<PageTree id="3" index="2" />
-			<PageTree id="4" index="3" />
-			<PageTree id="5" index="4" />-->
+			<PageTree v-for="page of pages" :key="page.id" :page="page" />
 		</div>
 	</div>
 </template>
@@ -31,8 +25,15 @@ export default {
 	data: function() {
 		return {
 			extended: false,
-			pages: [1, 2, 3, 4, 5]
+			pages: null
 		};
+	},
+	created: function() {
+		fetch(`http://localhost/sections/chapters/${this.chapter.id}`).then(response => {
+			response.json().then(json => {
+				this.pages = json.response.pages;
+			});
+		});
 	}
 }
 </script>
@@ -40,9 +41,5 @@ export default {
 <style scoped>
 	#header {
 		cursor: pointer;
-	}
-
-	#chapterTree {
-		width: auto;
 	}
 </style>

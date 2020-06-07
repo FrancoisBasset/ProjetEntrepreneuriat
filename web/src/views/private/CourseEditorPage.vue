@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div id="homeBar">
 		<HomeBar :account="account" />
 		<CourseEditor />
 	</div>
@@ -28,5 +28,7 @@ export default {
 </script>
 
 <style scoped>
-
+	#homeBar {
+		height: 10%;
+	}
 </style>

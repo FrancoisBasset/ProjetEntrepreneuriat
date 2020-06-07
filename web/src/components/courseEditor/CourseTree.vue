@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<ChapterTree v-for="chapter of chapters" :key="chapter.id" :chapter="chapter" />
+		<label>Chapitres</label>
+		<ChapterTree class="chapterTree" v-for="chapter of chapters" :key="chapter.id" :chapter="chapter" />
 	</div>
 </template>
 
@@ -19,7 +20,7 @@ export default {
 </script>
 
 <style scoped>
-	div {
-		width: auto;
+	.chapterTree {
+		margin: 5px;
 	}
 </style>

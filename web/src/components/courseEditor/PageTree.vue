@@ -1,6 +1,6 @@
 <template>
 	<div v-on:click="pageClick">
-		<label>Page {{ index + 1 }}</label>
+		<label>Page {{ page.index + 1 }}</label>
 	</div>
 </template>
 
@@ -8,12 +8,13 @@
 export default {
 	name: 'PageTree',
 	props: [
-		'id',
-		'index'
+		'page'
 	],
 	methods: {
 		pageClick: function() {
-			this.$emit('pageClick', { id: this.id });
+			console.log(this.page.id);
+			
+			this.$emit('pageClick', { id: this.page.id });
 		}
 	}
 }
@@ -22,5 +23,7 @@ export default {
 <style scoped>
 	div {
 		border: 1px solid;
+		padding: 20px;
+		margin: 3px;
 	}
 </style>

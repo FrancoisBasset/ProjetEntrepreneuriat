@@ -1,7 +1,6 @@
 <template>
 	<div>
 		<CourseTree id="courseTree" :chapters="course.chapters" />
-		<!--<label>{{ course }}</label>-->
 	</div>
 </template>
 
@@ -29,6 +28,10 @@ export default {
 
 <style scoped>
 	#courseTree {
-		width: auto;
+		position: fixed;
+		display: inline-block;
+		border: 1px solid;
+		height: 95%;
+		overflow: scroll;
 	}
 </style>
