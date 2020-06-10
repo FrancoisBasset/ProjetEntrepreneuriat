@@ -1,7 +1,9 @@
 <template>
-	<div id="homeBar">
-		<HomeBar :account="account" />
-		<CourseEditor />
+	<div>
+		<div id="homeBar">
+			<HomeBar :account="account" />
+		</div>
+		<CourseEditor id="editor" />
 	</div>
 </template>
 
@@ -30,5 +32,9 @@ export default {
 <style scoped>
 	#homeBar {
 		height: 10%;
+	}
+
+	#editor {
+		height: 90%;
 	}
 </style>
