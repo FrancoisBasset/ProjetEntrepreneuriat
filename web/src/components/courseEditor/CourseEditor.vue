@@ -13,8 +13,8 @@
 		</div>
 		
 		<div v-if="mode == 'editor'" id="board">
-			<FormZone id="formZone" :elementType="elementType" :elementToUpdate="elementToUpdate" v-on:elementSave="elementSave" v-on:elementUpdate="elementUpdate" />
-			<CourseBlocks id="blocks" :elements="elements" v-on:blockUpdate="blockUpdate" />
+			<FormZone id="formZone" :key="formZoneKey" :elementType="elementType" :elementToUpdate="elementToUpdate" v-on:elementSave="elementSave" v-on:elementUpdate="elementUpdate" />
+			<CourseBlocks id="blocks" :elements="elements" v-on:blockUpdate="blockUpdate" v-on:blockDelete="blockDelete" />
 		</div>
 		<div v-if="mode == 'preview'" id="board">
 			<Preview :elements="elements" />
@@ -47,7 +47,9 @@ export default {
 			elementType: null,
 			elements: [],
 			elementIndex: null,
-			elementToUpdate: null
+			elementToUpdate: null,
+
+			formZoneKey: 0
 		};
 	},
 	created: async function() {
@@ -58,22 +60,34 @@ export default {
 		typeClick: function(e) {
 			this.elementType = e;
 			this.elementToUpdate = null;
+
+			this.formZoneKey++;
 		},		
 		elementSave: function(e) {
 			e.index = this.elements.length;
 			
 			this.elements.push(e);
-			this.elementType = null;
+			this.elementToUpdate = e;
 		},
 		blockUpdate: function(e) {
 			this.elementToUpdate = e;
 			this.elementType = e.type;
 		},
+		blockDelete: function(e) {
+			this.elements.splice(e, 1);
+
+			if (e == this.elementToUpdate.index) {
+				this.elementToUpdate = null;
+			}
+
+			for (var i = 0; i < this.elements.length; i++) {
+				this.elements[i].index = i;
+			}
+
+			this.formZoneKey++;
+		},
 		elementUpdate: function(e) {
 			this.elements[e.index] = e;
-
-			this.elementToUpdate = null;
-			this.elementType = null;
 		}
 	}
 }
