@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<CourseTree id="courseTree" :chapters="course.chapters" />
-		<CourseElementsPicker id="courseElementsPicker" />
+		<CourseElementsPicker id="courseElementsPicker" v-on:typeClick="typeClick" />
 
 		<div id="bottomButtons">
 			<div id="editorButtonDiv">
@@ -12,8 +12,8 @@
 			</div>
 		</div>
 		
-		<div v-if="mode == 'editor'" id="board" v-on:drop="drop" v-on:dragover="allowDrop">
-			<DropZone id="dropZone" :elementType="elementType" :elementToUpdate="elementToUpdate" v-on:elementSave="elementSave" v-on:elementUpdate="elementUpdate" />
+		<div v-if="mode == 'editor'" id="board">
+			<FormZone id="formZone" :elementType="elementType" :elementToUpdate="elementToUpdate" v-on:elementSave="elementSave" v-on:elementUpdate="elementUpdate" />
 			<CourseBlocks id="blocks" :elements="elements" v-on:blockUpdate="blockUpdate" />
 		</div>
 		<div v-if="mode == 'preview'" id="board">
@@ -26,7 +26,7 @@
 import { getAccount, getCourse } from '@/utils/promises';
 import CourseTree from '@/components/courseEditor/CourseTree.vue';
 import CourseElementsPicker from '@/components/courseEditor/CourseElementsPicker.vue';
-import DropZone from '@/components/courseEditor/DropZone.vue';
+import FormZone from '@/components/courseEditor/FormZone.vue';
 import CourseBlocks from '@/components/courseEditor/CourseBlocks.vue';
 import Preview from '@/components/courseEditor/Preview.vue';
 
@@ -35,7 +35,7 @@ export default {
 	components: {
 		CourseTree,
 		CourseElementsPicker,
-		DropZone,
+		FormZone,
 		CourseBlocks,
 		Preview
 	},
@@ -55,14 +55,9 @@ export default {
 		this.course = await getCourse(this.$route.query.courseId);
 	},
 	methods: {
-		allowDrop: function(e) {
-			e.preventDefault();
-		},
-		drop: function(e) {
-			if (e.dataTransfer.getData('elementType') != '') {
-				this.elementToUpdate = null;
-				this.elementType = e.dataTransfer.getData('elementType');
-			}
+		typeClick: function(e) {
+			this.elementType = e;
+			this.elementToUpdate = null;
 		},		
 		elementSave: function(e) {
 			e.index = this.elements.length;
@@ -105,7 +100,7 @@ export default {
 		margin-left: 150px;
 	}
 
-	#dropZone {
+	#formZone {
 		border: 1px solid;
 		height: 25%;
 	}

@@ -1,19 +1,30 @@
 <template>
-	<div id="dropZone" v-on:drop="load" v-on:dragover="allowDrop">
-		<div v-if="src != null">
+	<div id="formZone" v-on:drop="load" v-on:dragover="allowDrop">
+		<div v-if="src != null || elementToUpdate != null">
 			<div>
-				<img :src="src" height="150" />
+				<img v-if="elementToUpdate == null && type == 'Image'" :src="src" height="150" />
+				<img v-if="elementToUpdate != null && type == 'Image'" :src="elementToUpdate.data.src" height="150" />
+
+				<video controls v-if="elementToUpdate == null && type == 'Vidéo'" height="150">
+					<source :src="src" />
+				</video>
+				<video controls v-if="elementToUpdate != null && type == 'Vidéo'" height="150">
+					<source :src="elementToUpdate.data.src" />
+				</video>
 			</div>
 			<div>
 				<label>Largeur</label>
-				<input type="number" v-model="width" maxlength="4" />
+				<input v-if="elementToUpdate == null" type="number" v-model="width" maxlength="4" />
+				<input v-else type="number" v-model="elementToUpdate.data.width" maxlength="4" />
 			</div>
 			<div>
 				<label>Hauteur</label>
-				<input type="number" v-model="height" />
+				<input v-if="elementToUpdate == null" type="number" v-model="height" />
+				<input v-else type="number" v-model="elementToUpdate.data.height" />
 			</div>
 			
-			<button v-on:click="save">OK</button>
+			<button v-if="elementToUpdate == null" v-on:click="save">OK</button>
+			<button v-else v-on:click="update">OK</button>
 		</div>
 		<div v-else>
 			<label v-if="type == 'Image'">Déposez l'image ici !</label>
@@ -26,8 +37,8 @@
 export default {
 	name: 'ImageVideoForm',
 	props: {
-		'mode': {
-			default: 'create'
+		'elementToUpdate': {
+			default: {}
 		},
 		'type': {}
 	},
@@ -52,7 +63,10 @@ export default {
 			const reader = new FileReader();			
 			
 			reader.onload = e => {
-				this.src = e.target.result;				
+				this.src = e.target.result;	
+				if (this.elementToUpdate != null) {
+					this.elementToUpdate.data.src = e.target.result;
+				}
 			};
 			
 			reader.readAsDataURL(file);
@@ -66,6 +80,9 @@ export default {
 					height: this.height
 				}
 			});
+		},
+		update: function() {
+			this.$parent.$emit('elementUpdate', this.elementToUpdate);
 		}
 	}
 }
@@ -76,7 +93,7 @@ export default {
 		text-align: center;
 	}
 
-	#dropZone {
+	#formZone {
 		width: 100%;
 		height: 100%;
 	}

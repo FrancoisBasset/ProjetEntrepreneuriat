@@ -6,7 +6,7 @@
 		<textarea v-else v-model="elementToUpdate.data.text"></textarea>
 		<br>
 		<button v-if="elementToUpdate == null" v-on:click="save">OK</button>
-		<button v-if="elementToUpdate != null" v-on:click="update">OK</button>
+		<button v-else v-on:click="update">OK</button>
 	</div>
 </template>
 
