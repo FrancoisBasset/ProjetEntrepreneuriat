@@ -13,8 +13,8 @@
 		</div>
 		
 		<div v-if="mode == 'editor'" id="board">
-			<FormZone id="formZone" :key="formZoneKey" :elementType="elementType" :elementToUpdate="elementToUpdate" v-on:elementSave="elementSave" v-on:elementUpdate="elementUpdate" />
-			<CourseBlocks id="blocks" :elements="elements" v-on:blockUpdate="blockUpdate" v-on:blockDelete="blockDelete" />
+			<FormZone id="formZone" :key="`formZoneKey${formZoneKey}`" :elementType="elementType" :elementToUpdate="elementToUpdate" v-on:elementSave="elementSave" v-on:elementUpdate="elementUpdate" />
+			<CourseBlocks id="blocks" :key="`elementsKey${elementsKey}`" :elements="elements" v-on:blockUpdate="blockUpdate" v-on:blockDelete="blockDelete" v-on:blockDrop="blockDrop" />
 		</div>
 		<div v-if="mode == 'preview'" id="board">
 			<Preview :elements="elements" />
@@ -49,7 +49,8 @@ export default {
 			elementIndex: null,
 			elementToUpdate: null,
 
-			formZoneKey: 0
+			formZoneKey: 0,
+			elementsKey: 0
 		};
 	},
 	created: async function() {
@@ -69,6 +70,9 @@ export default {
 			this.elements.push(e);
 			this.elementToUpdate = e;
 		},
+		elementUpdate: function(e) {
+			this.elements[e.index] = e;
+		},
 		blockUpdate: function(e) {
 			this.elementToUpdate = e;
 			this.elementType = e.type;
@@ -86,8 +90,20 @@ export default {
 
 			this.formZoneKey++;
 		},
-		elementUpdate: function(e) {
-			this.elements[e.index] = e;
+		blockDrop: function(e) {
+			const from = e.from;
+			const to = e.to;
+
+			var element = this.elements[from];
+
+			this.elements.splice(from, 1);
+			this.elements.splice(to, 0, element);
+			
+			for (var i = 0; i < this.elements.length; i++) {
+				this.elements[i].index = i;
+			}
+
+			this.elementsKey++;
 		}
 	}
 }
@@ -121,7 +137,7 @@ export default {
 
 	#blocks {
 		border: 1px solid;
-		height: 25%;
+		height: 60%;
 		overflow: scroll;
 	}
 

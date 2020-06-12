@@ -1,7 +1,11 @@
 <template>
 	<div>
 		<div v-on:click="blockUpdate">
-			<label>{{ element.type }}</label>
+			<label v-if="element.type == 'Texte'">{{ element.data.text }}</label>
+			<img v-if="element.type == 'Image'" :src="element.data.src" height="30px" />
+			<video v-if="element.type == 'Vidéo'" height="30px">
+				<source :src="element.data.src" />
+			</video>
 			<button v-on:click.stop="blockDelete">Supprimer</button>
 		</div>
 	</div>
@@ -26,5 +30,23 @@ export default {
 </script>
 
 <style scoped>
+	div {
+		background: cadetblue;
+		padding: 5px;
+		margin: 5px;
+		border-radius: 5px;
+	}
 
+	label {
+		color: white;
+		font-size: 25px;
+	}
+
+	button {
+		border: none;
+		background-color: tomato;
+		color: white;
+		padding: 10px;
+		border-radius: 5px;
+	}
 </style>
