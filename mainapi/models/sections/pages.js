@@ -69,7 +69,7 @@ module.exports = function(database) {
 			});
 		},
 
-		update: function(id, index, chapterId, elements) {
+		update: async function(id, index, chapterId, elements) {
 			return Pages.update({
 				index: index,
 				chapterId: chapterId
@@ -86,6 +86,18 @@ module.exports = function(database) {
 			});
 		},
 
+		setIndex: function(id, index) {
+			return Pages.update({
+				index: index
+			}, {
+				where: {
+					id: id
+				}
+			}).then(() => {
+				return this.getById(id);
+			});
+		},
+
 		delete: async function(id) {
 			const page = await this.getById(id);
 
@@ -95,7 +107,23 @@ module.exports = function(database) {
 				}
 			});
 
+			fs.unlinkSync(`assets/pages/page_${id}.json`);
+
 			return page;
+		},
+
+		resetOrder: async function(chapterId) {
+			const { Chapters } = require('../index');
+
+			return Chapters.getById(chapterId).then(async chapter => {
+				var index = 0;
+
+				for (const page of chapter.pages) {
+					await this.setIndex(page.id, index);
+					
+					index++;
+				}
+			});
 		}
 	};
 };

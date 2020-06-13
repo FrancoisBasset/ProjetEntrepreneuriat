@@ -6,8 +6,8 @@
 			<label>{{ chapter.name }}</label>
 		</div>
 		<div v-show="extended">
-			<PageTree v-for="page of pages" :key="page.id" :page="page" :pageSelected="pageSelected" />
-			<button v-on:click="createPage">+</button>
+			<PageTree v-for="page of pages" :key="page.id" :page="page" :pageSelected="pageSelected" v-on:pageRemove="pageRemove" />
+			<button id="createPageButton" v-on:click="createPage">+</button>
 		</div>
 	</div>
 </template>
@@ -31,18 +31,23 @@ export default {
 		};
 	},
 	created: async function() {
-		var response = await fetch(`http://localhost/sections/chapters/${this.chapter.id}`);
-		var json = await response.json();
-		const chaptersPages = json.response.pages;
-
-		for (const page of chaptersPages) {
-			response = await fetch(`http://localhost/sections/pages/${page.id}`);
-			json = await response.json();
-			
-			this.pages.push(json.response);
-		}
+		await this.setPages();
 	},
 	methods: {
+		setPages: async function() {
+			var response = await fetch(`http://localhost/sections/chapters/${this.chapter.id}`);
+			var json = await response.json();
+			const chaptersPages = json.response.pages;
+
+			this.pages = [];
+
+			for (const page of chaptersPages) {
+				response = await fetch(`http://localhost/sections/pages/${page.id}`);
+				json = await response.json();
+				
+				this.pages.push(json.response);
+			}
+		},
 		createPage: function() {
 			const index = this.pages.length;
 			const chapterId = this.chapter.id;
@@ -63,6 +68,26 @@ export default {
 					this.pages.push(json.response);					
 				});
 			});
+		},
+		pageRemove: async function(e) {
+			var response = await fetch(`http://localhost/sections/chapters/${this.chapter.id}`);
+			var json = await response.json();
+			const chaptersPages = json.response.pages;
+
+			this.pages = [];
+
+			for (const page of chaptersPages) {
+				response = await fetch(`http://localhost/sections/pages/${page.id}`);
+				json = await response.json();
+				
+				this.pages.push(json.response);
+
+				console.log(json.response.index);
+				
+			}
+
+			//console.log(this.pages);
+			
 		}
 	}
 }
@@ -71,5 +96,11 @@ export default {
 <style scoped>
 	#header {
 		cursor: pointer;
+	}
+
+	#createPageButton {
+		margin: 3px;
+		padding-left: 40px;
+		padding-right: 40px;
 	}
 </style>

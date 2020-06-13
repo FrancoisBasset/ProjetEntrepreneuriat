@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<CourseTree id="courseTree" :chapters="course.chapters" v-on:pageClick="pageClick" />
+		<CourseTree id="courseTree" :chapters="course.chapters" v-on:pageClick="pageClick" v-on:pageRemove="pageRemove" />
 		<CourseElementsPicker id="courseElementsPicker" v-on:typeClick="typeClick" />
 
 		<div v-if="page != null" id="bottomButtons">
@@ -49,7 +49,6 @@ export default {
 
 			mode: 'editor',
 			elementType: null,
-			//elements: [],
 			elementIndex: null,
 			elementToUpdate: null,
 
@@ -94,6 +93,13 @@ export default {
 					console.log(this.page.elements);
 				});
 			});			
+		},
+		pageRemove: function(e) {
+			//console.log(this.page.id + ' ' + e.id);
+			
+			if (this.page.id == e.id) {
+				this.page = null;
+			}
 		},
 		typeClick: function(e) {
 			this.elementType = e;

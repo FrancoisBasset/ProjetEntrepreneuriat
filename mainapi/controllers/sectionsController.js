@@ -257,6 +257,7 @@ module.exports = {
 				res.status(400).json(json(false, `Le compte n°${account.id} ne peut pas supprimer de page`));
 			} else {
 				section = await Pages.delete(id);
+				await Pages.resetOrder(section.chapter.id);
 				res.status(200).json(json(true, section));
 			}
 		}
