@@ -6,7 +6,7 @@
 			<label>{{ chapter.name }}</label>
 		</div>
 		<div v-show="extended">
-			<PageTree v-for="page of pages" :key="page.id" :page="page" />
+			<PageTree v-for="page of pages" :key="page.id" :page="page" :pageSelected="pageSelected" />
 			<button v-on:click="createPage">+</button>
 		</div>
 	</div>
@@ -21,7 +21,8 @@ export default {
 		PageTree
 	},
 	props: [
-		'chapter'
+		'chapter',
+		'pageSelected'
 	],
 	data: function() {
 		return {

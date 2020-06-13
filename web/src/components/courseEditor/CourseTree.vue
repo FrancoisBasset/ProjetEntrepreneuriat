@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<label>Chapitres</label>
-		<ChapterTree class="chapterTree" v-for="chapter of chapters" :key="chapter.id" :chapter="chapter" />
+		<ChapterTree class="chapterTree" v-for="chapter of chapters" :key="chapter.id" :chapter="chapter" v-on:pageClick="pageClick" :pageSelected="pageSelected" />
 	</div>
 </template>
 
@@ -15,7 +15,17 @@ export default {
 	},
 	props: [
 		'chapters'
-	]
+	],
+	data: function() {
+		return {
+			pageSelected: null
+		};
+	},
+	methods: {
+		pageClick: function(e) {
+			this.pageSelected = e.id;
+		}
+	}
 }
 </script>
 
