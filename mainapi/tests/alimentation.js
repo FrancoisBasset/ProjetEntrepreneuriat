@@ -62,11 +62,15 @@ database.afterBulkSync(async() => {
 
 	console.log(`${++i}/${l} chapters !`);
 
-	for (var c = 1; c <= 4; c++) {
+	/*for (var c = 1; c <= 4; c++) {
 		for (var p = 1; p <= 5; p++) {
 			await Pages.create(p - 1, c);
 		}
-	}
+	}*/
+
+	await Pages.create(0, 1);
+	await Pages.create(1, 1);
+	await Pages.create(2, 1);
 	console.log(`${++i}/${l} pages !`);
 
 	/*await Chapters.create('Chapitre', 'chapitre.jpg', 0, 1);

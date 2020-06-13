@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const { SectionsController, CoursesController } = require('../controllers');
 
 const router = express.Router();
-router.use(bodyParser.json());
+router.use(bodyParser.json({ limit: '50mb' }));
 
 const multer = require('multer');
 const upload = multer({

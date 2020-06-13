@@ -90,7 +90,7 @@ async function handleChapters(id, name, image, index, courseId) {
 		response = `Le cours ${courseId} n'existe pas`;
 	} else if (parseInt(index) < 0) {
 		response = 'L\'index doit être égal ou supérieur à 0';
-	} else if (await Chapters.exists(name, index, courseId)) {
+	} else if (await Chapters.exists(name, index, courseId) && id == null) {
 		response = `Le chapitre ${name} existe déjà`;
 	} else {
 		if (id == undefined) {
@@ -106,20 +106,20 @@ async function handleChapters(id, name, image, index, courseId) {
 	};
 }
 
-async function handlePages(id, index, chapterId) {
+async function handlePages(id, index, chapterId, elements) {
 	var section, response;
 
 	if (await Chapters.getById(chapterId) == undefined) {
 		response = `Le chapitre ${chapterId} n'existe pas`;
 	} else if (parseInt(index) < 0) {
 		response = 'L\'index doit être égal ou supérieur à 0';
-	} else if (await Pages.exists(index, chapterId)) {
+	} else if (await Pages.exists(index, chapterId) && id == null) {
 		response = `La page n°${index + 1} existe déjà`;
 	} else {
 		if (id == undefined) {
 			section = await Pages.create(index, chapterId);
 		} else {
-			section = await Pages.update(id, index, chapterId);
+			section = await Pages.update(id, index, chapterId, elements);
 		}
 	}
 
@@ -181,7 +181,7 @@ module.exports = {
 			({section, response} = await handleChapters(id, name, image, req.body.index, req.body.courseId));
 			break;
 		case 'pages':
-			({section, response} = await handlePages(id, req.body.index, req.body.chapterId));
+			({section, response} = await handlePages(id, req.body.index, req.body.chapterId, req.body.elements));
 			break;
 		}
 		

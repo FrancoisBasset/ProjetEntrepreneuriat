@@ -1,9 +1,9 @@
 <template>
 	<div>
-		<CourseTree id="courseTree" :chapters="course.chapters" />
+		<CourseTree id="courseTree" :chapters="course.chapters" v-on:pageClick="pageClick" />
 		<CourseElementsPicker id="courseElementsPicker" v-on:typeClick="typeClick" />
 
-		<div id="bottomButtons">
+		<div v-if="page != null" id="bottomButtons">
 			<div id="editorButtonDiv">
 				<button id="editorButton" v-on:click="mode = 'editor'">Editeur</button>
 			</div>
@@ -12,12 +12,12 @@
 			</div>
 		</div>
 		
-		<div v-if="mode == 'editor'" id="board">
+		<div v-if="mode == 'editor' && page != null" id="board">
 			<FormZone id="formZone" :key="`formZoneKey${formZoneKey}`" :elementType="elementType" :elementToUpdate="elementToUpdate" v-on:elementSave="elementSave" v-on:elementUpdate="elementUpdate" />
-			<CourseBlocks id="blocks" :key="`elementsKey${elementsKey}`" :elements="elements" v-on:blockUpdate="blockUpdate" v-on:blockDelete="blockDelete" v-on:blockDrop="blockDrop" />
+			<CourseBlocks id="blocks" :key="`elementsKey${elementsKey}`" :elements="page.elements" v-on:blockUpdate="blockUpdate" v-on:blockDelete="blockDelete" v-on:blockDrop="blockDrop" />
 		</div>
 		<div v-if="mode == 'preview'" id="board">
-			<Preview :elements="elements" />
+			<Preview :elements="page.elements" />
 		</div>
 	</div>
 </template>
@@ -43,9 +43,13 @@ export default {
 		return {
 			account: {},
 			course: {},
+
+			//chapter: null,
+			page: null,
+
 			mode: 'editor',
 			elementType: null,
-			elements: [],
+			//elements: [],
 			elementIndex: null,
 			elementToUpdate: null,
 
@@ -56,8 +60,41 @@ export default {
 	created: async function() {
 		this.account = await getAccount();
 		this.course = await getCourse(this.$route.query.courseId);
+
+		setInterval(() => {
+			if (this.page != null) {
+				this.savePage();
+			}
+		}, 1000);
 	},
 	methods: {
+		savePage: function() {
+			console.log(this.page.elements);
+			
+
+			fetch(`http://localhost/sections/pages/${this.page.id}`, {
+				method: 'PUT',
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					index: this.page.index,
+					chapterId: this.page.chapter.id,
+					elements: JSON.stringify(this.page.elements)
+				})
+			});
+		},
+		pageClick: function(e) {
+			this.page = e;
+			this.elementToUpdate = null;
+
+			fetch(`http://localhost/sections/pages/${e.id}`).then(response => {
+				response.json().then(json => {
+					this.page.elements = json.response.elements;
+					console.log(this.page.elements);
+				});
+			});			
+		},
 		typeClick: function(e) {
 			this.elementType = e;
 			this.elementToUpdate = null;
@@ -65,27 +102,33 @@ export default {
 			this.formZoneKey++;
 		},		
 		elementSave: function(e) {
-			e.index = this.elements.length;
+			e.index = this.page.elements.length;
+
+			console.log(e);
 			
-			this.elements.push(e);
+			
+			this.page.elements.push(e);
+
+			console.log(this.page);
+			
 			this.elementToUpdate = e;
 		},
 		elementUpdate: function(e) {
-			this.elements[e.index] = e;
+			this.page.elements[e.index] = e;
 		},
 		blockUpdate: function(e) {
 			this.elementToUpdate = e;
 			this.elementType = e.type;
 		},
 		blockDelete: function(e) {
-			this.elements.splice(e, 1);
+			this.page.elements.splice(e, 1);
 
 			if (e == this.elementToUpdate.index) {
 				this.elementToUpdate = null;
 			}
 
-			for (var i = 0; i < this.elements.length; i++) {
-				this.elements[i].index = i;
+			for (var i = 0; i < this.page.elements.length; i++) {
+				this.page.elements[i].index = i;
 			}
 
 			this.formZoneKey++;
@@ -94,13 +137,13 @@ export default {
 			const from = e.from;
 			const to = e.to;
 
-			var element = this.elements[from];
+			var element = this.page.elements[from];
 
-			this.elements.splice(from, 1);
-			this.elements.splice(to, 0, element);
+			this.page.elements.splice(from, 1);
+			this.page.elements.splice(to, 0, element);
 			
-			for (var i = 0; i < this.elements.length; i++) {
-				this.elements[i].index = i;
+			for (var i = 0; i < this.page.elements.length; i++) {
+				this.page.elements[i].index = i;
 			}
 
 			this.elementsKey++;

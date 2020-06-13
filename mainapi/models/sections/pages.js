@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 const { DataTypes, Sequelize, Op } = require('sequelize');
+const fs = require('fs');
 
 /**
  * 
@@ -34,6 +35,15 @@ module.exports = function(database) {
 				where: {
 					id: id
 				}
+			}).then(function(page) {
+				if (page != null) {
+					const text = fs.readFileSync(`assets/pages/page_${id}.json`, 'utf8');
+					const json = JSON.parse(text);
+					
+					page.dataValues.elements = json.elements;
+				}
+
+				return page;
 			});
 		},
 
@@ -53,11 +63,13 @@ module.exports = function(database) {
 				index: index,
 				chapterId: chapterId
 			}).then(page => {
+				fs.writeFileSync(`assets/pages/page_${page.id}.json`, '{"elements": []}');
+
 				return this.getById(page.id);
 			});
 		},
 
-		update: function(id, index, chapterId) {
+		update: function(id, index, chapterId, elements) {
 			return Pages.update({
 				index: index,
 				chapterId: chapterId
@@ -66,6 +78,10 @@ module.exports = function(database) {
 					id: id
 				}
 			}).then(() => {
+				elements = '{"elements":' + elements + '}';
+
+				fs.writeFileSync(`assets/pages/page_${id}.json`, elements);
+
 				return this.getById(id);
 			});
 		},

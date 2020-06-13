@@ -4,7 +4,7 @@
 	"description": "API principale du projet Entrepreneuriat",
 	"main": "index.js",
 	"scripts": {
-		"dev": "nodemon index.js",
+		"dev": "nodemon index.js --ignore assets/",
 		"eslint": "eslint .",
 		"start": "node index.js",
 		"test": "mocha tests -w"

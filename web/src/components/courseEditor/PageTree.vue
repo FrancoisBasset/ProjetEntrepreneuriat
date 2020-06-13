@@ -12,9 +12,7 @@ export default {
 	],
 	methods: {
 		pageClick: function() {
-			//console.log(this.page.id);
-			
-			this.$emit('pageClick', { id: this.page.id });
+			this.$parent.$parent.$emit('pageClick', this.page);
 		}
 	}
 }
