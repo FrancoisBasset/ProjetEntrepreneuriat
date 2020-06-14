@@ -18,7 +18,26 @@ export default {
 	name: 'CourseElementsPicker',
 	methods: {
 		typeClick: function(e) {
-			this.$emit('typeClick', e.target.id);
+			switch(e.target.id) {
+				case 'Texte':
+					this.$emit('typeClick', {
+						type: 'Texte',
+						data: {
+							text: ''
+						}
+					});
+					break;
+				case 'Image':
+					this.$emit('typeClick', {
+						type: 'Image',
+						data: {
+							src: null,
+							width: null,
+							height: null
+						}
+					});
+					break;
+			}
 		}
 	}
 }

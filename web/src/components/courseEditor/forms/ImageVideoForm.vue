@@ -1,30 +1,23 @@
 <template>
 	<div id="formZone" v-on:drop="load" v-on:dragover="allowDrop">
-		<div v-if="src != null || elementToUpdate != null">
+		<div v-if="elementToUpdate.data.src != null">
 			<div>
-				<img v-if="elementToUpdate == null && type == 'Image'" :src="src" height="150" />
 				<img v-if="elementToUpdate != null && type == 'Image'" :src="elementToUpdate.data.src" height="150" />
 
-				<video controls v-if="elementToUpdate == null && type == 'Vidéo'" height="150">
-					<source :src="src" />
-				</video>
 				<video controls v-if="elementToUpdate != null && type == 'Vidéo'" height="150">
 					<source :src="elementToUpdate.data.src" />
 				</video>
 			</div>
 			<div>
 				<label>Largeur</label>
-				<input v-if="elementToUpdate == null" type="number" v-model="width" maxlength="4" />
-				<input v-else type="number" v-model="elementToUpdate.data.width" maxlength="4" />
+				
+				<input type="number" v-model="elementToUpdate.data.width" maxlength="4" />
 			</div>
 			<div>
 				<label>Hauteur</label>
-				<input v-if="elementToUpdate == null" type="number" v-model="height" />
-				<input v-else type="number" v-model="elementToUpdate.data.height" />
+				
+				<input type="number" v-model="elementToUpdate.data.height" />
 			</div>
-			
-			<button v-if="elementToUpdate == null" v-on:click="save">OK</button>
-			<button v-else v-on:click="update">OK</button>
 		</div>
 		<div v-else>
 			<label v-if="type == 'Image'">Déposez l'image ici !</label>
@@ -41,16 +34,6 @@ export default {
 			default: {}
 		},
 		'type': {}
-	},
-	data: function() {
-		return {
-			src: null,
-			width: null,
-			height: null
-		};
-	},
-	created: function() {
-		this.src = null;
 	},
 	methods: {
 		allowDrop: function(e) {
@@ -70,19 +53,6 @@ export default {
 			};
 			
 			reader.readAsDataURL(file);
-		},
-		save: function() {
-			this.$parent.$emit('elementSave', {
-				type: this.type,
-				data: {
-					src: this.src,
-					width: this.width,
-					height: this.height
-				}
-			});
-		},
-		update: function() {
-			this.$parent.$emit('elementUpdate', this.elementToUpdate);
 		}
 	}
 }

@@ -13,7 +13,7 @@
 		</div>
 		
 		<div v-if="mode == 'editor' && page != null" id="board">
-			<FormZone id="formZone" :key="`formZoneKey${formZoneKey}`" :elementType="elementType" :elementToUpdate="elementToUpdate" v-on:elementSave="elementSave" v-on:elementUpdate="elementUpdate" />
+			<FormZone id="formZone" :key="`formZoneKey${formZoneKey}`" :elementType="elementType" :elementToUpdate="elementToUpdate" />
 			<CourseBlocks id="blocks" :key="`elementsKey${elementsKey}`" :elements="page.elements" v-on:blockUpdate="blockUpdate" v-on:blockDelete="blockDelete" v-on:blockDrop="blockDrop" />
 		</div>
 		<div v-if="mode == 'preview'" id="board">
@@ -44,7 +44,6 @@ export default {
 			account: {},
 			course: {},
 
-			//chapter: null,
 			page: null,
 
 			mode: 'editor',
@@ -68,9 +67,6 @@ export default {
 	},
 	methods: {
 		savePage: function() {
-			console.log(this.page.elements);
-			
-
 			fetch(`http://localhost/sections/pages/${this.page.id}`, {
 				method: 'PUT',
 				headers: {
@@ -95,32 +91,19 @@ export default {
 			});			
 		},
 		pageRemove: function(e) {
-			//console.log(this.page.id + ' ' + e.id);
-			
 			if (this.page.id == e.id) {
 				this.page = null;
 			}
 		},
 		typeClick: function(e) {
-			this.elementType = e;
-			this.elementToUpdate = null;
+			this.elementToUpdate = e;
+
+			this.elementType = this.elementToUpdate.type;
+			this.elementToUpdate.index = this.page.elements.length;
+
+			this.page.elements.push(e);			
 
 			this.formZoneKey++;
-		},		
-		elementSave: function(e) {
-			e.index = this.page.elements.length;
-
-			console.log(e);
-			
-			
-			this.page.elements.push(e);
-
-			console.log(this.page);
-			
-			this.elementToUpdate = e;
-		},
-		elementUpdate: function(e) {
-			this.page.elements[e.index] = e;
 		},
 		blockUpdate: function(e) {
 			this.elementToUpdate = e;

@@ -26,9 +26,6 @@ export default {
 				method: 'DELETE'
 			}).then(() => {
 				this.$emit('pageRemove', this.page);
-
-				// to courseeditor
-
 				this.$parent.$parent.$emit('pageRemove', this.page);
 			});
 		}
