@@ -2,9 +2,9 @@
 	<div id="formZone" v-on:drop="load" v-on:dragover="allowDrop">
 		<div v-if="elementToUpdate.data.src != null">
 			<div>
-				<img v-if="elementToUpdate != null && type == 'Image'" :src="elementToUpdate.data.src" height="150" />
+				<img v-if="type == 'Image'" :src="elementToUpdate.data.src" height="150" />
 
-				<video controls v-if="elementToUpdate != null && type == 'Vidéo'" height="150">
+				<video controls v-if="type == 'Vidéo'" height="150">
 					<source :src="elementToUpdate.data.src" />
 				</video>
 			</div>

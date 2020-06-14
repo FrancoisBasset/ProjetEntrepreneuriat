@@ -91,19 +91,21 @@ export default {
 			});			
 		},
 		pageRemove: function(e) {
-			if (this.page.id == e.id) {
+			if (this.page != null && this.page.id == e.id) {
 				this.page = null;
 			}
 		},
 		typeClick: function(e) {
-			this.elementToUpdate = e;
+			if (this.page != null) {
+				this.elementToUpdate = e;
 
-			this.elementType = this.elementToUpdate.type;
-			this.elementToUpdate.index = this.page.elements.length;
+				this.elementType = this.elementToUpdate.type;
+				this.elementToUpdate.index = this.page.elements.length;
 
-			this.page.elements.push(e);			
+				this.page.elements.push(e);			
 
-			this.formZoneKey++;
+				this.formZoneKey++;
+			}
 		},
 		blockUpdate: function(e) {
 			this.elementToUpdate = e;
@@ -112,8 +114,9 @@ export default {
 		blockDelete: function(e) {
 			this.page.elements.splice(e, 1);
 
-			if (e == this.elementToUpdate.index) {
+			if (this.elementToUpdate != null && e == this.elementToUpdate.index) {
 				this.elementToUpdate = null;
+				this.elementType = null;
 			}
 
 			for (var i = 0; i < this.page.elements.length; i++) {

@@ -1,8 +1,8 @@
 <template>
 	<div>
-		<TextForm v-if="elementType == 'Texte'" :elementToUpdate="elementToUpdate" />
-		<ImageVideoForm v-if="elementType == 'Image'" type="Image" :elementToUpdate="elementToUpdate" />
-		<ImageVideoForm v-if="elementType == 'Vidéo'" type="Vidéo" :elementToUpdate="elementToUpdate" />
+		<TextForm v-if="elementType == 'Texte' && elementToUpdate != null" :elementToUpdate="elementToUpdate" />
+		<ImageVideoForm v-if="elementType == 'Image' && elementToUpdate != null" type="Image" :elementToUpdate="elementToUpdate" />
+		<ImageVideoForm v-if="elementType == 'Vidéo' && elementToUpdate != null" type="Vidéo" :elementToUpdate="elementToUpdate" />
 	</div>
 </template>
 
