@@ -1,10 +1,10 @@
 <template>
 	<div>
 		<div id="div">
-		<div id="pageButton" v-on:click="pageClick" :class="{ pageSelected: pageSelected == page.id }">
-			<label>Page {{ page.index + 1 }}</label>
-		</div>
-		<button v-on:click="pageRemove">-</button>
+			<div id="pageButton" v-on:click="pageClick" :class="{ pageSelected: pageSelected == page.id }">
+				<label>Page {{ page.index + 1 }}</label>
+			</div>
+			<button v-on:click="pageRemove">-</button>
 		</div>
 	</div>
 </template>

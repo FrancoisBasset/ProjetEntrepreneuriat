@@ -5,8 +5,8 @@
 			<label v-else>►</label>
 			<label>{{ chapter.name }}</label>
 		</div>
-		<div v-show="extended">
-			<PageTree v-for="page of pages" :key="page.id" :page="page" :pageSelected="pageSelected" v-on:pageRemove="pageRemove" />
+		<div v-show="extended" v-on:dragover="allowDrop" v-on:dragstart="drag" v-on:drop="drop">
+			<PageTree :id="`page${page.index}`" v-for="page of pages" :key="page.id" draggable="true" :page="page" :pageSelected="pageSelected" v-on:pageRemove="pageRemove" />
 			<button id="createPageButton" v-on:click="createPage">+</button>
 		</div>
 	</div>
@@ -34,6 +34,47 @@ export default {
 		await this.setPages();
 	},
 	methods: {
+		allowDrop: function(e) {
+			e.preventDefault();
+		},
+		drag: function(e) {
+			e.dataTransfer.setData('pageId', e.target.id);
+		},
+		drop: function(e) {
+			var from = e.dataTransfer.getData('pageId');
+
+			var to = e.target.parentElement.parentElement.id;
+			if (!to.includes('page')) {
+				to = e.target.parentElement.parentElement.parentElement.id;
+			}
+
+			if (!to.includes('page')) {
+				return;
+			}
+
+			from = from.split('page')[1];
+			to = to.split('page')[1];
+
+			console.log(from + ' ' + to);
+			
+
+			const pageToMove = this.pages[from];
+
+			this.pages.splice(from, 1);
+			this.pages.splice(to, 0, pageToMove);
+
+			for (var i = 0; i < this.pages.length; i++) {
+				this.pages[i].index = i;
+			}
+
+			console.log(this.pages);
+			
+
+			/*this.$parent.$emit('pageDrop', {
+				from: from,
+				to: to
+			});*/
+		},
 		setPages: async function() {
 			var response = await fetch(`http://localhost/sections/chapters/${this.chapter.id}`);
 			var json = await response.json();
