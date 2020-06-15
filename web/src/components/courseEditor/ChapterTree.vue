@@ -40,7 +40,7 @@ export default {
 		drag: function(e) {
 			e.dataTransfer.setData('pageId', e.target.id);
 		},
-		drop: function(e) {
+		drop: async function(e) {
 			var from = e.dataTransfer.getData('pageId');
 
 			var to = e.target.parentElement.parentElement.id;
@@ -53,10 +53,7 @@ export default {
 			}
 
 			from = from.split('page')[1];
-			to = to.split('page')[1];
-
-			console.log(from + ' ' + to);
-			
+			to = to.split('page')[1];			
 
 			const pageToMove = this.pages[from];
 
@@ -66,14 +63,20 @@ export default {
 			for (var i = 0; i < this.pages.length; i++) {
 				this.pages[i].index = i;
 			}
-
-			console.log(this.pages);
 			
-
-			/*this.$parent.$emit('pageDrop', {
-				from: from,
-				to: to
-			});*/
+			for (const page of this.pages) {
+				await fetch(`http://localhost/sections/pages/${page.id}`, {
+					method: 'PUT',
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						index: page.index,
+						chapterId: page.chapter.id,
+						elements: JSON.stringify(page.elements)
+					})
+				});
+			}
 		},
 		setPages: async function() {
 			var response = await fetch(`http://localhost/sections/chapters/${this.chapter.id}`);
