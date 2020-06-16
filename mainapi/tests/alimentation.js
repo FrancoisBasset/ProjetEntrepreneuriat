@@ -55,10 +55,10 @@ database.afterBulkSync(async() => {
 	await Courses.create('France', 'cours.jpg', 1, 1, 1, '', 0);
 	console.log(`${++i}/${l} courses !`);
 
-	await Chapters.create('Introduction', 'chapitre.jpg', 0, 1);
-	await Chapters.create('Histoire', 'chapitre.jpg', 1, 1);
-	await Chapters.create('Paysages', 'chapitre.jpg', 2, 1);
-	await Chapters.create('Population', 'chapitre.jpg', 3, 1);
+	await Chapters.create('Introduction', 0, 1);
+	await Chapters.create('Histoire', 1, 1);
+	await Chapters.create('Paysages', 2, 1);
+	await Chapters.create('Population', 3, 1);
 
 	console.log(`${++i}/${l} chapters !`);
 

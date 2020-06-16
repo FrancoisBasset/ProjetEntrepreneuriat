@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<CourseTree id="courseTree" :chapters="course.chapters" v-on:pageClick="pageClick" v-on:pageRemove="pageRemove" v-on:chapterDelete="chapterDelete" />
+		<CourseTree id="courseTree" :course="course" :chapters="course.chapters" v-on:pageClick="pageClick" v-on:pageRemove="pageRemove" v-on:chapterDelete="chapterDelete" />
 		<CourseElementsPicker id="courseElementsPicker" v-on:typeClick="typeClick" />
 
 		<div v-if="page != null" id="bottomButtons">

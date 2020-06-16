@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 const { DataTypes, Sequelize, Op } = require('sequelize');
+const fs = require('fs');
 
 /**
  * 
@@ -19,9 +20,6 @@ module.exports = function(database) {
 			allowNull: false,
 	
 			type: DataTypes.STRING(100)
-		},
-		image: {
-			type: DataTypes.STRING(1000)
 		},
 		index: {
 			allowNull: false,
@@ -87,10 +85,9 @@ module.exports = function(database) {
 			});
 		},
 
-		create: function(name, image, index, courseId) {
+		create: function(name, index, courseId) {
 			return Chapters.create({
 				name: name,
-				image: image,
 				index: index,
 				courseId: courseId
 			}).then((chapter) => {
@@ -98,10 +95,9 @@ module.exports = function(database) {
 			});
 		},
 
-		update: function(id, name, image, index, courseId) {
+		update: function(id, name, index, courseId) {
 			return Chapters.update({
 				name: name,
-				image: image,
 				index: index,
 				courseId: courseId
 			}, {
@@ -115,6 +111,10 @@ module.exports = function(database) {
 
 		delete: async function(id) {
 			const chapter = await this.getById(id);
+
+			for (const page of chapter.pages) {
+				fs.unlinkSync(`assets/pages/page_${page.id}.json`);
+			}
 
 			await Chapters.destroy({
 				where: {

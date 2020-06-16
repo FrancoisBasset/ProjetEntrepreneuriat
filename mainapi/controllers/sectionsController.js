@@ -83,7 +83,7 @@ async function handleCourses(id, name, image, branchId, authorId, difficulty, ob
 	};
 }
 
-async function handleChapters(id, name, image, index, courseId) {
+async function handleChapters(id, name, index, courseId) {
 	var section, response;
 
 	if (await Courses.getById(courseId) == undefined) {
@@ -94,9 +94,9 @@ async function handleChapters(id, name, image, index, courseId) {
 		response = `Le chapitre ${name} existe déjà`;
 	} else {
 		if (id == undefined) {
-			section = await Chapters.create(name, image.filename, index, courseId);
+			section = await Chapters.create(name, index, courseId);
 		} else {
-			section = await Chapters.update(id, name, image.filename, index);
+			section = await Chapters.update(id, name, index, courseId);
 		}
 	}
 
@@ -178,7 +178,7 @@ module.exports = {
 			({section, response} = await handleCourses(id, name, image, req.body.branchId, req.body.authorId, req.body.difficulty, req.body.objectives, req.body.paying));
 			break;
 		case 'chapters':
-			({section, response} = await handleChapters(id, name, image, req.body.index, req.body.courseId));
+			({section, response} = await handleChapters(id, name, req.body.index, req.body.courseId));
 			break;
 		case 'pages':
 			({section, response} = await handlePages(id, req.body.index, req.body.chapterId, req.body.elements));
