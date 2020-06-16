@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div :class="{ selected: selected }">
 		<div v-on:click="blockUpdate">
 			<label v-if="element.type == 'Texte'">{{ element.data.text }}</label>
 			<img v-if="element.type == 'Image'" :src="element.data.src" height="30px" />
@@ -15,6 +15,7 @@
 export default {
 	name: 'CourseBlock',
 	props: [
+		'selected',
 		'element',
 		'index'
 	],
@@ -31,7 +32,7 @@ export default {
 
 <style scoped>
 	div {
-		background: cadetblue;
+		background: lightsalmon;
 		padding: 5px;
 		margin: 5px;
 		border-radius: 5px;
@@ -48,5 +49,9 @@ export default {
 		color: white;
 		padding: 10px;
 		border-radius: 5px;
+	}
+
+	.selected {
+		border: 8px solid limegreen;
 	}
 </style>

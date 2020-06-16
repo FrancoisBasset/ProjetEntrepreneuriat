@@ -1,7 +1,7 @@
 <template>
 	<div id="elements" v-on:dragover="allowDrop">
 		<div v-for="element of elements" :key="element.index" :id="element.index" v-on:dragstart="drag" v-on:drop="drop">
-			<CourseBlock :id="element.index" draggable="true" :element="element" :index="element.index" />
+			<CourseBlock :id="element.index" draggable="true" :element="element" :index="element.index" :selected="selectedBlock != null && selectedBlock.index == element.index" />
 		</div>
 	</div>
 </template>
@@ -15,6 +15,7 @@ export default {
 		CourseBlock
 	},
 	props: [
+		'selectedBlock',
 		'elements'
 	],
 	methods: {

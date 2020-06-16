@@ -14,7 +14,7 @@
 		
 		<div v-if="mode == 'editor' && page != null" id="board">
 			<FormZone id="formZone" :key="`formZoneKey${formZoneKey}`" :elementType="elementType" :elementToUpdate="elementToUpdate" />
-			<CourseBlocks id="blocks" :key="`elementsKey${elementsKey}`" :elements="page.elements" v-on:blockUpdate="blockUpdate" v-on:blockDelete="blockDelete" v-on:blockDrop="blockDrop" />
+			<CourseBlocks id="blocks" :key="`elementsKey${elementsKey}`" :selectedBlock="elementToUpdate" :elements="page.elements" v-on:blockUpdate="blockUpdate" v-on:blockDelete="blockDelete" v-on:blockDrop="blockDrop" />
 		</div>
 		<div v-if="mode == 'preview'" id="board">
 			<Preview :elements="page.elements" />
