@@ -136,6 +136,32 @@ module.exports = function(database) {
 			}).then(() => {
 				return this.getById(id);
 			});
+		},
+
+		setIndex: function(id, index) {
+			return Chapters.update({
+				index: index
+			}, {
+				where: {
+					id: id
+				}
+			}).then(() => {
+				return this.getById(id);
+			});
+		},
+
+		resetOrder: async function(courseId) {
+			const { Courses } = require('../index');
+
+			return Courses.getById(courseId).then(async course => {
+				var index = 0;
+
+				for (const chapter of course.chapters) {
+					await this.setIndex(chapter.id, index);
+					
+					index++;
+				}
+			});
 		}
 	};
 };

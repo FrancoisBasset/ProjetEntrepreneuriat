@@ -245,6 +245,7 @@ module.exports = {
 				res.status(400).json(json(false, `Le compte n°${account.id} ne peut pas supprimer de chapitre`));
 			} else {
 				section = await Chapters.delete(id);
+				await Chapters.resetOrder(section.course.id);
 				res.status(200).json(json(true, section));
 			}
 			break;

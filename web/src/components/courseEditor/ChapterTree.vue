@@ -5,13 +5,15 @@
 			<label v-else>►</label>
 			<label v-if="!editMode">{{ chapter.name }}</label>
 			<input v-on:click.stop v-else type="text" v-model="chapter.name" />
-			<button v-on:click.stop="setEditMode" style="border: none; outline: none">
-				<img src="../../assets/edit.png" />
-			</button>
+			<img v-on:click.stop="setEditMode" src="../../assets/edit.png" />
 		</div>
 		<div v-show="extended" v-on:dragover="allowDrop" v-on:dragstart="drag" v-on:drop="drop">
 			<PageTree :id="`page${page.index}`" v-for="page of pages" :key="page.id" draggable="true" :page="page" :pageSelected="pageSelected" v-on:pageRemove="pageRemove" />
-			<button id="createPageButton" v-on:click="createPage">+</button>
+			<button id="createPageButton" v-on:click="createPage">+</button><br>
+			<button id="deleteChapterButton" v-on:click="deleteChapter">
+				<label>Supprimer</label><br>
+				<label>le chapitre</label>
+			</button>
 		</div>
 	</div>
 </template>
@@ -100,8 +102,6 @@ export default {
 		createPage: function() {
 			const index = this.pages.length;
 			const chapterId = this.chapter.id;
-
-			console.log(index + '_' + chapterId);
 			
 			fetch('http://localhost/sections/pages', {
 				method: 'POST',
@@ -130,13 +130,7 @@ export default {
 				json = await response.json();
 				
 				this.pages.push(json.response);
-
-				console.log(json.response.index);
-				
 			}
-
-			//console.log(this.pages);
-			
 		},
 		setEditMode: function() {
 			this.editMode = !this.editMode;
@@ -156,6 +150,13 @@ export default {
 					index: this.chapter.index
 				})
 			});
+		},
+		deleteChapter: function() {
+			fetch(`http://localhost/sections/chapters/${this.chapter.id}`, {
+				method: 'DELETE'
+			}).then(() => {
+				this.$parent.$emit('chapterDelete', this.chapter);
+			});
 		}
 	}
 }
@@ -170,5 +171,19 @@ export default {
 		margin: 3px;
 		padding-left: 40px;
 		padding-right: 40px;
+	}
+
+	.chapterSelected {
+		background-color: mediumseagreen;
+	}
+
+	#deleteChapterButton {
+		font-size: 16px;
+		color: white;
+		background-color: red;
+		border: none;
+
+		margin: 3px;
+		padding: 10px;
 	}
 </style>

@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<CourseTree id="courseTree" :chapters="course.chapters" v-on:pageClick="pageClick" v-on:pageRemove="pageRemove" />
+		<CourseTree id="courseTree" :chapters="course.chapters" v-on:pageClick="pageClick" v-on:pageRemove="pageRemove" v-on:chapterDelete="chapterDelete" />
 		<CourseElementsPicker id="courseElementsPicker" v-on:typeClick="typeClick" />
 
 		<div v-if="page != null" id="bottomButtons">
@@ -44,6 +44,7 @@ export default {
 			account: {},
 			course: {},
 
+			chapterSelected: null,
 			page: null,
 
 			mode: 'editor',
@@ -86,7 +87,6 @@ export default {
 			fetch(`http://localhost/sections/pages/${e.id}`).then(response => {
 				response.json().then(json => {
 					this.page.elements = json.response.elements;
-					console.log(this.page.elements);
 				});
 			});			
 		},
@@ -139,6 +139,13 @@ export default {
 			}
 
 			this.elementsKey++;
+		},
+		chapterDelete: async function(e) {
+			this.course = await getCourse(this.$route.query.courseId);
+			
+			if (this.page != null && this.page.chapter.id == e.id) {
+				this.page = null;
+			}
 		}
 	}
 }
