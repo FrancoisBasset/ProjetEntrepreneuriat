@@ -44,7 +44,6 @@ export default {
 			account: {},
 			course: {},
 
-			chapterSelected: null,
 			page: null,
 
 			mode: 'editor',
