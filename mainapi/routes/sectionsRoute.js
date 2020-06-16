@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { SectionsController, CoursesController } = require('../controllers');
+const { SectionsController, CoursesController, ChaptersController } = require('../controllers');
 
 const router = express.Router();
 router.use(bodyParser.json({ limit: '50mb' }));
@@ -25,6 +25,6 @@ router.delete('/courses/:id/favorite', mConnect, CoursesController.deleteFavorit
 router.post('/courses/:id/start', mConnect, CoursesController.start);
 router.post('/courses/:id/start/:chapterId', mConnect, CoursesController.start);
 
-
+router.put('/chapters/:id/quickedit', mConnect, ChaptersController.quickedit);
 
 module.exports = router;

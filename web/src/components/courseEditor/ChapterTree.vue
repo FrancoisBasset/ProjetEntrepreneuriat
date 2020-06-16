@@ -1,9 +1,13 @@
 <template>
 	<div>
-		<div id="header" v-on:click="extended = !extended">
+		<div id="header" v-on:click.exact="extended = !extended">
 			<label v-if="extended">▼</label>
 			<label v-else>►</label>
-			<label>{{ chapter.name }}</label>
+			<label v-if="!editMode">{{ chapter.name }}</label>
+			<input v-on:click.stop v-else type="text" v-model="chapter.name" />
+			<button v-on:click.stop="setEditMode" style="border: none; outline: none">
+				<img src="../../assets/edit.png" />
+			</button>
 		</div>
 		<div v-show="extended" v-on:dragover="allowDrop" v-on:dragstart="drag" v-on:drop="drop">
 			<PageTree :id="`page${page.index}`" v-for="page of pages" :key="page.id" draggable="true" :page="page" :pageSelected="pageSelected" v-on:pageRemove="pageRemove" />
@@ -27,7 +31,8 @@ export default {
 	data: function() {
 		return {
 			extended: false,
-			pages: []
+			pages: [],
+			editMode: false
 		};
 	},
 	created: async function() {
@@ -132,6 +137,25 @@ export default {
 
 			//console.log(this.pages);
 			
+		},
+		setEditMode: function() {
+			this.editMode = !this.editMode;
+
+			if (!this.editMode) {
+				this.saveChapter();
+			}
+		},
+		saveChapter: function(e) {
+			fetch(`http://localhost/sections/chapters/${this.chapter.id}/quickedit`, {
+				method: 'PUT',
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					name: this.chapter.name,
+					index: this.chapter.index
+				})
+			});
 		}
 	}
 }

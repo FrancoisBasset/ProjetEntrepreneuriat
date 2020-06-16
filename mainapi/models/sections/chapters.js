@@ -17,7 +17,6 @@ module.exports = function(database) {
 		},
 		name: {
 			allowNull: false,
-			unique: true,
 	
 			type: DataTypes.STRING(100)
 		},
@@ -124,6 +123,19 @@ module.exports = function(database) {
 			});
 
 			return chapter;
+		},
+
+		quickedit: async function(id, name, index) {
+			return Chapters.update({
+				name: name,
+				index: index
+			}, {
+				where: {
+					id: id
+				}
+			}).then(() => {
+				return this.getById(id);
+			});
 		}
 	};
 };
