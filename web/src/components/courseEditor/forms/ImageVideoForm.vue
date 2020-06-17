@@ -4,7 +4,7 @@
 			<div>
 				<img v-if="type == 'Image'" :src="elementToUpdate.data.src" height="150" />
 
-				<video controls v-if="type == 'Vidéo'" height="150">
+				<video controls autoplay muted v-if="type == 'Vidéo'" height="150">
 					<source :src="elementToUpdate.data.src" />
 				</video>
 			</div>

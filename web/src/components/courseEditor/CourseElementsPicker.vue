@@ -37,6 +37,16 @@ export default {
 						}
 					});
 					break;
+				case 'Vidéo':
+					this.$emit('typeClick', {
+						type: 'Vidéo',
+						data: {
+							src: null,
+							width: null,
+							height: null
+						}
+					});
+					break;
 			}
 		}
 	}
