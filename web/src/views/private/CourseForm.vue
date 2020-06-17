@@ -68,7 +68,7 @@
 
 					<div>
 						<label>{{ newCourse.difficulty }}</label><br>
-						<input type="range" v-model="newCourse.difficulty" min="0" max="5" />
+						<input type="range" v-model="newCourse.difficulty" min="1" max="5" />
 					</div>
 				</div>
 
@@ -171,7 +171,7 @@ export default {
 				name: '',
 				image: null,
 				branch: null,
-				difficulty: 0,
+				difficulty: 1,
 				objectives: [''],
 				paying: false,
 
