@@ -178,7 +178,7 @@ export default {
 				nameOk: false
 			},
 
-			oldCourse: null,
+			oldCourse: {},
 			
 			modalVisible: false,
 			modalReason: null,
