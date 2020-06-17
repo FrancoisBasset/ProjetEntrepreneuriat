@@ -1,8 +1,13 @@
 <template>
-	<div>
+	<div >
 		<label>Chapitres</label>
 		<button id="plusButton" v-on:click="modalVisible = true">+</button>
-		<ChapterTree class="chapterTree" v-for="chapter of course.chapters" :key="chapter.id" :chapter="chapter" v-on:pageClick="pageClick" :pageSelected="pageSelected" />
+
+		<div v-on:dragover="allowDrop" v-on:dragstart="drag" v-on:drop="drop">
+			<ChapterTree class="chapterTree" v-for="chapter of course.chapters" :key="chapter.id"
+				:chapter="chapter" v-on:pageClick="pageClick" :pageSelected="pageSelected"
+				:id="chapter.index" draggable="true" />
+		</div>
 
 		<Modal v-show="modalVisible" v-on:modalClose="modalVisible = false">
 			<div slot="content" id="content">
@@ -59,6 +64,38 @@ export default {
 			this.modalVisible = false;
 			this.newChapterName = '';
 			this.chapters.push(json.response);
+		},
+		allowDrop: function(e) {
+			e.preventDefault();
+		},
+		drag: function(e) {
+			e.dataTransfer.setData('from', e.target.id);
+		},
+		drop: async function(e) {
+			const from = e.dataTransfer.getData('from');
+			const to = e.target.parentElement.parentElement.id;
+			
+			const chapterToMove = this.chapters[from];
+
+			this.chapters.splice(from, 1);
+			this.chapters.splice(to, 0, chapterToMove);
+
+			for (var i = 0; i < this.chapters.length; i++) {
+				this.chapters[i].index = i;
+			}
+
+			for (const chapter of this.chapters) {
+				await fetch(`http://localhost/sections/chapters/${chapter.id}/quickedit`, {
+					method: 'PUT',
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						name: chapter.name,
+						index: chapter.index
+					})
+				});
+			}
 		}
 	}
 }

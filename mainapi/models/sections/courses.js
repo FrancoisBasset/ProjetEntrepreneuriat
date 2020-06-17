@@ -49,6 +49,8 @@ module.exports = function(database) {
 		},
 
 		getById: function(id) {
+			const { Chapters } = require('../index');
+
 			return Courses.findOne({
 				include: ['branch', 'author', 'chapters'],
 				attributes: {
@@ -56,7 +58,10 @@ module.exports = function(database) {
 				},
 				where: {
 					id: id
-				}
+				},
+				order: [
+					[Chapters.Chapters, 'index']
+				]
 			});
 		},
 
