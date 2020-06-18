@@ -17,7 +17,7 @@
 			<CourseBlocks id="blocks" :key="`elementsKey${elementsKey}`" :selectedBlock="elementToUpdate" :elements="page.elements" v-on:blockUpdate="blockUpdate" v-on:blockDelete="blockDelete" v-on:blockDrop="blockDrop" />
 		</div>
 		<div v-if="mode == 'preview'" id="board">
-			<Preview :elements="page.elements" />
+			<Preview id="preview" :elements="page.elements" />
 		</div>
 	</div>
 </template>
@@ -173,12 +173,13 @@ export default {
 
 	#formZone {
 		border: 1px solid;
-		height: 25%;
+		height: 35%;
+		overflow: scroll;
 	}
 
 	#blocks {
 		border: 1px solid;
-		height: 60%;
+		height: 50%;
 		overflow: scroll;
 	}
 
@@ -200,6 +201,7 @@ export default {
 	}
 
 	#preview {
-		height: 50%;
+		height: 90%;
+		overflow: scroll;
 	}
 </style>
