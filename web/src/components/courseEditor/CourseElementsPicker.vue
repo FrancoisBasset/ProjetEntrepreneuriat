@@ -3,7 +3,7 @@
 		<div class="picker" id="Texte" v-on:click="typeClick">Texte</div>
 		<div class="picker" id="Image" v-on:click="typeClick">Image</div>
 		<div class="picker" id="Vidéo" v-on:click="typeClick">Vidéo</div>
-		<div class="picker" id="fiddle">Fiddle</div>
+		<div class="picker" id="Fiddle" v-on:click="typeClick">Fiddle</div>
 		<div class="picker" id="PDF" v-on:click="typeClick">PDF</div>
 		<div class="picker" id="docx">DOCX</div>
 		<div class="picker" id="odt">ODT</div>
@@ -44,6 +44,15 @@ export default {
 							src: null,
 							width: null,
 							height: null
+						}
+					});
+					break;
+				case 'Fiddle':
+					this.$emit('typeClick', {
+						type: 'Fiddle',
+						data: {
+							language: 'javascript',
+							code: ''
 						}
 					});
 					break;
