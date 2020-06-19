@@ -6,6 +6,9 @@
 			<video autoplay muted v-if="element.type == 'Vidéo' && element.data.src != null" height="30px">
 				<source :src="element.data.src" />
 			</video>
+			<label v-if="element.type == 'Fiddle'">Fiddle {{ element.data.language }}</label>
+			<label v-if="element.type == 'PDF'">PDF : {{ element.data.filename }}</label>
+			<label v-if="element.type == 'DOCX'">DOCX : {{ element.data.filename }}</label>
 			<button v-on:click.stop="blockDelete">Supprimer</button>
 		</div>
 	</div>

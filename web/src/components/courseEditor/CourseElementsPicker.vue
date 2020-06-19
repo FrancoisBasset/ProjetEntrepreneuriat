@@ -5,7 +5,7 @@
 		<div class="picker" id="Vidéo" v-on:click="typeClick">Vidéo</div>
 		<div class="picker" id="Fiddle" v-on:click="typeClick">Fiddle</div>
 		<div class="picker" id="PDF" v-on:click="typeClick">PDF</div>
-		<div class="picker" id="docx">DOCX</div>
+		<div class="picker" id="DOCX" v-on:click="typeClick">DOCX</div>
 		<div class="picker" id="odt">ODT</div>
 		<div class="picker" id="table">Tableau</div>
 		<div class="picker" id="audio">Audio</div>
@@ -60,11 +60,21 @@ export default {
 					this.$emit('typeClick', {
 						type: 'PDF',
 						data: {
+							filename: null,
 							file: null,
 							from: null,
 							to: null,
 							allPagesCount: null,
 							pagesRange: null
+						}
+					});
+					break;
+				case 'DOCX':
+					this.$emit('typeClick', {
+						type: 'DOCX',
+						data: {
+							filename: null,
+							base64: null
 						}
 					});
 					break;

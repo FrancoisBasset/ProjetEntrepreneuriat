@@ -16,6 +16,9 @@
 			<div v-if="element.type == 'Fiddle'">
 				<Fiddle :language="element.data.language" :code="element.data.code" />
 			</div>
+			<div v-if="element.type == 'DOCX' && element.data.base64 != null">
+				<DOCX :base64="element.data.base64" />
+			</div>
 		</div>
 	</div>
 </template>
@@ -23,12 +26,14 @@
 <script>
 import pdf from 'vue-pdf';
 import Fiddle from '@/components/courseEditor/Fiddle.vue';
+import DOCX from '@/components/courseEditor/DOCX.vue';
 
 export default {
 	name: 'Preview',
 	components: {
 		pdf,
-		Fiddle
+		Fiddle,
+		DOCX
 	},
 	props: [
 		'elements'

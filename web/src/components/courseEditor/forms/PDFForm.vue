@@ -32,6 +32,8 @@ export default {
 	methods: {
 		loadPdf: function(e) {
 			const file = e.target.files[0];
+			this.elementToUpdate.data.filename = file.name;
+
 			const reader = new FileReader();
 
 			reader.onload = e => {
