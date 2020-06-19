@@ -9,6 +9,7 @@
 			<label v-if="element.type == 'Fiddle'">Fiddle {{ element.data.language }}</label>
 			<label v-if="element.type == 'PDF'">PDF : {{ element.data.filename }}</label>
 			<label v-if="element.type == 'DOCX'">DOCX : {{ element.data.filename }}</label>
+			<label v-if="element.type == 'Tableau'">Tableau</label>
 			<button v-on:click.stop="blockDelete">Supprimer</button>
 		</div>
 	</div>

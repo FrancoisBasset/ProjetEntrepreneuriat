@@ -19,6 +19,9 @@
 			<div v-if="element.type == 'DOCX' && element.data.base64 != null">
 				<DOCX :base64="element.data.base64" />
 			</div>
+			<div v-if="element.type == 'Tableau'">
+				<Tableau :array="element.data.array" />
+			</div>
 		</div>
 	</div>
 </template>
@@ -27,13 +30,15 @@
 import pdf from 'vue-pdf';
 import Fiddle from '@/components/courseEditor/Fiddle.vue';
 import DOCX from '@/components/courseEditor/DOCX.vue';
+import Tableau from '@/components/courseEditor/Tableau.vue';
 
 export default {
 	name: 'Preview',
 	components: {
 		pdf,
 		Fiddle,
-		DOCX
+		DOCX,
+		Tableau
 	},
 	props: [
 		'elements'
