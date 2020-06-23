@@ -16,8 +16,22 @@ async function getCourse(id) {
 	return json.response;
 }
 
+async function getChapter(id) {
+	const response = await fetch(`http://localhost/sections/chapters/${id}`);
+	const json = await response.json();
+	return json.response;
+}
+
+async function getPage(id) {
+	const response = await fetch(`http://localhost/sections/pages/${id}`);
+	const json = await response.json();
+	return json.response;
+}
+
 export {
 	getAccount,
 	getDomains,
-	getCourse
+	getCourse,
+	getChapter,
+	getPage
 };

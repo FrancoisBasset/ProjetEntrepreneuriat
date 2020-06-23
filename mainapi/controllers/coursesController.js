@@ -1,9 +1,10 @@
-const { Courses, Chapters, ClientsCourses } = require('../models');
+const { Accounts, Courses, Chapters, ClientsCourses } = require('../models');
 const { json } = require('./utils');
 
 async function handleFavorite(req, res, favorite) {
 	const { id } = req.params;
-	var account = req.session.account;
+	var accountId = require('../session').accountId;
+	var account = await Accounts.getById(accountId);
 
 	if (await Courses.getById(id) == undefined) {
 		res.status(400).json(json(false, `Le cours n°${id} n'existe pas`));
@@ -26,7 +27,8 @@ module.exports = {
 
 	start: async function(req, res) {
 		const { id, chapterId } = req.params;
-		var account = req.session.account;
+		var accountId = require('../session').accountId;
+		var account = await Accounts.getById(accountId);
 
 		if (await Courses.getById(id) == undefined) {
 			res.status(400).json(json(false, `Le cours n°${id} n'existe pas`));

@@ -2,7 +2,7 @@
 	<div id="homebar">
 		<label>{{ account.firstName }} {{ account.lastName }}</label>
 		
-		<router-link id="link" to="/home">
+		<router-link id="link" :to="{ name: 'clientHome' }">
 			<Logo />
 		</router-link>
 	</div>

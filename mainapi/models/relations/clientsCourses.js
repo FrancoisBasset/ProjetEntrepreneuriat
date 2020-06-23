@@ -16,9 +16,13 @@ module.exports = function(database) {
 			type: DataTypes.INTEGER
 		},
 		favorite: {
+			defaultValue: false,
+
 			type: DataTypes.BOOLEAN
 		},
 		started: {
+			defaultValue: false,
+
 			type: DataTypes.BOOLEAN
 		}
 	});
