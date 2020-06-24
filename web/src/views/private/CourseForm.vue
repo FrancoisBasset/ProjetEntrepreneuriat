@@ -1,6 +1,6 @@
 <template>
 	<div id="root">
-		<HomeBar :account="account" />
+		<HomeBar />
 
 		<Previous to="/home" />
 

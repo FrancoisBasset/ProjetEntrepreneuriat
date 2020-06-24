@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<HomeBar :account="account" />
+		<HomeBar />
 
 		<label>Créer</label>
 		<router-link to="/courseForm">

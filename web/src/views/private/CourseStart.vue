@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<HomeBar :account="account" />
+		<HomeBar />
 
 		<h1>{{ course.name }}</h1>
 		<br>

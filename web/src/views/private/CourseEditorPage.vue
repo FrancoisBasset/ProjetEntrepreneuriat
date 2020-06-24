@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div id="homeBar">
-			<HomeBar :account="account" />
+			<HomeBar />
 		</div>
 		<CourseEditor id="editor" />
 	</div>

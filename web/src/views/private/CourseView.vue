@@ -1,5 +1,7 @@
 <template>
 	<div>
+		<HomeBar />
+
 		<h1>{{ this.course.name }}</h1>
 		<h3>{{ this.chapter.name }}</h3>
 
@@ -13,16 +15,19 @@
 </template>
 
 <script>
+import HomeBar from '@/components/utils/HomeBar.vue';
 import PageView from '@/components/PageView.vue';
-import { getCourse, getChapter, getPage } from '@/utils/promises';
+import { getAccount, getCourse, getChapter, getPage } from '@/utils/promises';
 
 export default {
 	name: 'CourseView',
 	components: {
+		HomeBar,
 		PageView
 	},
 	data: function() {
 		return {
+			account: {},
 			course: {},
 			chapter: {},
 			page: {},
@@ -32,6 +37,7 @@ export default {
 		};
 	},
 	created: async function() {
+		this.account = await getAccount();
 		const courseId = this.$route.params.course.id;
 		this.course = await getCourse(courseId);
 

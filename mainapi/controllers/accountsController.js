@@ -42,9 +42,11 @@ module.exports = {
 		}
 	},
 
-	/*disconnect: function(req, res) {
-		req.session.account = null;
-	}*/
+	disconnect: function(req, res) {
+		session.accountId = null;
+
+		res.status(200).json(json(true, 'Disconnected'));
+	}
 
 	/*,
 

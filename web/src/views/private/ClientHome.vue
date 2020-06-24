@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<HomeBar :account="account" />
+		<HomeBar />
 
 		<MyCourses :account="account" :courses="account.courses" />
 	</div>
