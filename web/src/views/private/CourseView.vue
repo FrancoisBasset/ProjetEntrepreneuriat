@@ -50,6 +50,11 @@ export default {
 		if (this.course.chapters.length > 0) {
 			const chapterId = this.course.chapters[0].id;
 			this.chapter = await getChapter(chapterId);
+
+			const clientsCourses = await getClientsCourses(this.course.id);
+			if (clientsCourses.chapterId) {
+				this.chapter = await getChapter(clientsCourses.chapterId);
+			}			
 			
 			if (this.chapter.pages.length > 0) {
 				this.page = this.chapter.pages[0];
