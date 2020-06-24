@@ -6,18 +6,21 @@
 		<h3>{{ this.chapter.name }}</h3>
 
 		<button v-on:click="goToPrevious">Page précédente</button>
-		<button v-on:click="goToNext">Page suivante</button>
+
+		<button v-if="atTheEnd" v-on:click="finishCourse">Retour au menu</button>
+		<button v-else v-on:click="goToNext">Page suivante</button>
 
 		<PageView v-if="page != null" :elements="page.elements" />
 
-		<button v-on:click="goToNext">Page suivante</button>
+		<button v-if="atTheEnd" v-on:click="finishCourse">Retour au menu</button>
+		<button v-else v-on:click="goToNext">Page suivante</button>
 	</div>
 </template>
 
 <script>
 import HomeBar from '@/components/utils/HomeBar.vue';
 import PageView from '@/components/PageView.vue';
-import { getAccount, getCourse, getChapter, getPage } from '@/utils/promises';
+import { getAccount, getCourse, getChapter, getPage, getClientsCourses } from '@/utils/promises';
 
 export default {
 	name: 'CourseView',
@@ -32,13 +35,16 @@ export default {
 			chapter: {},
 			page: {},
 
-			previousType: null,
-			nextType: null
+			courseAccount: {},
+
+			atTheEnd: false
 		};
 	},
 	created: async function() {
 		this.account = await getAccount();
-		const courseId = this.$route.params.course.id;
+		this.courseAccount = this.$route.params.course;
+
+		const courseId = this.courseAccount.id;
 		this.course = await getCourse(courseId);
 
 		if (this.course.chapters.length > 0) {
@@ -69,11 +75,30 @@ export default {
 				this.page = this.chapter.pages[this.page.index - 1];
 				this.page = await getPage(this.page.id);
 			}
+
+			this.atTheEnd = false;
 		},
 		goToNext: async function() {
 			if (this.page.index == this.chapter.pages.length - 1 && this.chapter.index < this.course.chapters.length - 1) {
 				this.chapter = this.course.chapters[this.chapter.index + 1];
 				this.chapter = await getChapter(this.chapter.id);
+
+				//
+				var clientsCourses = await getClientsCourses(this.course.id);
+
+				if (clientsCourses.chapterId == null) {
+					await fetch(`http://localhost/sections/courses/${this.course.id}/start/${this.chapter.id}`, {
+						method: 'POST'
+					});
+				} else {
+					var chapter_index = await getChapter(clientsCourses.chapterId);
+					
+					if (chapter_index.index < this.chapter.index) {
+						await fetch(`http://localhost/sections/courses/${this.course.id}/start/${this.chapter.id}`, {
+							method: 'POST'
+						});
+					}
+				}
 
 				if (this.chapter.pages.length > 0) {
 					this.page = this.chapter.pages[0];
@@ -85,6 +110,25 @@ export default {
 				this.page = this.chapter.pages[this.page.index + 1];
 				this.page = await getPage(this.page.id);
 			}
+
+			if (this.chapter.index == this.course.chapters.length - 1 && this.page.index == this.chapter.pages.length - 1) {
+				this.atTheEnd = true;
+			} else {
+				this.atTheEnd = false;
+			}
+		},
+		finishCourse: async function() {
+			const account = this.account;
+			const course = this.courseAccount;
+
+			this.$router.push({
+				name: 'courseStart',
+				params: {
+					account,
+					course
+				},
+				props: true
+			})
 		}
 	}
 }

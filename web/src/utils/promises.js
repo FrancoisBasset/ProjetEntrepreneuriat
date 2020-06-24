@@ -28,10 +28,23 @@ async function getPage(id) {
 	return json.response;
 }
 
+async function getClientsCourses(id) {
+	const account = await getAccount();
+
+	for (const course of account.courses) {
+		if (course.id == id) {
+			return course.clients_courses;
+		}
+	}
+
+	return null;
+}
+
 export {
 	getAccount,
 	getDomains,
 	getCourse,
 	getChapter,
-	getPage
+	getPage,
+	getClientsCourses
 };
