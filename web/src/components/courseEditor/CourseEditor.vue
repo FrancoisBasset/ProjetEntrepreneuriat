@@ -17,7 +17,7 @@
 			<CourseBlocks id="blocks" :key="`elementsKey${elementsKey}`" :selectedBlock="elementToUpdate" :elements="page.elements" v-on:blockUpdate="blockUpdate" v-on:blockDelete="blockDelete" v-on:blockDrop="blockDrop" />
 		</div>
 		<div v-if="mode == 'preview'" id="board">
-			<Preview id="preview" :elements="page.elements" />
+			<PageView id="preview" :elements="page.elements" />
 		</div>
 	</div>
 </template>
@@ -28,7 +28,7 @@ import CourseTree from '@/components/courseEditor/CourseTree.vue';
 import CourseElementsPicker from '@/components/courseEditor/CourseElementsPicker.vue';
 import FormZone from '@/components/courseEditor/FormZone.vue';
 import CourseBlocks from '@/components/courseEditor/CourseBlocks.vue';
-import Preview from '@/components/courseEditor/Preview.vue';
+import PageView from '@/components/PageView.vue';
 
 export default {
 	name: 'CourseEditor',
@@ -37,7 +37,7 @@ export default {
 		CourseElementsPicker,
 		FormZone,
 		CourseBlocks,
-		Preview
+		PageView
 	},
 	data: function() {
 		return {

@@ -33,7 +33,7 @@ import DOCX from '@/components/courseEditor/DOCX.vue';
 import Tableau from '@/components/courseEditor/Tableau.vue';
 
 export default {
-	name: 'Preview',
+	name: 'PageView',
 	components: {
 		pdf,
 		Fiddle,

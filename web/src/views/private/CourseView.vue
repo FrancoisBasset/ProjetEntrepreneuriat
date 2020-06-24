@@ -6,20 +6,20 @@
 		<button v-on:click="goToPrevious">Page précédente</button>
 		<button v-on:click="goToNext">Page suivante</button>
 
-		<Preview v-if="page != null" :elements="page.elements" />
+		<PageView v-if="page != null" :elements="page.elements" />
 
 		<button v-on:click="goToNext">Page suivante</button>
 	</div>
 </template>
 
 <script>
-import Preview from '@/components/courseEditor/Preview.vue';
+import PageView from '@/components/PageView.vue';
 import { getCourse, getChapter, getPage } from '@/utils/promises';
 
 export default {
 	name: 'CourseView',
 	components: {
-		Preview
+		PageView
 	},
 	data: function() {
 		return {
