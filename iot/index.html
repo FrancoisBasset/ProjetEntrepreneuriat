@@ -1,0 +1,9 @@
+<button id="ble">OK OK OK OK</button>
+
+<script>
+	document.getElementById('ble').addEventListener('click', function() {
+		navigator.bluetooth.requestDevice({
+			acceptAllDevices: true
+		});
+	});
+</script>
