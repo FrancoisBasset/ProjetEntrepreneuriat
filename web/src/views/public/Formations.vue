@@ -7,8 +7,7 @@
 		<p>Cette plateforme fournit des formations sur les domaines suivants : Histoire, Géographie, Informatique et bien d'autres !</p>
 		<p>Les formations sont découpées en domaines puis en branches, en cours et enfin en chapitres</p>
 
-		<div>
-			
+		<div id="sections">
 			<Sections />
 		</div>
 	</div>
@@ -28,11 +27,12 @@ export default {
 </script>
 
 <style scoped>
-	div {
+	p {
+		font-size: 20px;
 		text-align: center;
 	}
 
-	p {
-		font-size: 20px;
+	#sections {
+		text-align: center;
 	}
 </style>

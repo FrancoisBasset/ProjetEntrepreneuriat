@@ -1,88 +1,72 @@
 <template>
-	<div v-if="branch">
-		<Domain
-			class="domain"
-			
-			v-for="course in courses"
-			:key="course.id"
-			:name="course.name"
-			:image="course.image" />
-	</div>
-	<div v-else-if="domain">
-		<Domain
-			class="domain"
-			v-on:click.native="selectBranch(branch)"
-			v-for="branch in branches"
-			:key="branch.id"
-			:name="branch.name"
-			:image="branch.image" />
-	</div>
-	<div v-else>
-		<Domain
-			class="domain"
-			v-on:click.native="selectDomain(domain)"
-			v-for="domain in domains"
-			:key="domain.id"
-			:name="domain.name"
-			:image="domain.image" />
+	<div>
+		<button v-if="returnTo != null" v-on:click="returnToParent">Retour aux {{ returnTo }}</button>
+		<Section v-on:click.native="select(child)" v-for="child of children" :key="child.id" :name="child.name" :image="child.image" />
+		<label v-if="course != null">{{ course }}</label>
 	</div>
 </template>
 
 <script>
-import Domain from '@/components/Domain.vue';
+import { getDomains, getDomain, getBranch } from '@/utils/promises';
+import Section from '@/components/Section.vue';
 
 export default {
 	name: 'Sections',
 	components: {
-		Domain
+		Section
 	},
 	data: function() {
 		return {
-			domains: null,
-			domain: null,
-			branches: null,
-			branch: null,
-			courses: null
+			parent: null,
+			children: null,
+			course: null,
+
+			returnTo: null
 		};
 	},
-	created: function() {
+	created: async function() {
 		if (this.$route.params.domain != undefined) {
-			this.domain = this.$route.params.domain;
-			this.selectDomain(this.domain)
+			this.parent = await getDomain(this.$route.params.domain.id);
 		}
 
-		this.setDomains();
+		this.setChildren();
 	},
 	methods: {
-		setDomains: function() {
-			fetch('http://localhost/sections/domains').then(response => {
-				response.json().then(json => {
-					this.domains = json.response;
-				});
-			});
-		},
-		selectDomain: async function(domain) {
-			this.domain = domain;
-
-			this.branches = [];
-
-			for (const branch of this.domain.branches) {
-				const response = await fetch(`http://localhost/sections/branches/${branch.id}`);
-				const json = await response.json();
-
-				this.branches.push(json.response);
+		setChildren: async function() {
+			if (this.parent == null) {
+				this.children = await getDomains();
+			} else {
+				this.children = this.parent.branches;
+				this.returnTo = 'domaines';
 			}
 		},
-		selectBranch: async function(branch) {
-			this.branch = branch;
+		select: async function(section) {
+			if (section.branches != undefined) {
+				this.parent = section;
+				this.children = this.parent.branches;
 
-			this.courses = [];
+				this.returnTo = 'domaines';
+			} else if (section.domainId != undefined) {
+				this.parent = section;
+				this.parent = await getBranch(this.parent.id);
+				this.children = this.parent.courses;
 
-			for (const course of this.branch.courses) {
-				const response = await fetch(`http://localhost/sections/courses/${course.id}`);
-				const json = await response.json();
-				
-				this.courses.push(json.response);				
+				this.returnTo = 'branches';
+			} else if (section.branchId != undefined) {
+				this.course = section;
+			}
+		},
+		returnToParent: async function() {
+			switch (this.returnTo) {
+				case 'domaines':
+					this.parent == null;
+					this.children = await getDomains();
+					this.returnTo = null;
+					break;
+				case 'branches':
+					this.parent = await getDomain(this.parent.id);
+					this.children = this.parent.branches;
+					break;
 			}
 		}
 	}
@@ -92,6 +76,5 @@ export default {
 <style scoped>
 	div {
 		display: inline-block;
-		background-color: darkslategrey;
 	}
 </style>

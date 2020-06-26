@@ -4,7 +4,7 @@
 		
 		<div v-if="count > 0">
 			<div id="domainsDiv">
-				<Domain
+				<Section
 					v-on:click.native="showDomain(domain)"
 					v-for="domain in domains"
 					:key="domain.id"
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import Domain from '@/components/Domain.vue';
+import Section from '@/components/Section.vue';
 
 export default {
 	name: 'Domains',
@@ -34,7 +34,7 @@ export default {
 		}
 	},
 	components: {
-		Domain
+		Section
 	},
 	created: function() {
 		this.setDomains();

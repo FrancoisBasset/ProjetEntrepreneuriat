@@ -10,6 +10,18 @@ async function getDomains() {
 	return json.response;
 }
 
+async function getDomain(id) {
+	const response = await fetch(`http://localhost/sections/domains/${id}`);
+	const json = await response.json();
+	return json.response;
+}
+
+async function getBranch(id) {
+	const response = await fetch(`http://localhost/sections/branches/${id}`);
+	const json = await response.json();
+	return json.response;
+}
+
 async function getCourse(id) {
 	const response = await fetch(`http://localhost/sections/courses/${id}`);
 	const json = await response.json();
@@ -43,6 +55,8 @@ async function getClientsCourses(id) {
 export {
 	getAccount,
 	getDomains,
+	getDomain,
+	getBranch,
 	getCourse,
 	getChapter,
 	getPage,
