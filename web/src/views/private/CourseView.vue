@@ -61,6 +61,8 @@ export default {
 				this.page = await getPage(this.page.id);
 			}
 		}
+
+		this.$store.joystickCharacteristic.oncharacteristicvaluechanged = this.oncharacteristicvaluechanged;
 	},
 	methods: {
 		goToPrevious: async function() {
@@ -134,6 +136,28 @@ export default {
 				},
 				props: true
 			})
+		},
+		oncharacteristicvaluechanged: function(e) {
+			const dataview = this.$store.joystickCharacteristic.value;
+			
+			const decoder = new TextDecoder();
+
+			const action = decoder.decode(dataview);
+
+			switch (action) {
+				case 'LEFT':
+					this.goToPrevious();
+					break;
+				case 'RIGHT':
+					this.goToNext();
+					break;
+				case 'UP':
+					scroll(scrollX, scrollY - 10);
+					break;
+				case 'DOWN':
+					scroll(scrollX, scrollY + 10);
+					break;
+			}
 		}
 	}
 }

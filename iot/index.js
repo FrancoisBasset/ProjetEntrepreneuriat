@@ -1,9 +1,9 @@
 const bleno = require('bleno');
 
 const RemoteService = require('./RemoteService');
-const ButtonCharacteristic = require('./ButtonCharacteristic');
+const JoystickCharacteristic = require('./JoystickCharacteristic');
 
-RemoteService.characteristics = [ButtonCharacteristic];
+RemoteService.characteristics = [JoystickCharacteristic];
 
 bleno.setServices([RemoteService]);
 

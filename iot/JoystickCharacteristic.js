@@ -6,21 +6,34 @@ const rl = readline.createInterface(process.stdin, process.stdout);
 const Characteristic = bleno.Characteristic;
 
 var subscribed = false;
-const buttons = [
-	'LEFT',	'RIGHT', 'UP', 'DOWN',
-	'CLICK',
-	'A', 'B', 'C', 'D'
-];
+const actions = {
+	'4': 'LEFT',
+	'6': 'RIGHT',
+	'8': 'UP',
+	'2': 'DOWN',
+	'5': 'CLICK'
+};
 
-function readButton(callback) {
+function readAction(callback) {
 	if (!subscribed) {
 		return;
 	}
 
-	rl.question('Which button : ', function(button) {
-		callback(Buffer.from(buttons[button]));
+	rl.question('Which action : ', function(action) {
+		var message = actions[action];
 
-		readButton(callback);
+		if (message == null) {
+			message = 'UNKNOWN';
+		}
+
+		if (message == 'UP' || message == 'DOWN') {
+			for (var i = 0; i < 50; i++) {
+				callback(Buffer.from(message))
+			}
+		}
+		callback(Buffer.from(message));
+
+		readAction(callback);
 	});
 }
 
@@ -30,12 +43,12 @@ module.exports = new Characteristic({
 	descriptors: [
 		new bleno.Descriptor({
 			uuid: '2901',
-			value: 'ButtonCharacteristic'
+			value: 'JoystickCharacteristic'
 		})
 	],
 	onSubscribe: function(size, callback) {
 		subscribed = true;
-		readButton(callback);
+		readAction(callback);
 	},
 	onUnsubscribe: function() {
 		subscribed = false;

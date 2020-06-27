@@ -63,11 +63,13 @@ export default {
 
 			const course = this.course;
 
-			this.$router.push({
-				name: 'courseView',
-				params: {
-					course
-				}
+			this.prepareBLE().then(() => {
+				this.$router.push({
+					name: 'courseView',
+					params: {
+						course
+					}
+				});
 			});
 		},
 		setFavorite: function(favorite) {
@@ -87,6 +89,24 @@ export default {
 					}
 				});
 			});
+		},
+		prepareBLE: async function() {
+			if (this.$store.device == null) {
+				this.$store.device = await navigator.bluetooth.requestDevice({
+					filters: [
+						{
+							name: 'Raspberry Pi'
+						}
+					],
+					optionalServices: ['0000fff0-0000-1000-8000-00805f9b34fb']
+				});
+			}
+			
+			await this.$store.device.gatt.connect()
+
+			this.$store.remoteService = await this.$store.device.gatt.getPrimaryService('0000fff0-0000-1000-8000-00805f9b34fb');
+			this.$store.joystickCharacteristic = await this.$store.remoteService.getCharacteristic('0000fff1-0000-1000-8000-00805f9b34fb');
+			await this.$store.joystickCharacteristic.startNotifications();
 		}
 	}
 }
