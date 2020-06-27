@@ -1,9 +1,58 @@
 <button id="ble">OK OK OK OK</button>
 
 <script>
-	document.getElementById('ble').addEventListener('click', function() {
-		navigator.bluetooth.requestDevice({
-			acceptAllDevices: true
+	var device, remoteService, buttonCharacteristic;
+
+	var dataview;
+
+	document.getElementById('ble').addEventListener('click', async () => {
+		device = await navigator.bluetooth.requestDevice({
+			filters: [
+				{
+					name: 'Raspberry Pi'
+				}
+			],
+			optionalServices: ['0000fff0-0000-1000-8000-00805f9b34fb']
 		});
+
+		await device.gatt.connect();
+
+		remoteService = await device.gatt.getPrimaryService('0000fff0-0000-1000-8000-00805f9b34fb');
+
+		console.log(remoteService);
+		
+		buttonCharacteristic = await remoteService.getCharacteristic('0000fff1-0000-1000-8000-00805f9b34fb');
+
+		console.log(buttonCharacteristic);
+
+		await buttonCharacteristic.startNotifications()
+					
+		
+		buttonCharacteristic.oncharacteristicvaluechanged = (e) => {
+			dataview = buttonCharacteristic.value;
+			
+			const decoder = new TextDecoder();
+
+			const action = decoder.decode(dataview);
+
+			speechSynthesis.speak(new SpeechSynthesisUtterance(action));
+			
+			
+		};
+
+		
+		
+			
+		
+		
+		//console.log(Object.getPrototypeOf(service));
+		
+		
+		
+		
 	});
+
+	async function connect() {
+		await device.gatt.connect();
+	}
 </script>
