@@ -10,6 +10,7 @@
 			<label v-if="element.type == 'PDF'">PDF : {{ element.data.filename }}</label>
 			<label v-if="element.type == 'DOCX'">DOCX : {{ element.data.filename }}</label>
 			<label v-if="element.type == 'Tableau'">Tableau</label>
+			<label v-if="element.type == 'QCM'">QCM: {{ element.data.question }}</label>
 			<button v-on:click.stop="blockDelete">Supprimer</button>
 		</div>
 	</div>

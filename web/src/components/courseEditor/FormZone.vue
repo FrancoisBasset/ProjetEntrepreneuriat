@@ -7,6 +7,7 @@
 		<PDFForm v-if="elementType == 'PDF' && elementToUpdate != null" :elementToUpdate="elementToUpdate" />
 		<DOCXForm v-if="elementType == 'DOCX' && elementToUpdate != null" :elementToUpdate="elementToUpdate" />
 		<TableauForm v-if="elementType == 'Tableau' && elementToUpdate != null" :elementToUpdate="elementToUpdate" />
+		<QCMForm v-if="elementType == 'QCM' && elementToUpdate != null" :elementToUpdate="elementToUpdate" />
 	</div>
 </template>
 
@@ -17,6 +18,7 @@ import FiddleForm from '@/components/courseEditor/forms/FiddleForm.vue';
 import PDFForm from '@/components/courseEditor/forms/PDFForm.vue';
 import DOCXForm from '@/components/courseEditor/forms/DOCXForm.vue';
 import TableauForm from '@/components/courseEditor/forms/TableauForm.vue';
+import QCMForm from '@/components/courseEditor/forms/QCMForm.vue';
 
 export default {
 	name: 'formZone',
@@ -26,7 +28,8 @@ export default {
 		FiddleForm,
 		PDFForm,
 		DOCXForm,
-		TableauForm
+		TableauForm,
+		QCMForm
 	},
 	props: [
 		'elementType',

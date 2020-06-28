@@ -10,7 +10,7 @@
 		<button v-if="atTheEnd" v-on:click="finishCourse">Retour au menu</button>
 		<button v-else v-on:click="goToNext">Page suivante</button>
 
-		<PageView v-if="page != null" :elements="page.elements" />
+		<PageView v-if="page != null" :elements="page.elements" v-on:qcmRespond="qcmRespond" />
 
 		<button v-if="atTheEnd" v-on:click="finishCourse">Retour au menu</button>
 		<button v-else v-on:click="goToNext">Page suivante</button>
@@ -62,7 +62,9 @@ export default {
 			}
 		}
 
-		this.$store.joystickCharacteristic.oncharacteristicvaluechanged = this.oncharacteristicvaluechanged;
+		if (this.$store.joystickCharacteristic != null) {
+			this.$store.joystickCharacteristic.oncharacteristicvaluechanged = this.oncharacteristicvaluechanged;
+		}
 	},
 	methods: {
 		goToPrevious: async function() {
@@ -139,9 +141,7 @@ export default {
 		},
 		oncharacteristicvaluechanged: function(e) {
 			const dataview = this.$store.joystickCharacteristic.value;
-			
 			const decoder = new TextDecoder();
-
 			const action = decoder.decode(dataview);
 
 			switch (action) {
@@ -158,6 +158,9 @@ export default {
 					scroll(scrollX, scrollY + 10);
 					break;
 			}
+		},
+		qcmRespond: function(e) {
+			this.$store.joystickCharacteristic.oncharacteristicvaluechanged = this.oncharacteristicvaluechanged;
 		}
 	}
 }

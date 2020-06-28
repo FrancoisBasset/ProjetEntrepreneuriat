@@ -50,7 +50,7 @@ export default {
 		this.favorite = this.course.clients_courses.favorite;
 	},
 	methods: {
-		start: function() {
+		start: async function() {
 			fetch(`http://localhost/sections/courses/${this.course.id}/start`, {
 				method: 'POST'
 			}).then(response => {
@@ -63,13 +63,13 @@ export default {
 
 			const course = this.course;
 
-			this.prepareBLE().then(() => {
-				this.$router.push({
-					name: 'courseView',
-					params: {
-						course
-					}
-				});
+			await this.prepareBLE();
+			
+			this.$router.push({
+				name: 'courseView',
+				params: {
+					course
+				}
 			});
 		},
 		setFavorite: function(favorite) {
@@ -99,7 +99,13 @@ export default {
 						}
 					],
 					optionalServices: ['0000fff0-0000-1000-8000-00805f9b34fb']
+				}).catch(() => {
+					return null;					
 				});
+
+				if (this.$store.device == null) {
+					return;
+				}				
 			}
 			
 			await this.$store.device.gatt.connect()

@@ -26,11 +26,6 @@ function readAction(callback) {
 			message = 'UNKNOWN';
 		}
 
-		if (message == 'UP' || message == 'DOWN') {
-			for (var i = 0; i < 50; i++) {
-				callback(Buffer.from(message))
-			}
-		}
 		callback(Buffer.from(message));
 
 		readAction(callback);

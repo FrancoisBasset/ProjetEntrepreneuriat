@@ -8,7 +8,7 @@
 		<div class="picker" id="DOCX" v-on:click="typeClick">DOCX</div>
 		<div class="picker" id="Tableau" v-on:click="typeClick">Tableau</div>
 		<div class="picker" id="audio">Audio</div>
-		<div class="picker" id="exercice">Exercices</div>
+		<div class="picker" id="QCM" v-on:click="typeClick">QCM</div>
 	</div>
 </template>
 
@@ -89,6 +89,17 @@ export default {
 						}
 					});
 					break;
+				case 'QCM':
+					this.$emit('typeClick', {
+						type: 'QCM',
+						data: {
+							question: '',
+							answers: [
+								'', '', '', ''
+							],
+							correct: null
+						}
+					});
 			}
 		}
 	}

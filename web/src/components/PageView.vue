@@ -22,6 +22,9 @@
 			<div v-if="element.type == 'Tableau'">
 				<Tableau :array="element.data.array" />
 			</div>
+			<div v-if="element.type == 'QCM'" id="qcm">
+				<QCM :question="element.data.question" :answers="element.data.answers" :correct="element.data.correct" :seeFullQcm="seeFullQcm" />
+			</div>
 		</div>
 	</div>
 </template>
@@ -31,6 +34,7 @@ import pdf from 'vue-pdf';
 import Fiddle from '@/components/courseEditor/Fiddle.vue';
 import DOCX from '@/components/courseEditor/DOCX.vue';
 import Tableau from '@/components/courseEditor/Tableau.vue';
+import QCM from '@/components/courseEditor/QCM.vue';
 
 export default {
 	name: 'PageView',
@@ -38,11 +42,30 @@ export default {
 		pdf,
 		Fiddle,
 		DOCX,
-		Tableau
+		Tableau,
+		QCM
 	},
 	props: [
 		'elements'
-	]
+	],
+	data: function() {
+		return {
+			seeFullQcm: false
+		};
+	},
+	updated: function() {
+		var observer = new IntersectionObserver(entries => {
+			if (entries[0].isIntersecting) {
+				this.seeFullQcm = true;
+			}
+		}, {
+			threshold: [1]
+		});
+		
+		if (document.getElementById('qcm') != null) {
+			observer.observe(document.getElementById('qcm'));
+		}
+	}
 }
 </script>
 
@@ -57,5 +80,9 @@ export default {
 
 	.pdf {
 		text-align: center;
+	}
+
+	.qcm {
+		margin-bottom: 50px;
 	}
 </style>
