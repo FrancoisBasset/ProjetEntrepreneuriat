@@ -3,6 +3,10 @@ const bleno = require('bleno');
 const readline = require('readline');
 const rl = readline.createInterface(process.stdin, process.stdout);
 
+const GPIO = require('onoff').Gpio;
+
+const down = new GPIO(26, 'in');
+
 const Characteristic = bleno.Characteristic;
 
 var subscribed = false;
@@ -19,17 +23,24 @@ function readAction(callback) {
 		return;
 	}
 
-	rl.question('Which action : ', function(action) {
+	//rl.question('Which action : ', function(action) {
+	var action = down.readSync();
+	console.log(action);
+	
+		if (action == 0) {
+			action = '2';
+		}
+
 		var message = actions[action];
 
 		if (message == null) {
 			message = 'UNKNOWN';
 		}
-
+		
 		callback(Buffer.from(message));
 
-		readAction(callback);
-	});
+		//readAction(callback);
+	//});
 }
 
 module.exports = new Characteristic({
@@ -43,6 +54,9 @@ module.exports = new Characteristic({
 	],
 	onSubscribe: function(size, callback) {
 		subscribed = true;
+		setInterval(() => {
+			readAction(callback);
+		}, 0);
 		readAction(callback);
 	},
 	onUnsubscribe: function() {
