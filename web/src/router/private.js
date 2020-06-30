@@ -6,7 +6,19 @@ import ClientHome from '@/views/private/ClientHome.vue';
 import CourseStart from '@/views/private/CourseStart.vue';
 import CourseView from '@/views/private/CourseView.vue';
 
+import OperatorHome from '@/views/private/OperatorHome.vue';
+import OperatorUsers from '@/views/private/OperatorUsers.vue';
+import OperatorPayments from '@/views/private/OperatorHome.vue';
+import OperatorCommunications from '@/views/private/OperatorCommunications.vue';
+import OperatorFormations from '@/views/private/OperatorFormations.vue';
+import OperatorCertifications from '@/views/private/OperatorCertifications.vue';
+
 const routes = [
+	{
+		path: '/home',
+		name: 'operatorHome',
+		component: OperatorHome
+	},
 	{
 		path: '/home',
 		name: 'clientHome',
@@ -34,6 +46,26 @@ const routes = [
 		path: '/courseView',
 		name: 'courseView',
 		component: CourseView
+	}, {
+		path: '/home/utilisateurs',
+		name: 'operatorUsers',
+		component: OperatorUsers
+	}, {
+		path: '/home/paiements',
+		name: 'operatorPayments',
+		component: OperatorPayments
+	}, {
+		path: '/home/communications',
+		name: 'operatorCommunications',
+		component: OperatorCommunications
+	}, {
+		path: '/home/formations',
+		name: 'operatorFormations',
+		component: OperatorFormations
+	}, {
+		path: '/home/certifications',
+		name: 'operatorCertifications',
+		component: OperatorCertifications
 	}
 ];
 

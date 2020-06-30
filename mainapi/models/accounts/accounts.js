@@ -70,6 +70,20 @@ module.exports = function(database) {
 	return {
 		Accounts: Accounts,
 
+		getAll: async function() {
+			var accountsToReturn = [];
+
+			const accounts = await Accounts.findAll();
+			
+			for (const account of accounts) {
+				accountsToReturn.push(await this.getById(account.id));
+			}
+
+			console.log(accountsToReturn);
+			
+			return accountsToReturn;
+		},
+
 		getById: function(id) {
 			return getInclude(id).then(function(include) {
 				return Accounts.findOne({

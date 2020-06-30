@@ -9,6 +9,8 @@ const mConnect = require('./middlewares/mConnect');
 
 router.get('/', mConnect, AccountsController.get);
 
+router.get('/all', mConnect, AccountsController.getAll);
+
 router.post('/signin', AccountsController.connect);
 router.post('/', AccountsController.createAccount);
 router.post('/logout', mConnect, AccountsController.disconnect);

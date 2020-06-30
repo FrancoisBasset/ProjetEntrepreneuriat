@@ -38,8 +38,8 @@ export default {
 	name: 'SignIn',
 	data: function() {
 		return {
-			mail: 'client@localhost',
-			password: 'client@localhost',
+			mail: 'operator@ecoleconfinee',
+			password: 'operator@ecoleconfinee',
 
 			modalVisible: false,
 			message: null
@@ -74,6 +74,10 @@ export default {
 						} else if (json.response.type == 'professionnal') {
 							this.$router.push({
 								name: 'professionnalHome'
+							});
+						} else if (json.response.type == 'operator') {
+							this.$router.push({
+								name: 'operatorHome'
 							});
 						}
 					}

@@ -5,6 +5,12 @@ const { json } = require('./utils');
 const session = require('../session');
 
 module.exports = {
+	getAll: async function(req, res) {
+		const accounts = await Accounts.getAll();
+
+		res.status(200).json(json(true, accounts));
+	},
+
 	get: async function(req, res) {
 		const account = await Accounts.getById(session.accountId);	
 		
