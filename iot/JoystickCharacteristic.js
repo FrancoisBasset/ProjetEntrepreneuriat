@@ -1,51 +1,43 @@
+const spawn = require('child_process').spawn;
+
 const bleno = require('bleno');
-
-const readline = require('readline');
-const rl = readline.createInterface(process.stdin, process.stdout);
-
-const GPIO = require('onoff').Gpio;
-
-const down = new GPIO(26, 'in');
-
 const Characteristic = bleno.Characteristic;
 
-var subscribed = false;
-const actions = {
-	'4': 'LEFT',
-	'6': 'RIGHT',
-	'8': 'UP',
-	'2': 'DOWN',
-	'5': 'CLICK'
+var joystickScript, buttonScript, ledScript;
+
+var position = 0;
+var inQcm = false;
+
+var subscribeCallback;
+
+toDoInPage = (data) => {
+	const message = data.toString().trim();
+	console.log(message);
+
+	subscribeCallback(Buffer.from(message));
 };
 
-function readAction(callback) {
-	if (!subscribed) {
-		return;
+toDoInQcm = (data) => {
+	const message = data.toString().trim();
+	console.log(message);
+
+	if (message == 'UP' && position > 0) {
+		position--;
+	} else if (message == 'DOWN' && position < 3) {
+		position++;
 	}
-
-	//rl.question('Which action : ', function(action) {
-	var action = down.readSync();
-	console.log(action);
 	
-		if (action == 0) {
-			action = '2';
-		}
-
-		var message = actions[action];
-
-		if (message == null) {
-			message = 'UNKNOWN';
-		}
-		
-		callback(Buffer.from(message));
-
-		//readAction(callback);
-	//});
-}
+	ledScript.kill(9);
+	ledScript = spawn('python3', ['led.py']);
+	ledScript.stdin.write(position.toString());
+	ledScript.stdin.end();
+	
+	subscribeCallback(Buffer.from(message));
+};
 
 module.exports = new Characteristic({
 	uuid: 'fff1',
-	properties: ['notify'],
+	properties: ['write', 'notify'],
 	descriptors: [
 		new bleno.Descriptor({
 			uuid: '2901',
@@ -53,14 +45,43 @@ module.exports = new Characteristic({
 		})
 	],
 	onSubscribe: function(size, callback) {
-		subscribed = true;
-		setInterval(() => {
-			readAction(callback);
-		}, 0);
-		readAction(callback);
+		console.log('Subscribe');
+		subscribeCallback = callback;
+
+		joystickScript = spawn('python3', ['joystick.py']);
+		buttonScript = spawn('python3', ['button.py']);
+		ledScript = spawn('python3', ['led.py']);
+		
+		joystickScript.stdout.on('data', toDoInPage);
+
+		buttonScript.stdout.on('data', (data) => {
+			const message = data.toString().trim();
+			console.log(message);
+			
+			callback(Buffer.from(message));
+		});
 	},
 	onUnsubscribe: function() {
-		subscribed = false;
-		console.log('\nFinish for me !');
+		console.log('Unsubscribe');
+
+		joystickScript.kill(9);
+		buttonScript.kill(9);
+		
+		ledScript.kill(9);
+		ledScript = spawn('python3', ['led.py']);
+	},
+	onWriteRequest: function(data, offset, withoutResponse, callback) {
+		
+		const message = data.toString();
+		console.log(message);
+
+		if (message == 'enterQcm') {
+			inQcm = true;
+			
+			joystickScript.kill(9);
+			joystickScript = spawn('python3', ['joystick.py', 'inQcm']);
+			joystickScript.stdout.on('data', toDoInQcm);
+		}
+		
 	}
 });

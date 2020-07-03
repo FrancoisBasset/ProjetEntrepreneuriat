@@ -152,10 +152,10 @@ export default {
 					this.goToNext();
 					break;
 				case 'UP':
-					scroll(scrollX, scrollY - 1);
+					scroll(scrollX, scrollY - 20);
 					break;
 				case 'DOWN':
-					scroll(scrollX, scrollY + 1);
+					scroll(scrollX, scrollY + 20);
 					break;
 			}
 		},
