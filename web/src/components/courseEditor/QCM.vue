@@ -92,6 +92,7 @@ export default {
 	#qcm {
 		width: 100%;
 		text-align: center;
+		padding-bottom: 100px;
 	}
 
 	.question, .answer {
