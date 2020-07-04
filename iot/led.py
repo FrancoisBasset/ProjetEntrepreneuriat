@@ -22,18 +22,17 @@ def off():
 	leds[2].off()
 	leds[3].off()
 
+while True:
+	led = sys.stdin.readline()
+	led = led.split('\n')[0]
 
-i = sys.stdin.readline()
+	off()
 
-off()
-
-if i == '0':
-	blink(0)
-elif i == '1':
-	blink(1)
-elif i == '2':
-	blink(2)
-elif i == '3':
-	blink(3)
-
-signal.pause()
+	if led == '0':
+		blink(0)
+	elif led == '1':
+		blink(1)
+	elif led == '2':
+		blink(2)
+	elif led == '3':
+		blink(3)

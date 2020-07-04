@@ -9,6 +9,7 @@ i2c = busio.I2C(board.SCL, board.SDA)
 ads = ADS.ADS1115(i2c)
 
 import math
+from os import path
 
 chanX = AnalogIn(ads, ADS.P1)
 chanY = AnalogIn(ads, ADS.P2)
@@ -28,11 +29,11 @@ while True:
         print("UP")
         sys.stdout.flush()
 
-        if len(sys.argv) == 2 and sys.argv[1] == "inQcm":
+        if path.exists('qcm'):
             time.sleep(0.5)
     elif math.floor(chanY.voltage) == 4:
         print("DOWN")
         sys.stdout.flush()
 
-        if len(sys.argv) == 2 and sys.argv[1] == "inQcm":
+        if path.exists('qcm'):
             time.sleep(0.5)

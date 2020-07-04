@@ -1,4 +1,5 @@
 const spawn = require('child_process').spawn;
+const fs = require('fs');
 
 const bleno = require('bleno');
 const Characteristic = bleno.Characteristic;
@@ -6,7 +7,6 @@ const Characteristic = bleno.Characteristic;
 var joystickScript, buttonScript, ledScript;
 
 var position = 0;
-var inQcm = false;
 
 var subscribeCallback;
 
@@ -27,10 +27,7 @@ toDoInQcm = (data) => {
 		position++;
 	}
 	
-	ledScript.kill(9);
-	ledScript = spawn('python3', ['led.py']);
-	ledScript.stdin.write(position.toString());
-	ledScript.stdin.end();
+	ledScript.stdin.write(position.toString() + '\n');
 	
 	subscribeCallback(Buffer.from(message));
 };
@@ -53,10 +50,18 @@ module.exports = new Characteristic({
 		ledScript = spawn('python3', ['led.py']);
 		
 		joystickScript.stdout.on('data', toDoInPage);
+		if (fs.existsSync('qcm')) {
+			fs.unlinkSync('qcm');
+		}
 
 		buttonScript.stdout.on('data', (data) => {
 			const message = data.toString().trim();
 			console.log(message);
+			
+			joystickScript.kill(9);
+			joystickScript = spawn('python3', ['joystick.py']);
+			joystickScript.stdout.on('data', toDoInPage);
+			fs.unlinkSync('qcm');
 			
 			callback(Buffer.from(message));
 		});
@@ -66,21 +71,19 @@ module.exports = new Characteristic({
 
 		joystickScript.kill(9);
 		buttonScript.kill(9);
-		
 		ledScript.kill(9);
-		ledScript = spawn('python3', ['led.py']);
 	},
 	onWriteRequest: function(data, offset, withoutResponse, callback) {
-		
 		const message = data.toString();
 		console.log(message);
 
 		if (message == 'enterQcm') {
-			inQcm = true;
-			
 			joystickScript.kill(9);
-			joystickScript = spawn('python3', ['joystick.py', 'inQcm']);
+			joystickScript = spawn('python3', ['joystick.py']);
 			joystickScript.stdout.on('data', toDoInQcm);
+			fs.writeFileSync('qcm');
+
+			ledScript.stdin.write('0\n');
 		}
 		
 	}
