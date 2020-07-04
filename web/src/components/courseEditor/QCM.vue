@@ -28,25 +28,21 @@ export default {
 		};
 	},
 	watch: {
-		seeFullQcm: function(val) {
+		seeFullQcm: async function(val) {
 			this.selected = 0;
 			if (this.$store.joystickCharacteristic != null && this.seeFullQcm) {
 				console.log(this.$store.joystickCharacteristic);
+
+				const data = JSON.stringify({
+					action: 'enterQcm'
+				});
 				
-				this.$store.joystickCharacteristic.writeValue(Buffer.from('enterQcm'));
-				//await this.wait(1);
+				await this.$store.joystickCharacteristic.writeValue(Buffer.from(data));
 				this.$store.joystickCharacteristic.oncharacteristicvaluechanged = this.oncharacteristicvaluechanged;
 			}
 		}
 	},
 	methods: {
-		/*async wait (sec) {
-			return new Promise((resolve => {
-				setTimeout(() => {
-					resolve(true)
-				}, 1000 * sec)
-			}));
-		},*/
 		respond: async function(index) {
 			if (this.givenResponse == null) {
 				this.givenResponse = index;
@@ -57,7 +53,14 @@ export default {
 
 				this.$refs['answer' + this.correct][0].classList.add('correct');
 
-				//await this.$store.joystickCharacteristic.writeValue(Buffer.from('exitQcm'));
+				const data = JSON.stringify({
+					action: 'exitQcm',
+					givenResponse: this.givenResponse,
+					correct: this.correct
+				});
+
+				await this.$store.joystickCharacteristic.writeValue(Buffer.from(data));
+				//this.$store.joystickCharacteristic.writeValue(Buffer.from('exitQcm'));
 			}
 		},
 		oncharacteristicvaluechanged: function(e) {

@@ -34,8 +34,9 @@ while True:
 		continue
 	else:
 		led = json.loads(led)
-
-	off()
+	
+	if led["off"] == True:
+		off()
 
 	if led["function"] == "blink":
 		blink(led["value"])
