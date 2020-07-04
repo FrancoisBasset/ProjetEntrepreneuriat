@@ -32,5 +32,16 @@ module.exports = {
 			const certification = await Certifications.create(name, claimantId, coursesId);
 			res.status(201).json(json(true, certification));
 		}
+	},
+	validate: async function(req, res) {
+		const { id } = req.params;
+
+		if (await Certifications.getById(id) == null) {
+			res.status(400).json(json(false, `La certification n°${id} n'existe pas`));
+		} else {
+			const certification = await Certifications.validate(id);
+
+			res.status(200).json(json(true, certification));
+		}
 	}
 };

@@ -38,7 +38,7 @@ async function createCourses() {
 }
 
 database.afterBulkSync(async() => {
-	const l = 9;
+	const l = 10;
 	var i = 0;
 
 	await Accounts.create('professionnal@localhost', 'professionnal@localhost', null, 'professionnal@localhost', '9d520a3e49fd65b9288a6283779ab8e841bc5cbc25abdddaf452511e58f490b5', 'professionnal', true);
@@ -57,6 +57,10 @@ database.afterBulkSync(async() => {
 	console.log(`${++i}/${l} branches !`);
 
 	await Courses.create('France', 'cours.jpg', 1, 1, 1, '', 0);
+	await Courses.create('Espagne', 'cours.jpg', 1, 1, 2, '', 0);
+	await Courses.create('Allemagne', 'cours.jpg', 1, 1, 3, '', 0);
+	await Courses.create('Royaume-Uni', 'cours.jpg', 1, 1, 4, '', 0);
+	await Courses.create('Italie', 'cours.jpg', 1, 1, 5, '', 0);
 	console.log(`${++i}/${l} courses !`);
 
 	await Chapters.create('Introduction', 0, 1);
@@ -90,4 +94,8 @@ database.afterBulkSync(async() => {
 	await Pages.create(1, 6);
 	await Pages.create(2, 6);
 	console.log(`${++i}/${l} pages !`);
+
+	await Certifications.create('Europe', 1, [1, 2, 3, 4, 5]);
+	await Certifications.create('Europe du sud', 1, [2, 5]);
+	console.log(`${++i}/${l} certifications !`);
 });

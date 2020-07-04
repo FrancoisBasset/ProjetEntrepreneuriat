@@ -52,27 +52,13 @@
 				<div v-if="selectedUser.type == 'client'">
 					<h2>Liste des cours suivis</h2>
 					<div v-for="course of selectedUser.courses" :key="course.id" style="border: 1px black solid; margin: 5px;">
-						<h2>{{ course.name }}</h2>
-						<label>Difficulté {{ course.difficulty }}/5</label><br>
-						<div v-if="course.objectives != ''">
-							<label>Objectifs : </label>
-							<label v-for="objective of course.objectives" :key="objective">{{ objective }}</label>
-						</div>
-						<label v-if="course.clients_courses.favorite">Favoris ✅</label>
-						<label v-else>Favoris ❌</label><br>
-						<label v-if="course.clients_courses.started">Commencé ✅</label>
-						<label v-else>Commencé ❌</label>
+						<CourseInfo :course="course" />
 					</div>
 				</div>
 				<div v-if="selectedUser.type == 'professionnal'">
 					<h2>Liste des cours dispensés</h2>
 					<div v-for="course of selectedUser.sentCourses" :key="course.id" style="border: 1px black solid; margin: 5px;">
-						<h2>{{ course.name }}</h2>
-						<label>Difficulté {{ course.difficulty }}/5</label>
-						<div v-if="course.objectives != ''">
-							<label>Objectifs : </label>
-							<label v-for="objective of course.objectives" :key="objective">{{ objective }}</label>
-						</div>
+						<CourseInfo :course="course" />
 					</div>
 				</div>				
 			</div>
@@ -82,11 +68,13 @@
 
 <script>
 import HomeBar from '@/components/utils/HomeBar.vue';
+import CourseInfo from '@/components/CourseInfo.vue';
 
 export default {
 	name: 'OperatorUsers',
 	components: {
-		HomeBar
+		HomeBar,
+		CourseInfo
 	},
 	data: function() {
 		return {
@@ -115,7 +103,7 @@ export default {
 		padding: 10px;
 
 		width: 95%;
-		height: 500px;
+		height: 800px;
 
 		margin-left: 1%;
 		overflow: scroll;
@@ -128,8 +116,9 @@ export default {
 	.infoWhenSelected {
 		border: 1px black solid;
 		width: 48%;
-		height: 500px;
+		height: 800px;
 
 		margin-left: 2%;
+		overflow: scroll;
 	}
 </style>

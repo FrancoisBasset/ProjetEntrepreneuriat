@@ -105,6 +105,17 @@ module.exports = function(database) {
 
 				return this.getById(certification.id);
 			});
+		},
+		validate: function(id) {
+			return Certifications.update({
+				validated: true
+			}, {
+				where: {
+					id: id
+				}
+			}).then(() => {
+				return this.getById(id);
+			});
 		}
 	};
 };

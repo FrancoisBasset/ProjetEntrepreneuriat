@@ -10,4 +10,6 @@ router.get('/', CertificationsController.get);
 
 router.post('/', CertificationsController.post);
 
+router.put('/:id', CertificationsController.validate);
+
 module.exports = router;
