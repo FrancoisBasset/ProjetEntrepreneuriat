@@ -25,9 +25,9 @@ toDoInQcm = (data) => {
 		position--;
 	} else if (message == 'DOWN' && position < 3) {
 		position++;
-	}
-	
-	ledScript.stdin.write(position.toString() + '\n');
+	}	
+
+	ledScript.stdin.write(`{"function":"blink", "value": ${position.toString()}}\n`);
 	
 	subscribeCallback(Buffer.from(message));
 };
@@ -58,11 +58,6 @@ module.exports = new Characteristic({
 			const message = data.toString().trim();
 			console.log(message);
 			
-			joystickScript.kill(9);
-			joystickScript = spawn('python3', ['joystick.py']);
-			joystickScript.stdout.on('data', toDoInPage);
-			fs.unlinkSync('qcm');
-			
 			callback(Buffer.from(message));
 		});
 	},
@@ -73,7 +68,7 @@ module.exports = new Characteristic({
 		buttonScript.kill(9);
 		ledScript.kill(9);
 	},
-	onWriteRequest: function(data, offset, withoutResponse, callback) {
+	onWriteRequest: async function(data, offset, withoutResponse, callback) {
 		const message = data.toString();
 		console.log(message);
 
@@ -83,8 +78,25 @@ module.exports = new Characteristic({
 			joystickScript.stdout.on('data', toDoInQcm);
 			fs.writeFileSync('qcm');
 
-			ledScript.stdin.write('0\n');
+			ledScript.stdout.on('data', (data) => {
+				console.log(data.toString());
+				
+			});
+
+			ledScript.stdin.write('{"function":"blink","value":0}\n');
+		}
+
+		if (message == 'exitQcm') {
+			joystickScript.kill(9);
+			joystickScript = spawn('python3', ['joystick.py']);
+			joystickScript.stdout.on('data', toDoInPage);
+			if (fs.existsSync('qcm')) {
+				fs.unlinkSync('qcm');
+			}
+			
+			ledScript.stdin.write('off\n');
 		}
 		
+		callback(Characteristic.RESULT_SUCCESS);
 	}
 });

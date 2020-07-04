@@ -2,6 +2,7 @@ import signal
 import sys
 from gpiozero import LED
 from time import sleep
+import json
 
 leds = []
 
@@ -26,13 +27,17 @@ while True:
 	led = sys.stdin.readline()
 	led = led.split('\n')[0]
 
+	print(led)
+
+	if led == "off":
+		off()
+		continue
+	else:
+		led = json.loads(led)
+
 	off()
 
-	if led == '0':
-		blink(0)
-	elif led == '1':
-		blink(1)
-	elif led == '2':
-		blink(2)
-	elif led == '3':
-		blink(3)
+	if led["function"] == "blink":
+		blink(led["value"])
+	elif led['function'] == 'red':
+		red(led["value"])
