@@ -24,11 +24,10 @@
 				Image du domaine : <input type="file" v-on:change="loadDomainImage" /><br>
 				<img :src="image" height="100" /><br>
 
-				<button v-on:click="updateDomainName">Modifier le domaine</button>
+				<button v-on:click="updateDomain">Modifier le domaine</button>
+				<button v-on:click="deleteDomain">Supprimer le domaine</button>
 			</div>
 		</div>
-
-		<hr>
 	</div>
 </template>
 
@@ -47,6 +46,7 @@ export default {
 				image: null
 			},
 			domains: null,
+
 			selectedDomain: null,
 			selectedDomainImage: null,
 			selectedDomainName: null,
@@ -58,6 +58,10 @@ export default {
 	},
 	watch: {
 		selectedDomain: function() {
+			if (this.selectedDomain == null) {
+				return;
+			}
+
 			this.selectedDomainName = this.selectedDomain.name;
 
 			fetch(`http://localhost/assets/images/${this.selectedDomain.image}`).then(r => {
@@ -104,7 +108,7 @@ export default {
 
 			reader.readAsDataURL(this.selectedDomainImage);
 		},
-		updateDomainName: async function() {
+		updateDomain: async function() {
 			const formData = new FormData();
 			formData.append('name', this.selectedDomainName);
 			formData.append('image', this.selectedDomainImage);
@@ -116,8 +120,14 @@ export default {
 
 			await this.setDomains();
 		},
-		deleteDomain: function() {
+		deleteDomain: async function() {
+			await fetch(`http://localhost/sections/domains/${this.selectedDomain.id}`, {
+				method: 'DELETE'
+			});
+
+			this.selectedDomain = null;
 			
+			this.setDomains();
 		}
 	}
 }
