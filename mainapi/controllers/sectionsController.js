@@ -40,7 +40,7 @@ async function handleBranches(id, name, image, domainId) {
 
 	if (await Domains.getById(domainId) == null) {
 		response = `Le domaine '${domainId}' n'existe pas`;
-	} else if (await Branches.exists(name, domainId)) {
+	} else if (await Branches.exists(name, domainId) && id == null) {
 		response = `La branche '${name}' existe déjà`;
 	} else {
 		if (id == undefined) {

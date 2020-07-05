@@ -16,6 +16,12 @@ async function getDomain(id) {
 	return json.response;
 }
 
+async function getBranches() {
+	const response = await fetch(`http://localhost/sections/branches`);
+	const json = await response.json();
+	return json.response;
+}
+
 async function getBranch(id) {
 	const response = await fetch(`http://localhost/sections/branches/${id}`);
 	const json = await response.json();
@@ -56,6 +62,7 @@ export {
 	getAccount,
 	getDomains,
 	getDomain,
+	getBranches,
 	getBranch,
 	getCourse,
 	getChapter,
