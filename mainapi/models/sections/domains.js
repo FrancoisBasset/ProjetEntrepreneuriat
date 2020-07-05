@@ -32,7 +32,7 @@ module.exports = function(database) {
 		getAll: function() {
 			return Domains.findAll({
 				include: ['branches'],
-				order: ['id']
+				order: ['name']
 			});
 		},
 
@@ -48,7 +48,7 @@ module.exports = function(database) {
 		getByName: function(name) {
 			return Domains.findAll({
 				include: ['branches'],
-				order: ['id'],
+				order: ['name'],
 				where: {
 					name: {
 						[Op.like]: '%' + name + '%'

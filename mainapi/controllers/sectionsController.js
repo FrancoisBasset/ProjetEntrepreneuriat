@@ -19,7 +19,7 @@ function getSectionType(type) {
 async function handleDomains(id, name, image) {
 	var section, response;
 
-	if (await Domains.exists(name)) {
+	if (await Domains.exists(name) && id == null) {
 		response = `Le domaine '${name}' existe déjà`;
 	} else {
 		if (id == undefined) {
