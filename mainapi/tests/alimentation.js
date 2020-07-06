@@ -54,6 +54,15 @@ database.afterBulkSync(async() => {
 	console.log(`${++i}/${l} domains !`);
 
 	await Branches.create('Europe', 'branche.jpg', 5);
+	await Branches.create('Afrique', 'branche.jpg', 5);
+	await Branches.create('Asie', 'branche.jpg', 5);
+	await Branches.create('Oceanie', 'branche.jpg', 5);
+
+	await Branches.create('Préhistoire', 'branche.jpg', 6);
+	await Branches.create('Antiquité', 'branche.jpg', 6);
+	await Branches.create('Moyen-Âge', 'branche.jpg', 6);
+	await Branches.create('Renaissance', 'branche.jpg', 6);
+	await Branches.create('Temps Modernes', 'branche.jpg', 6);
 	console.log(`${++i}/${l} branches !`);
 
 	await Courses.create('France', 'cours.jpg', 1, 1, 1, '', 0);

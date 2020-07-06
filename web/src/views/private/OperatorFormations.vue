@@ -49,6 +49,32 @@
 			<button v-if="branch.mode == 'update'" v-on:click="updateBranch">Modifier la branche</button>
 			<button v-if="branch.mode == 'update'" v-on:click="deleteBranch">Supprimer la branche</button>
 		</div>
+
+		<hr>
+
+		<div>
+			Domaine : <select v-model="selectedDomain">
+				<option v-for="domain in domains" :key="domain.id" :value="domain">{{ domain.name }}</option>
+			</select>
+		</div>
+		<div id="manager">
+			<div>
+				<br>
+				<select v-model="branchToAdd" size="10" style="width: 200px">
+					<option v-for="branch in unselectedBranches" :key="branch.id" :value="branch">{{ branch.name }}</option>
+				</select>
+			</div>
+			<div>
+				<div>
+					<button v-on:click="addBranch">></button>
+				</div>
+			</div>
+			<div>
+				<select v-if="selectedDomain != null" size="10" style="width: 200px">
+					<option v-for="branch in selectedDomain.branches" :key="branch.id" :value="branch">{{ branch.name }}</option>
+				</select>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -83,7 +109,11 @@ export default {
 
 				mode: 'create',
 				selected: null
-			}
+			},
+
+			branchToAdd: null,
+			selectedDomain: null,
+			unselectedBranches: []
 		};
 	},
 	created: async function() {
@@ -145,6 +175,9 @@ export default {
 					reader.readAsDataURL(this.branch.image);
 				});
 			});
+		},
+		selectedDomain: function() {
+			this.setUnselectedBranches();
 		}
 	},
 	methods: {
@@ -244,11 +277,43 @@ export default {
 			});
 
 			await this.reset();
+		},
+		addBranch: async function() {
+			const response = await fetch(`http://localhost/assets/images/${this.branchToAdd.image}`);
+			const blob = await response.blob();
+			const image = new File([blob], this.branchToAdd.image, blob);
+
+			const formData = new FormData();
+			formData.append('domainId', this.selectedDomain.id);
+			formData.append('name', this.branchToAdd.name);
+			formData.append('image', image);
+
+			await fetch(`http://localhost/sections/branches/${this.branchToAdd.id}`, {
+				method: 'PUT',
+				body: formData
+			});
+
+			this.setUnselectedBranches();
+			this.domains = await getDomains();
+		},
+		setUnselectedBranches: function() {
+			this.unselectedBranches = JSON.parse(JSON.stringify(this.branches));
+
+			for (const unselected of this.unselectedBranches) {
+				for (const selected of this.selectedDomain.branches) {
+					if (unselected.id == selected.id) {
+						this.unselectedBranches = this.unselectedBranches.filter(b => b.id != selected.id);
+						break;
+					}
+				}
+			}
 		}
 	}
 }
 </script>
 
 <style scoped>
-
+	#manager {
+		display: inline-flex;
+	}
 </style>
