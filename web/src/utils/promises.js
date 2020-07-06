@@ -28,6 +28,12 @@ async function getBranch(id) {
 	return json.response;
 }
 
+async function getCourses() {
+	const response = await fetch(`http://localhost/sections/courses`);
+	const json = await response.json();
+	return json.response;
+}
+
 async function getCourse(id) {
 	const response = await fetch(`http://localhost/sections/courses/${id}`);
 	const json = await response.json();
@@ -64,6 +70,7 @@ export {
 	getDomain,
 	getBranches,
 	getBranch,
+	getCourses,
 	getCourse,
 	getChapter,
 	getPage,

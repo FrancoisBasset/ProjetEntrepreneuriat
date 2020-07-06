@@ -52,14 +52,16 @@
 
 		<hr>
 
+		<h2>Déplacer les branches</h2>
+
 		<div>
 			Domaine : <select v-model="selectedDomain">
 				<option v-for="domain in domains" :key="domain.id" :value="domain">{{ domain.name }}</option>
 			</select>
 		</div>
+		
 		<div id="manager">
 			<div>
-				<br>
 				<select v-model="branchToAdd" size="10" style="width: 200px">
 					<option v-for="branch in unselectedBranches" :key="branch.id" :value="branch">{{ branch.name }}</option>
 				</select>
@@ -75,12 +77,24 @@
 				</select>
 			</div>
 		</div>
+
+		<hr>
+
+		<div>
+			<h2>Cours</h2>
+
+			<select v-model="selectedCourse">
+				<option v-for="course of courses" :key="course.id" :value="course">{{ course.name }}</option>
+			</select>
+
+			<button v-on:click="deleteCourse">Supprimer le cours</button>
+		</div>
 	</div>
 </template>
 
 <script>
 import HomeBar from '@/components/utils/HomeBar.vue';
-import { getDomains, getBranches } from '@/utils/promises';
+import { getDomains, getBranches, getCourses } from '@/utils/promises';
 
 export default {
 	name: 'OperatorFormations',
@@ -113,12 +127,16 @@ export default {
 
 			branchToAdd: null,
 			selectedDomain: null,
-			unselectedBranches: []
+			unselectedBranches: [],
+
+			courses: null,
+			selectedCourse: null
 		};
 	},
 	created: async function() {
 		this.domains = await getDomains();
 		this.branches = await getBranches();
+		this.courses = await getCourses();
 	},
 	watch: {
 		"domain.mode": async function() {
@@ -307,6 +325,13 @@ export default {
 					}
 				}
 			}
+		},
+		deleteCourse: async function() {
+			await fetch(`http://localhost/sections/courses/${this.selectedCourse.id}`, {
+				method: 'DELETE'
+			});
+
+			this.courses = await getCourses();
 		}
 	}
 }
