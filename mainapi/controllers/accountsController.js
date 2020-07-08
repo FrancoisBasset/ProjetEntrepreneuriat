@@ -52,15 +52,25 @@ module.exports = {
 		session.accountId = null;
 
 		res.status(200).json(json(true, 'Disconnected'));
-	}
-
-	/*,
-
-	updateAccount: function(req, res) {
-
 	},
 
-	deleteAccount: function(req, res) {
+	updatePassword: async function(req, res) {
+		const response = await Accounts.updatePassword(session.accountId, req.body.oldPassword, req.body.newPassword);
+		
+		if (response[0] == 0) {
+			res.json(json(false, 'L\'ancien mot de passe n\'est pas correct'));
+		} else {
+			res.json(json(true, 'ok'));
+		}		
+	},
+
+	updateAccount: async function(req, res) {
+		const account = await Accounts.updateAccount(session.accountId, req.body.firstName, req.body.lastName, req.body.organizationName, req.body.mail);
+		
+		res.json(json(true, account));
+	},
+
+	/*deleteAccount: function(req, res) {
 
 	}*/
 };

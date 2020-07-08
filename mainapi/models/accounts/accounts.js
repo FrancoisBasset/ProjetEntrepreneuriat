@@ -138,5 +138,35 @@ module.exports = function(database) {
 				return this.getById(account.id);
 			});
 		},
+
+		updatePassword: function(id, oldPassword, newPassword) {
+			return Accounts.update({
+				hash: newPassword
+			}, {
+				where: {
+					id: id,
+					hash: oldPassword
+				}
+			});
+		},
+
+		updateAccount: function(id, firstName, lastName, organizationName, mail) {
+			return Accounts.update({
+				firstName: firstName,
+				lastName: lastName,
+				organizationName: organizationName,
+				mail: mail
+			}, {
+				where: {
+					id: id
+				}
+			}).then(() => {
+				return this.getById(id);
+			});
+		},
+		
+		deleteAccount: function(id) {
+			
+		}
 	};
 };

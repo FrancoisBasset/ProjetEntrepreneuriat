@@ -7,7 +7,9 @@
 		<label style="font-size: 20px">{{ account.firstName }} {{ account.lastName }}</label>
 		
 		<div id="buttons">
-			<button id="profile">Mon profil</button>
+			<router-link :to="{ name: 'profile', params: { profile: account } }">
+				<button id="profile">Mon profil</button>
+			</router-link>
 			<button id="disconnect" v-on:click="disconnect">Déconnexion</button>
 		</div>
 	</div>

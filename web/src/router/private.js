@@ -13,6 +13,8 @@ import OperatorCommunications from '@/views/private/OperatorCommunications.vue';
 import OperatorFormations from '@/views/private/OperatorFormations.vue';
 import OperatorCertifications from '@/views/private/OperatorCertifications.vue';
 
+import MyProfile from '@/views/private/MyProfile.vue';
+
 const routes = [
 	{
 		path: '/home',
@@ -66,6 +68,10 @@ const routes = [
 		path: '/home/certifications',
 		name: 'operatorCertifications',
 		component: OperatorCertifications
+	}, {
+		path: '/profile',
+		name: 'profile',
+		component: MyProfile
 	}
 ];
 

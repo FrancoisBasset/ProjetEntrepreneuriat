@@ -15,7 +15,9 @@ router.post('/signin', AccountsController.connect);
 router.post('/', AccountsController.createAccount);
 router.post('/logout', mConnect, AccountsController.disconnect);
 
-//router.put('/:id', AccountsController.modifyAccount);
+router.put('/password', mConnect, AccountsController.updatePassword);
+router.put('/', mConnect, AccountsController.updateAccount);
+
 //router.delete('/:id', AccountsController.deleteAccount);
 
 module.exports = router;
