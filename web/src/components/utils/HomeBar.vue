@@ -1,12 +1,15 @@
 <template>
 	<div id="homebar">
-		<label>{{ account.firstName }} {{ account.lastName }}</label>
-		
 		<router-link id="link" :to="{ name: 'clientHome' }">
 			<Logo />
 		</router-link>
 
-		<button v-on:click="disconnect">Déconnexion</button>
+		<label style="font-size: 20px">{{ account.firstName }} {{ account.lastName }}</label>
+		
+		<div id="buttons">
+			<button id="profile">Mon profil</button>
+			<button id="disconnect" v-on:click="disconnect">Déconnexion</button>
+		</div>
 	</div>
 </template>
 
@@ -46,11 +49,25 @@ export default {
 </script>
 
 <style scoped>
-	#homebar {
-		text-align: center;
-	}
-
 	#link {
 		text-decoration: none;
+	}
+
+	#buttons {
+		display: flex;
+		float: right;
+	}
+
+	#profile {
+		padding: 20px;
+		border-radius: 10px;
+		cursor: pointer;
+		margin-right: 10px;
+	}
+
+	#disconnect {
+		padding: 20px;
+		border-radius: 10px;
+		cursor: pointer;
 	}
 </style>
