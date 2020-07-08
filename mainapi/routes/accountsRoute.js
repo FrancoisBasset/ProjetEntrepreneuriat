@@ -17,7 +17,6 @@ router.post('/logout', mConnect, AccountsController.disconnect);
 
 router.put('/password', mConnect, AccountsController.updatePassword);
 router.put('/', mConnect, AccountsController.updateAccount);
-
-//router.delete('/:id', AccountsController.deleteAccount);
+router.delete('/', mConnect, AccountsController.deleteAccount);
 
 module.exports = router;

@@ -70,7 +70,15 @@ module.exports = {
 		res.json(json(true, account));
 	},
 
-	/*deleteAccount: function(req, res) {
+	deleteAccount: async function(req, res) {
+		const account = await Accounts.getById(session.accountId);
 
-	}*/
+		if (account.type != 'client') {
+			res.josn(json(false, 'C\'est uniquement le client qui peut supprimer son compte'));
+		} else {
+			await Accounts.deleteAccount(session.accountId);
+			
+			res.json(json(true, 'OK'));
+		}
+	}
 };

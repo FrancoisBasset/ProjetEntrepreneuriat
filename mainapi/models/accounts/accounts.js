@@ -165,8 +165,26 @@ module.exports = function(database) {
 			});
 		},
 		
-		deleteAccount: function(id) {
+		deleteAccount: async function(id) {
+			const { ClientsCourses, ClientsCertifications } = require('../index');
 			
+			await ClientsCourses.ClientsCourses.destroy({
+				where: {
+					accountId: id
+				}
+			});
+
+			await ClientsCertifications.ClientsCertifications.destroy({
+				where: {
+					accountId: id
+				}
+			});
+
+			await Accounts.destroy({
+				where: {
+					id: id
+				}
+			});
 		}
 	};
 };

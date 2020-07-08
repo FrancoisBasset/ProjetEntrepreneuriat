@@ -42,7 +42,7 @@
 		</div>
 
 		<div>
-			<button>Supprimer le compte</button>
+			<button v-if="profile.type == 'client'" v-on:click="deleteProfile">Supprimer le compte</button>
 		</div>
 	</div>
 </template>
@@ -124,6 +124,19 @@ export default {
 
 			const json = await response.json();
 			this.profile = json.response;
+		},
+		deleteProfile: async function() {
+			await fetch('http://localhost/accounts', {
+				method: 'DELETE'
+			});
+
+			await fetch('http://localhost/accounts/logout', {
+				method: 'POST'
+			});
+			
+			this.$router.push({
+				name: 'HomePage'
+			});
 		}
 	}
 }
