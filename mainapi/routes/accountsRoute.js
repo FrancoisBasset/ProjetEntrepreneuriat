@@ -19,4 +19,7 @@ router.put('/password', mConnect, AccountsController.updatePassword);
 router.put('/', mConnect, AccountsController.updateAccount);
 router.delete('/', mConnect, AccountsController.deleteAccount);
 
+router.post('/card', mConnect, AccountsController.addCard);
+router.delete('/card', mConnect, AccountsController.deleteCard);
+
 module.exports = router;

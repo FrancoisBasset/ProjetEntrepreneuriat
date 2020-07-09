@@ -1,4 +1,4 @@
-const { Accounts } = require('../models');
+const { Accounts, Cards } = require('../models');
 const mailer = require('../mailer');
 const { json } = require('./utils');
 
@@ -74,11 +74,48 @@ module.exports = {
 		const account = await Accounts.getById(session.accountId);
 
 		if (account.type != 'client') {
-			res.josn(json(false, 'C\'est uniquement le client qui peut supprimer son compte'));
+			res.json(json(false, 'La suppression de compte ne peut se faire que par le client'));
 		} else {
 			await Accounts.deleteAccount(session.accountId);
 			
 			res.json(json(true, 'OK'));
+		}
+	},
+
+	addCard: async function(req, res) {
+		var account = await Accounts.getById(session.accountId);
+
+		if (account.type != 'client') {
+			res.json(json(false, 'L\'ajout de carte ne peut se faire que par le client'));
+		} else {
+			var balance = 1;
+
+			for (const letter of req.body.code.split('')) {
+				const intValue = parseInt(letter);
+
+				if (!isNaN(intValue) && intValue != 0) {
+					balance += intValue;
+				}
+			}
+
+			await Cards.create(account.id, req.body.code, req.body.expiryDate, balance);
+			account = await Accounts.getById(account.id);
+			
+			res.json(json(true, account));
+		}
+	},
+
+	deleteCard: async function(req, res) {
+		var account = await Accounts.getById(session.accountId);
+
+		if (account.type != 'client') {
+			res.json(json(false, 'La suppression de carte ne peut se faire que par le client'));
+		} else {
+			await Cards.deleteCard(account.id);
+
+			account = await Accounts.getById(account.id);
+			
+			res.json(json(true, account));
 		}
 	}
 };

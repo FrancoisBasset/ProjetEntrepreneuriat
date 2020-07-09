@@ -44,6 +44,29 @@
 		<div>
 			<button v-if="profile.type == 'client'" v-on:click="deleteProfile">Supprimer le compte</button>
 		</div>
+
+		<hr>
+
+		<h2>Améliorer le compte</h2>
+
+		<div v-if="profile.card == null">
+			<button v-if="!willAddCard" v-on:click="willAddCard = true">Ajouter une carte bancaire</button>
+			<button v-else v-on:click="willAddCard = false">Annuler l'ajout</button><br>
+			<br>
+			<div v-if="willAddCard">
+				Numéro de carte : <input type="text" v-model="card.code" maxlength="16" /><br>
+				Date d'expiration : <input type="text" v-model="card.expiryDate" maxlength="5" /><br>
+				<button v-on:click="addCard">Ajouter la carte</button>
+			</div>
+		</div>
+		<div v-else>
+			<label>Solde {{ profile.card.balance }}€</label><br>
+			<button v-on:click="deleteCard">Supprimer la carte bancaire</button>
+		</div>
+
+		<br>
+		<button>Obtenir un compte Medium</button><br>
+		<button>Obtenir un compte Premium</button>
 	</div>
 </template>
 
@@ -64,7 +87,13 @@ export default {
 			errorChangePassword: '',
 			oldPassword: '',
 			newPassword1: '',
-			newPassword2: ''
+			newPassword2: '',
+
+			willAddCard: false,
+			card: {
+				code: '',
+				expiryDate: ''
+			}
 		};
 	},
 	created: function() {
@@ -137,6 +166,29 @@ export default {
 			this.$router.push({
 				name: 'HomePage'
 			});
+		},
+		addCard: async function() {
+			const response = await fetch('http://localhost/accounts/card', {
+				method: 'POST',
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					code: await hashPassword(this.card.code),
+					expiryDate: this.card.expiryDate
+				})
+			});
+			const json = await response.json();
+
+			this.profile = json.response;
+		},
+		deleteCard: async function() {
+			const response = await fetch('http://localhost/accounts/card', {
+				method: 'DELETE'
+			});
+			const json = await response.json();
+
+			this.profile = json.response;
 		}
 	}
 }
