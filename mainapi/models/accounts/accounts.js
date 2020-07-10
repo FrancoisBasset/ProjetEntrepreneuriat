@@ -58,7 +58,7 @@ module.exports = function(database) {
 			}
 
 			if (account.type == 'client') {
-				return ['courses', 'card'];
+				return ['courses', 'card', 'payments'];
 			} else if (account.type == 'professionnal') {
 				return ['sentCourses'];
 			} else {

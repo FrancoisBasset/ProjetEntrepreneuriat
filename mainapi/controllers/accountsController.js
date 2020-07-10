@@ -131,7 +131,7 @@ module.exports = {
 		if (account.type != 'client') {
 			res.json(json(false, 'Le paiement ne peut se faire que par le client'));
 		} else {
-			await Payments.create(account.card.id, req.body.amount, req.body.item);
+			await Payments.create(account.id, account.card.id, req.body.amount, req.body.item);
 
 			account = await Accounts.getById(account.id);
 

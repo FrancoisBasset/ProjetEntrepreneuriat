@@ -40,8 +40,7 @@ module.exports = function(database) {
 			return Cards.findOne({
 				where: {
 					accountId: id
-				},
-				include: 'payments'
+				}
 			});
 		},
 

@@ -34,13 +34,13 @@ module.exports = function(database) {
 			return Payments.findAll();
 		},
 
-		create: async function(cardId, amount, item) {
+		create: async function(accountId, cardId, amount, item) {
 			const { Cards } = require('../index');
 
 			await Payments.create({
 				amount: amount,
 				item: item,
-				cardId: cardId
+				accountId: accountId
 			});
 
 			await Cards.removeAmount(cardId, amount);

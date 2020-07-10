@@ -66,8 +66,11 @@
 			</div>
 
 			<br>
-			<button :disabled="profile.card == null" v-on:click="getMedium">Obtenir un compte Medium</button><br>
-			<button :disabled="profile.card == null" v-on:click="getPremium">Obtenir un compte Premium</button>
+			<label style="color: green" v-if="mediumActivated">Compte medium activée</label>
+			<button v-else :disabled="profile.card == null" v-on:click="getMedium">Obtenir un compte Medium</button><br>
+			
+			<label style="color: green" v-if="premiumActivated">Compte premium activée</label>
+			<button v-else :disabled="profile.card == null" v-on:click="getPremium">Obtenir un compte Premium</button>
 		</div>
 	</div>
 </template>
@@ -95,14 +98,18 @@ export default {
 			card: {
 				code: '',
 				expiryDate: ''
-			}
+			},
+
+			mediumActivated: false,
+			premiumActivated: false
 		};
 	},
 	created: function() {
 		this.profile = this.$route.params.profile;
 
 		console.log(this.profile);
-		
+
+		this.updatePayments();
 	},
 	methods: {
 		resetPasswordForm: function() {
@@ -210,11 +217,10 @@ export default {
 
 			this.profile = json.response;
 
-			console.log(this.profile);
-			
+			this.updatePayments();
 		},
 		getPremium: async function() {
-			const response = await fetch('http://localhost/accounts/card', {
+			const response = await fetch('http://localhost/accounts/pay', {
 				method: 'POST',
 				headers: {
 					"Content-Type": "application/json"
@@ -229,8 +235,18 @@ export default {
 
 			this.profile = json.response;
 
-			console.log(this.profile);
-			
+			this.updatePayments();
+		},
+		updatePayments: function() {
+			for (const payment of this.profile.payments) {
+				if (payment.item == 'medium') {
+					this.mediumActivated = true;
+				}
+
+				if (payment.item == 'premium') {
+					this.premiumActivated = true;
+				}
+			}
 		}
 	}
 }

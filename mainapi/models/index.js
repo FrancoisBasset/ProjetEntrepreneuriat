@@ -54,16 +54,16 @@ Cards.Cards.belongsTo(Accounts.Accounts, {
 	as: 'account'
 });
 
-Cards.Cards.hasMany(Payments.Payments, {
+Accounts.Accounts.hasMany(Payments.Payments, {
 	as: 'payments',
 	foreignKey: {
-		name: 'cardId',
-		field: 'cardId',
+		name: 'accountId',
+		field: 'accountId',
 		allowNull: true
 	}
 });
-Payments.Payments.belongsTo(Cards.Cards, {
-	as: 'card'
+Payments.Payments.belongsTo(Accounts.Accounts, {
+	as: 'account'
 });
 
 module.exports = require('./models');
