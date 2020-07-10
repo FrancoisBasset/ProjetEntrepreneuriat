@@ -29,7 +29,7 @@ module.exports = function(database) {
 		balance: {
 			allowNull: false,
 
-			type: DataTypes.INTEGER
+			type: DataTypes.FLOAT
 		}
 	});
 

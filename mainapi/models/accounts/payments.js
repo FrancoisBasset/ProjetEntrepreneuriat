@@ -18,7 +18,7 @@ module.exports = function(database) {
 		amount: {
 			allowNull: false,
 
-			type: DataTypes.DOUBLE
+			type: DataTypes.FLOAT
 		},
 		item: {
 			allowNull: false,

@@ -8,7 +8,7 @@ import CourseView from '@/views/private/CourseView.vue';
 
 import OperatorHome from '@/views/private/OperatorHome.vue';
 import OperatorUsers from '@/views/private/OperatorUsers.vue';
-import OperatorPayments from '@/views/private/OperatorHome.vue';
+import OperatorPayments from '@/views/private/OperatorPayments.vue';
 import OperatorCommunications from '@/views/private/OperatorCommunications.vue';
 import OperatorFormations from '@/views/private/OperatorFormations.vue';
 import OperatorCertifications from '@/views/private/OperatorCertifications.vue';
