@@ -22,4 +22,7 @@ router.delete('/', mConnect, AccountsController.deleteAccount);
 router.post('/card', mConnect, AccountsController.addCard);
 router.delete('/card', mConnect, AccountsController.deleteCard);
 
+router.get('/pay', mConnect, AccountsController.getAllPayments);
+router.post('/pay', mConnect, AccountsController.pay);
+
 module.exports = router;

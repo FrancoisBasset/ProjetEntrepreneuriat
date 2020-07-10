@@ -1,4 +1,4 @@
-const { Accounts, Cards } = require('../models');
+const { Accounts, Cards, Payments } = require('../models');
 const mailer = require('../mailer');
 const { json } = require('./utils');
 
@@ -114,6 +114,28 @@ module.exports = {
 			await Cards.deleteCard(account.id);
 
 			account = await Accounts.getById(account.id);
+			
+			res.json(json(true, account));
+		}
+	},
+
+	getAllPayments: async function(req, res) {
+		const payments = await Payments.getAll();
+
+		res.json(json(true, payments));
+	},
+
+	pay: async function(req, res) {
+		var account = await Accounts.getById(session.accountId);
+
+		if (account.type != 'client') {
+			res.json(json(false, 'Le paiement ne peut se faire que par le client'));
+		} else {
+			await Payments.create(account.card.id, req.body.amount, req.body.item);
+
+			account = await Accounts.getById(account.id);
+
+			account.dataValues.card = await Cards.getByAccountId(account.id);
 			
 			res.json(json(true, account));
 		}

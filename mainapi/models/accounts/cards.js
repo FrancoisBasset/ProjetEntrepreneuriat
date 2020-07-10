@@ -40,7 +40,8 @@ module.exports = function(database) {
 			return Cards.findOne({
 				where: {
 					accountId: id
-				}
+				},
+				include: 'payments'
 			});
 		},
 
@@ -57,6 +58,24 @@ module.exports = function(database) {
 			await Cards.destroy({
 				where: {
 					accountId: id
+				}
+			});
+		},
+
+		removeAmount: async function(id, toRemove) {
+			const card = await Cards.findOne({
+				where: {
+					id: id
+				}
+			});
+
+			const newBalance = card.balance - toRemove;
+
+			await Cards.update({
+				balance: newBalance
+			}, {
+				where: {
+					id: id
 				}
 			});
 		}

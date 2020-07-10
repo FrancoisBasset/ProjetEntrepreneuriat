@@ -45,28 +45,30 @@
 			<button v-if="profile.type == 'client'" v-on:click="deleteProfile">Supprimer le compte</button>
 		</div>
 
-		<hr>
+		<div v-if="profile.type == 'client'">
+			<hr>
 
-		<h2>Améliorer le compte</h2>
+			<h2>Améliorer le compte</h2>
 
-		<div v-if="profile.card == null">
-			<button v-if="!willAddCard" v-on:click="willAddCard = true">Ajouter une carte bancaire</button>
-			<button v-else v-on:click="willAddCard = false">Annuler l'ajout</button><br>
-			<br>
-			<div v-if="willAddCard">
-				Numéro de carte : <input type="text" v-model="card.code" maxlength="16" /><br>
-				Date d'expiration : <input type="text" v-model="card.expiryDate" maxlength="5" /><br>
-				<button v-on:click="addCard">Ajouter la carte</button>
+			<div v-if="profile.card == null">
+				<button v-if="!willAddCard" v-on:click="willAddCard = true">Ajouter une carte bancaire</button>
+				<button v-else v-on:click="willAddCard = false">Annuler l'ajout</button><br>
+				<br>
+				<div v-if="willAddCard">
+					Numéro de carte : <input type="text" v-model="card.code" maxlength="16" /><br>
+					Date d'expiration : <input type="text" v-model="card.expiryDate" maxlength="5" /><br>
+					<button v-on:click="addCard">Ajouter la carte</button>
+				</div>
 			</div>
-		</div>
-		<div v-else>
-			<label>Solde {{ profile.card.balance }}€</label><br>
-			<button v-on:click="deleteCard">Supprimer la carte bancaire</button>
-		</div>
+			<div v-else>
+				<label>Solde {{ profile.card.balance }}€</label><br>
+				<button v-on:click="deleteCard">Supprimer la carte bancaire</button>
+			</div>
 
-		<br>
-		<button>Obtenir un compte Medium</button><br>
-		<button>Obtenir un compte Premium</button>
+			<br>
+			<button :disabled="profile.card == null" v-on:click="getMedium">Obtenir un compte Medium</button><br>
+			<button :disabled="profile.card == null" v-on:click="getPremium">Obtenir un compte Premium</button>
+		</div>
 	</div>
 </template>
 
@@ -181,6 +183,9 @@ export default {
 			const json = await response.json();
 
 			this.profile = json.response;
+			this.willAddCard = false;
+			this.card.code = '';
+			this.card.expiryDate = '';
 		},
 		deleteCard: async function() {
 			const response = await fetch('http://localhost/accounts/card', {
@@ -189,6 +194,43 @@ export default {
 			const json = await response.json();
 
 			this.profile = json.response;
+		},
+		getMedium: async function() {
+			const response = await fetch('http://localhost/accounts/pay', {
+				method: 'POST',
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					amount: 9.99,
+					item: 'medium'
+				})
+			});
+			const json = await response.json();
+
+			this.profile = json.response;
+
+			console.log(this.profile);
+			
+		},
+		getPremium: async function() {
+			const response = await fetch('http://localhost/accounts/card', {
+				method: 'POST',
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					amount: 49.99,
+					item: 'premium'
+				})
+			});
+
+			const json = await response.json();
+
+			this.profile = json.response;
+
+			console.log(this.profile);
+			
 		}
 	}
 }
