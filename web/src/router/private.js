@@ -1,7 +1,7 @@
-import ProfessionnalHome from '@/views/private/ProfessionnalHome.vue';
-import CourseForm from '@/views/private/CourseForm.vue';
-import CourseEditorPage from '@/views/private/CourseEditorPage.vue';
-import ClassForm from '@/views/private/ClassForm.vue';
+import ProfessionnalHome from '@/views/professionnal/ProfessionnalHome.vue';
+import CourseForm from '@/views/professionnal/CourseForm.vue';
+import CourseEditorPage from '@/views/professionnal/CourseEditorPage.vue';
+import ClassForm from '@/views/professionnal/ClassForm.vue';
 
 import ClientHome from '@/views/client/ClientHome.vue';
 import CourseStart from '@/views/client/CourseStart.vue';
