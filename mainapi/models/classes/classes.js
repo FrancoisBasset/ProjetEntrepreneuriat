@@ -23,9 +23,9 @@ module.exports = function(database) {
 		description: {
 			type: DataTypes.STRING(1000)
 		},
-		public: {
+		private: {
 			allowNull: false,
-			defaultValue: true,
+			defaultValue: false,
 
 			type: DataTypes.BOOLEAN
 		},
@@ -50,6 +50,14 @@ module.exports = function(database) {
 			return Classes.findAll();
 		},
 
+		getByProfessionnalId: function(professionnalId) {
+			return Classes.findAll({
+				where: {
+					professionnalId: professionnalId
+				}
+			});
+		},
+
 		getById: function(id) {
 			return Classes.findOne({
 				where: {
@@ -68,22 +76,22 @@ module.exports = function(database) {
 			});
 		},
 
-		create: async function(professionnalId, name, description, public, price, fonctionnalities) {
+		create: async function(professionnalId, name, description, private, price, fonctionnalities) {
 			return Classes.create({
 				name: name,
 				description: description,
-				public: public,
+				private: private,
 				price: price,
 				fonctionnalities: fonctionnalities,
 				professionnalId: professionnalId
 			});
 		},
 
-		update: function(id, name, description, public, price, fonctionnalities) {
+		update: function(id, name, description, private, price, fonctionnalities) {
 			return Classes.update({
 				name: name,
 				description: description,
-				public: public,
+				private: private,
 				price: price,
 				fonctionnalities: fonctionnalities
 			}, {

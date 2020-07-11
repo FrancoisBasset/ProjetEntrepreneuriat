@@ -1,6 +1,7 @@
 import ProfessionnalHome from '@/views/private/ProfessionnalHome.vue';
 import CourseForm from '@/views/private/CourseForm.vue';
 import CourseEditorPage from '@/views/private/CourseEditorPage.vue';
+import ClassForm from '@/views/private/ClassForm.vue';
 
 import ClientHome from '@/views/private/ClientHome.vue';
 import CourseStart from '@/views/private/CourseStart.vue';
@@ -40,35 +41,48 @@ const routes = [
 		path: '/courseEditor',
 		name: 'courseEditor',
 		component: CourseEditorPage
-	}, {
+	},
+	{
+		path: '/classForm',
+		name: 'classForm',
+		component: ClassForm
+	},
+	{
 		path: '/courseStart',
 		name: 'courseStart',
 		component: CourseStart
-	}, {
+	},
+	{
 		path: '/courseView',
 		name: 'courseView',
 		component: CourseView
-	}, {
+	},
+	{
 		path: '/home/utilisateurs',
 		name: 'operatorUsers',
 		component: OperatorUsers
-	}, {
+	},
+	{
 		path: '/home/paiements',
 		name: 'operatorPayments',
 		component: OperatorPayments
-	}, {
+	},
+	{
 		path: '/home/communications',
 		name: 'operatorCommunications',
 		component: OperatorCommunications
-	}, {
+	},
+	{
 		path: '/home/formations',
 		name: 'operatorFormations',
 		component: OperatorFormations
-	}, {
+	},
+	{
 		path: '/home/certifications',
 		name: 'operatorCertifications',
 		component: OperatorCertifications
-	}, {
+	},
+	{
 		path: '/profile',
 		name: 'profile',
 		component: MyProfile
