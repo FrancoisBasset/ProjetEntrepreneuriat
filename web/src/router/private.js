@@ -14,7 +14,7 @@ import OperatorCommunications from '@/views/operator/OperatorCommunications.vue'
 import OperatorFormations from '@/views/operator/OperatorFormations.vue';
 import OperatorCertifications from '@/views/operator/OperatorCertifications.vue';
 
-import MyProfile from '@/views/private/MyProfile.vue';
+import MyProfile from '@/views/MyProfile.vue';
 
 const routes = [
 	{
