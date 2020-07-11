@@ -7,12 +7,12 @@ import ClientHome from '@/views/client/ClientHome.vue';
 import CourseStart from '@/views/client/CourseStart.vue';
 import CourseView from '@/views/client/CourseView.vue';
 
-import OperatorHome from '@/views/private/OperatorHome.vue';
-import OperatorUsers from '@/views/private/OperatorUsers.vue';
-import OperatorPayments from '@/views/private/OperatorPayments.vue';
-import OperatorCommunications from '@/views/private/OperatorCommunications.vue';
-import OperatorFormations from '@/views/private/OperatorFormations.vue';
-import OperatorCertifications from '@/views/private/OperatorCertifications.vue';
+import OperatorHome from '@/views/operator/OperatorHome.vue';
+import OperatorUsers from '@/views/operator/OperatorUsers.vue';
+import OperatorPayments from '@/views/operator/OperatorPayments.vue';
+import OperatorCommunications from '@/views/operator/OperatorCommunications.vue';
+import OperatorFormations from '@/views/operator/OperatorFormations.vue';
+import OperatorCertifications from '@/views/operator/OperatorCertifications.vue';
 
 import MyProfile from '@/views/private/MyProfile.vue';
 
