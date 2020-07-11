@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<HomeBar />
+		<HomeBar :home="home" />
 
 		<div>
 			<div v-if="!willUpdatePassword">
@@ -101,15 +101,18 @@ export default {
 			},
 
 			mediumActivated: false,
-			premiumActivated: false
+			premiumActivated: false,
+
+			home: null
 		};
 	},
 	created: function() {
 		this.profile = this.$route.params.profile;
+		this.home = this.$route.params.home;
 
-		console.log(this.profile);
-
-		this.updatePayments();
+		if (this.profile.type == 'client') {
+			this.updatePayments();
+		}
 	},
 	methods: {
 		resetPasswordForm: function() {
