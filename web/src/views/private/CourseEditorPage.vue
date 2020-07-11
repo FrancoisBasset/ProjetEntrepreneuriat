@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div id="homeBar">
-			<HomeBar />
+			<HomeBar home="professionnalHome" />
 		</div>
 		<CourseEditor id="editor" />
 	</div>

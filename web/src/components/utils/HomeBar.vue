@@ -1,6 +1,6 @@
 <template>
 	<div id="homebar">
-		<router-link id="link" :to="{ name: 'clientHome' }">
+		<router-link id="link" :to="{ name: home }">
 			<Logo />
 		</router-link>
 
@@ -24,6 +24,9 @@ export default {
 	components: {
 		Logo
 	},
+	props: [
+		'home'
+	],
 	data: function() {
 		return {
 			account: {}

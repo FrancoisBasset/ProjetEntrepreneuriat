@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<HomeBar />
+		<HomeBar home="professionnalHome" />
 
 		<div>
 			<h1 v-if="oldClasse == null">Création de la classe virtuelle</h1>

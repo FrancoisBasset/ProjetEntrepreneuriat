@@ -1,6 +1,6 @@
 <template>
 	<div id="root">
-		<HomeBar />
+		<HomeBar home="professionnalHome" />
 
 		<Previous to="/home" />
 

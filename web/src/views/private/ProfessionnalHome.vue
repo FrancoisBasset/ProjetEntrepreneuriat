@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<HomeBar />
+		<HomeBar home="professionnalHome" />
 
 		<h2>Créer</h2>
 		<router-link to="/courseForm">
