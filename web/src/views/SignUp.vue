@@ -61,7 +61,7 @@ import FormWarning from '@/components/utils/FormWarning.vue';
 import AccountTypeChoice from '@/components/AccountTypeChoice.vue';
 import FormLine from '@/components/utils/FormLine.vue';
 
-import hashPassword from '../../utils/hashPassword';
+import hashPassword from '@/utils/hashPassword';
 
 export default {
 	name: 'SignUp',

@@ -1,11 +1,11 @@
-import HomePage from '@/views/public/HomePage.vue';
+import HomePage from '@/views/HomePage.vue';
 
-import Formations from '@/views/public/Formations.vue';
-import Certifications from '@/views/public/Certifications.vue';
-import Professionnals from '@/views/public/Professionnals.vue';
+import Formations from '@/views/Formations.vue';
+import Certifications from '@/views/Certifications.vue';
+import Professionnals from '@/views/Professionnals.vue';
 
-import SignUp from '@/views/public/SignUp.vue';
-import SignIn from '@/views/public/SignIn.vue';
+import SignUp from '@/views/SignUp.vue';
+import SignIn from '@/views/SignIn.vue';
 
 const routes = [
 	{
