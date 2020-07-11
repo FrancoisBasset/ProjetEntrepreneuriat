@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<HomeBar />
+		<HomeBar home="operatorHome" />
 		
 		<div id="buttons">
 			<router-link :to="{ name: 'operatorUsers' }">

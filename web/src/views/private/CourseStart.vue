@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<HomeBar />
+		<HomeBar home="clientHome" />
 
 		<h1>{{ course.name }}</h1>
 		<br>

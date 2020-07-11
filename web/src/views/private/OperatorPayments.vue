@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<HomeBar />
+		<HomeBar home="operatorHome" />
 
 		<h2>Total des gains : {{ totalAmount }} €</h2>
 

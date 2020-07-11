@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<HomeBar />
+		<HomeBar home="operatorHome" />
 
 		<div id="root">
 			<div id="list" :class="{ listWhenSelected: selectedUser != null }">

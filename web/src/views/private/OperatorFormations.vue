@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<HomeBar />
+		<HomeBar home="operatorHome" />
 
 		<div>
 			<h2>Domaines</h2>
