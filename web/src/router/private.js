@@ -3,9 +3,9 @@ import CourseForm from '@/views/private/CourseForm.vue';
 import CourseEditorPage from '@/views/private/CourseEditorPage.vue';
 import ClassForm from '@/views/private/ClassForm.vue';
 
-import ClientHome from '@/views/private/ClientHome.vue';
-import CourseStart from '@/views/private/CourseStart.vue';
-import CourseView from '@/views/private/CourseView.vue';
+import ClientHome from '@/views/client/ClientHome.vue';
+import CourseStart from '@/views/client/CourseStart.vue';
+import CourseView from '@/views/client/CourseView.vue';
 
 import OperatorHome from '@/views/private/OperatorHome.vue';
 import OperatorUsers from '@/views/private/OperatorUsers.vue';
