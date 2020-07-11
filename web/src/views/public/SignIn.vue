@@ -38,8 +38,8 @@ export default {
 	name: 'SignIn',
 	data: function() {
 		return {
-			mail: 'operator@ecoleconfinee',
-			password: 'operator@ecoleconfinee',
+			mail: 'professionnal@localhost',
+			password: 'professionnal@localhost',
 
 			modalVisible: false,
 			message: null

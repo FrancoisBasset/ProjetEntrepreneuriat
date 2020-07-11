@@ -33,5 +33,7 @@ module.exports = {
 	Notifications: require('./notifications/notifications')(database),
 
 	Cards: require('./accounts/cards')(database),
-	Payments: require('./accounts/payments')(database)
+	Payments: require('./accounts/payments')(database),
+
+	Classes: require('./classes/classes')(database)
 };

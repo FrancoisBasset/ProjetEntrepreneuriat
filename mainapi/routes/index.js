@@ -12,6 +12,7 @@ function createRoutes(app) {
 	app.use('/sections', require('./sectionsRoute'));
 	app.use('/certifications', require('./certificationsRoute'));
 	app.use('/notifications', require('./notificationsRoute'));
+	app.use('/classes', require('./classesRoute'));
 }
 
 module.exports = {
