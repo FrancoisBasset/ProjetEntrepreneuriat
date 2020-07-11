@@ -3,6 +3,9 @@
 		<HomeBar />
 
 		<div>
+			<h1 v-if="oldClasse == null">Création de la classe virtuelle</h1>
+			<h1 v-else>Modification de la classe virtuelle</h1>
+
 			<div>
 				Nom : <br><input type="text" v-model="classe.name" />
 			</div>
@@ -29,7 +32,26 @@
 
 			<div>
 				<button v-if="oldClasse == null" v-on:click="createVirtualClass">Créer la classe virtuelle</button>
-				<button v-else v-on:click="updateVirtualClass">Modifier la classe virtuelle</button>
+				<div v-else>
+					<button v-on:click="updateVirtualClass">Modifier la classe virtuelle</button>
+					<button v-on:click="willPlan = true">Planifier</button>
+				</div>
+			</div>
+
+			<div v-if="willPlan || classe.date != null">
+				<h2>Planification de la classe virtuelle</h2>
+
+				Date : <input type="date" v-model="classe.date" /><br>
+				Heure de début : <input type="time" v-model="classe.beginHour" /><br>
+				Heure de fin : <input type="time" v-model="classe.endHour" /><br>
+				
+				<button v-if="oldClasse.date == null" v-on:click="plan">Planifier</button>
+				<div v-else>
+					<button v-on:click="plan">Replanifier</button>
+					<button v-on:click="cancelPlan">Annuler la planification</button>
+				</div>
+				<br><label style="color: red">{{ planError }}</label>
+
 			</div>
 		</div>
 	</div>
@@ -52,10 +74,17 @@ export default {
 				description: '',
 				private: false,
 				price: 0,
-				fonctionnalities: ['']
+				fonctionnalities: [''],
+				
+				date: null,
+				beginHour: null,
+				endHour: null
 			},
 
-			oldClasse: null
+			oldClasse: null,
+
+			willPlan: false,
+			planError: ''
 		};
 	},
 	created: async function() {
@@ -71,6 +100,9 @@ export default {
 			this.classe.private = this.oldClasse.private;
 			this.classe.price = this.oldClasse.price;
 			this.classe.fonctionnalities = this.oldClasse.fonctionnalities.split(';');
+			this.classe.date = this.oldClasse.date;
+			this.classe.beginHour = this.oldClasse.beginHour;
+			this.classe.endHour = this.oldClasse.endHour;
 		}
 	},
 	methods: {
@@ -108,13 +140,12 @@ export default {
 				}
 			}
 
-			const response = await fetch('http://localhost/classes', {
+			const response = await fetch(`http://localhost/classes/${this.classe.id}`, {
 				method: 'PUT',
 				headers: {
 					"Content-Type": "application/json"
 				},
 				body: JSON.stringify({
-					id: this.classe.id,
 					name: this.classe.name,
 					description: this.classe.description,
 					private: this.classe.private,
@@ -126,6 +157,49 @@ export default {
 			this.oldClasse = json.response;
 
 			this.classe.id = this.oldClasse.id;
+		},
+		plan: async function() {
+			if (this.classe.date == null || this.classe.beginHour == null || this.classe.endHour == null) {
+				this.planError = 'Toutes les infos en sont pas renseignées !';
+				return;
+			}
+
+			const response = await fetch(`http://localhost/classes/${this.classe.id}/plan`, {
+				method: 'PUT',
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					date: this.classe.date,
+					beginHour: this.classe.beginHour,
+					endHour: this.classe.endHour
+				})
+			});
+			const json = await response.json();
+			this.oldClasse = json.response;
+
+			this.planError = '';
+		},
+		cancelPlan: async function() {
+			const response = await fetch(`http://localhost/classes/${this.classe.id}/plan`, {
+				method: 'PUT',
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					date: null,
+					beginHour: null,
+					endHour: null
+				})
+			});
+			const json = await response.json();
+			this.oldClasse = json.response;
+
+			this.classe.date = null;
+			this.classe.beginHour = null;
+			this.classe.endHour = null;
+
+			this.planError = '';
 		}
 	}
 }

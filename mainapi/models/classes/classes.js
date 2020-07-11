@@ -40,6 +40,15 @@ module.exports = function(database) {
 			defaultValue: '',
 
 			type: DataTypes.STRING(500)
+		},
+		date: {
+			type: DataTypes.DATEONLY
+		},
+		beginHour: {
+			type: DataTypes.TIME
+		},
+		endHour: {
+			type: DataTypes.TIME
 		}
 	});
 
@@ -94,6 +103,20 @@ module.exports = function(database) {
 				private: private,
 				price: price,
 				fonctionnalities: fonctionnalities
+			}, {
+				where: {
+					id: id
+				}
+			}).then(() => {
+				return this.getById(id);
+			});
+		},
+
+		plan: function(id, date, beginHour, endHour) {
+			return Classes.update({
+				date: date,
+				beginHour: beginHour,
+				endHour: endHour
 			}, {
 				where: {
 					id: id

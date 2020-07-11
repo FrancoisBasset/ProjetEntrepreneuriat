@@ -8,6 +8,7 @@ router.use(bodyParser.json());
 
 router.get('/:id', ClassesController.getById);
 router.post('/', mConnect, ClassesController.post);
-router.put('/', mConnect, ClassesController.put);
+router.put('/:id', mConnect, ClassesController.put);
+router.put('/:id/plan', mConnect, ClassesController.plan);
 
 module.exports = router;
