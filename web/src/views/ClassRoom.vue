@@ -11,7 +11,7 @@
 				</div>
 				<div id="chatInputDiv">
 					<div>
-						<input id="toSendDiv" type="text" v-model="toSend" />
+						<input id="toSendDiv" type="text" v-model="toSend" autocomplete="off" />
 					</div>
 					<div>
 						<button id="buttonSend" :disabled="toSend.trim() == ''" v-on:click="sendMessage">Envoyer</button>
@@ -96,10 +96,26 @@ export default {
 			this.toSend = '';
 		},
 		changeMute: function() {
-			this.muted = !this.muted;
+			if (this.muted) {
+				navigator.getUserMedia({
+					audio: true
+				}, () => {
+					this.muted = !this.muted;
+				}, function() {});
+			} else {
+				this.muted = !this.muted;
+			}
 		},
 		changeCamera: function() {
-			this.camera = !this.camera;
+			if (this.muted) {
+				navigator.getUserMedia({
+					video: true
+				}, () => {
+					this.camera = !this.camera;
+				}, function() {});
+			} else {
+				this.camera = !this.camera;
+			}
 		}
 	}
 }
