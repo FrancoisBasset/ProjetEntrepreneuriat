@@ -13,5 +13,6 @@ router.put('/:id', mConnect, ClassesController.put);
 router.put('/:id/plan', mConnect, ClassesController.plan);
 router.put('/:id/pay', mConnect, ClassesController.pay);
 router.put('/:id/register', mConnect, ClassesController.register);
+router.put('/:id/unregister', mConnect, ClassesController.unregister);
 
 module.exports = router;

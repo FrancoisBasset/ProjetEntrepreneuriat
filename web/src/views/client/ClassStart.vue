@@ -38,7 +38,7 @@
 				<button v-if="!registered" v-on:click="register">S'inscrire</button>
 				<div v-else>
 					<button>Démarrer</button>
-					<button>Se désinscrire</button>
+					<button v-on:click="unregister">Se désinscrire</button>
 				</div>
 			</div>
 		</div>
@@ -105,6 +105,19 @@ export default {
 			if (json.success) {
 				this.account = json.response;
 				this.registered = true;
+			} else {
+				this.error = json.response;
+			}
+		},
+		unregister: async function() {
+			const response = await fetch(`http://localhost/classes/${this.classe.id}/unregister`, {
+				method: 'PUT'
+			});
+			const json = await response.json();
+			
+			if (json.success) {
+				this.account = json.response;
+				this.registered = false;
 			} else {
 				this.error = json.response;
 			}

@@ -59,7 +59,21 @@ module.exports = {
 		if (classe == null) {
 			res.json(json(false, `La classe virtuelle n°${req.params.id} n'existe pas`));
 		} else {
-			await ClientsClasses.register(session.accountId, classe.id);
+			await ClientsClasses.register(session.accountId, classe.id, true);
+
+			const account = await Accounts.getById(session.accountId);
+
+			res.json(json(true, account));
+		}
+	},
+
+	unregister: async function(req, res) {
+		const classe = await Classes.getById(req.params.id);
+
+		if (classe == null) {
+			res.json(json(false, `La classe virtuelle n°${req.params.id} n'existe pas`));
+		} else {
+			await ClientsClasses.register(session.accountId, classe.id, false);
 
 			const account = await Accounts.getById(session.accountId);
 

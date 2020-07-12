@@ -33,9 +33,9 @@ module.exports = function(database) {
 			});
 		},
 
-		register: function(accountId, classId) {
+		register: function(accountId, classId, registered) {
 			return ClientsClasses.update({
-				registered: true
+				registered: registered
 			}, {
 				where: {
 					accountId: accountId,
