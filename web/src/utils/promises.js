@@ -64,6 +64,18 @@ async function getClientsCourses(id) {
 	return null;
 }
 
+async function getClass(id) {
+	const response = await fetch(`http://localhost/classes/${id}`);
+	const json = await response.json();
+	return json.response;
+}
+
+async function getChats(classId) {
+	const response = await fetch(`http://localhost/chats/${classId}`);
+	const json = await response.json();
+	return json.response;
+}
+
 export {
 	getAccount,
 	getDomains,
@@ -74,5 +86,7 @@ export {
 	getCourse,
 	getChapter,
 	getPage,
-	getClientsCourses
+	getClientsCourses,
+	getClass,
+	getChats
 };

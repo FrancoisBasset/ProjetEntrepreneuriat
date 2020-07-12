@@ -114,13 +114,13 @@ database.afterBulkSync(async() => {
 	await Notifications.create('Golang', 'Cours sur Golang disponible !');
 	console.log(`${++i}/${l} notifications !`);
 
-	await Classes.create(1, 'Node.Js', 'Cours ludique sur Node.Js', false, 5.00, '');
-	await Classes.plan(1, '2020-08-08', '20:00:00', '21:00:00');
+	await Classes.create(1, 'Node.Js', 'Cours ludique sur Node.Js', false, 5.00, 'chat;sound;camera;screen;users;');
+	await Classes.plan(1, '2020-08-08', '20:00:00', '23:59:59');
 
-	await Classes.create(1, 'PHP', 'Cours ludique sur PHP', false, 15.00, '');
-	await Classes.plan(2, '2020-08-08', '20:00:00', '21:00:00');
+	await Classes.create(1, 'PHP', 'Cours ludique sur PHP', false, 15.00, 'chat;sound;camera;screen;users;');
+	await Classes.plan(2, '2020-08-08', '20:00:00', '23:59:59');
 
-	await Classes.create(1, 'Parachutisme', 'Cours pratique sur le parachutisme', false, 200.00, '');
-	await Classes.plan(3, '2020-08-08', '20:00:00', '21:00:00');
+	await Classes.create(1, 'Parachutisme', 'Cours pratique sur le parachutisme', false, 200.00, 'chat;sound;camera;screen;users;');
+	await Classes.plan(3, '2020-08-08', '20:00:00', '23:59:59');
 	console.log(`${++i}/${l} classes !`);
 });

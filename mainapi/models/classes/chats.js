@@ -25,6 +25,16 @@ module.exports = function(database) {
 	return {
 		Chats: Chats,
 
+		getAllByClass: function(classId) {
+			return Chats.findAll({
+				where: {
+					classId: classId
+				},
+				include: ['account'],
+				order: ['id']
+			});
+		},
+
 		create: async function(classId, accountId, value) {
 			return Chats.create({
 				classId: classId,

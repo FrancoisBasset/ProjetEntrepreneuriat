@@ -99,5 +99,8 @@ Accounts.Accounts.hasMany(Chats.Chats, {
 		allowNull: true
 	}
 });
+Chats.Chats.belongsTo(Accounts.Accounts, {
+	as: 'account'
+});
 
 module.exports = require('./models');

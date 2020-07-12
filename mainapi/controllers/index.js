@@ -5,5 +5,6 @@ module.exports = {
 	CoursesController: require('./coursesController'),
 	ChaptersController: require('./chaptersControllers'),
 	NotificationsController: require('./notificationsController'),
-	ClassesController: require('./classesController')
+	ClassesController: require('./classesController'),
+	ChatsController: require('./chatsController')
 };
