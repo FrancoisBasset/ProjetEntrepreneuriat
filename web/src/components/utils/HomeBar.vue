@@ -4,12 +4,11 @@
 			<Logo />
 		</router-link>
 
-		<label style="font-size: 20px">{{ account.firstName }} {{ account.lastName }}</label>
-		
 		<div id="buttons">
 			<router-link :to="{ name: 'profile', params: { profile: account, home: home } }">
-				<button id="profile">Mon profil</button>
+				<button id="profile">{{ account.firstName }} {{ account.lastName }}</button>
 			</router-link>
+
 			<button id="disconnect" v-on:click="disconnect">Déconnexion</button>
 		</div>
 	</div>
@@ -56,23 +55,23 @@ export default {
 <style scoped>
 	#link {
 		text-decoration: none;
+		text-align: center;
 	}
 
 	#buttons {
-		display: flex;
-		float: right;
+		position: fixed;
+		top: 0px;
+		right: 0px;
+	}
+
+	button {
+		padding: 20px;
+		border-radius: 10px;
+		cursor: pointer;
 	}
 
 	#profile {
-		padding: 20px;
-		border-radius: 10px;
-		cursor: pointer;
+		
 		margin-right: 10px;
-	}
-
-	#disconnect {
-		padding: 20px;
-		border-radius: 10px;
-		cursor: pointer;
 	}
 </style>
