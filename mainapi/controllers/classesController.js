@@ -1,4 +1,4 @@
-const { Classes, Accounts } = require('../models');
+const { Classes, Accounts, ClientsClasses } = require('../models');
 const session = require('../session');
 const { json } = require('./utils');
 
@@ -49,6 +49,20 @@ module.exports = {
 
 			account = await Accounts.getById(session.accountId);
 			
+			res.json(json(true, account));
+		}
+	},
+
+	register: async function(req, res) {
+		const classe = await Classes.getById(req.params.id);
+
+		if (classe == null) {
+			res.json(json(false, `La classe virtuelle n°${req.params.id} n'existe pas`));
+		} else {
+			await ClientsClasses.register(session.accountId, classe.id);
+
+			const account = await Accounts.getById(session.accountId);
+
 			res.json(json(true, account));
 		}
 	}

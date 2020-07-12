@@ -14,6 +14,12 @@ module.exports = function(database) {
 			unique: true,
 				
 			type: DataTypes.INTEGER
+		},
+		registered: {
+			allowNull: false,
+			defaultValue: false,
+
+			type: DataTypes.BOOLEAN
 		}
 	});
 
@@ -24,6 +30,17 @@ module.exports = function(database) {
 			return ClientsClasses.create({
 				accountId: accountId,
 				classId: classId
+			});
+		},
+
+		register: function(accountId, classId) {
+			return ClientsClasses.update({
+				registered: true
+			}, {
+				where: {
+					accountId: accountId,
+					classId: classId
+				}
 			});
 		}
 	};

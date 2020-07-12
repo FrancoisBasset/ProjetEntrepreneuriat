@@ -12,5 +12,6 @@ router.post('/', mConnect, ClassesController.post);
 router.put('/:id', mConnect, ClassesController.put);
 router.put('/:id/plan', mConnect, ClassesController.plan);
 router.put('/:id/pay', mConnect, ClassesController.pay);
+router.put('/:id/register', mConnect, ClassesController.register);
 
 module.exports = router;

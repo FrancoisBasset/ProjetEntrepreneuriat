@@ -35,7 +35,11 @@
 				<label v-if="account.card == null">Vous n'avez pas de carte enregistré</label> 
 			</div>
 			<div v-else>
-				<button>S'inscrire</button>
+				<button v-if="!registered" v-on:click="register">S'inscrire</button>
+				<div v-else>
+					<button>Démarrer</button>
+					<button>Se désinscrire</button>
+				</div>
 			</div>
 		</div>
 
@@ -59,6 +63,7 @@ export default {
 			account: {},
 			classe: {},
 			owned: false,
+			registered: false,
 			
 			error : ''
 		}
@@ -73,6 +78,7 @@ export default {
 		for (const classe of this.account.classes) {
 			if (classe.id == this.classe.id) {
 				this.owned = true;
+				this.registered = classe.clients_classes.registered;
 			}
 		}
 	},
@@ -86,6 +92,19 @@ export default {
 			if (json.success) {
 				this.account = await json.response;
 				this.owned = true;
+			} else {
+				this.error = json.response;
+			}
+		},
+		register: async function() {
+			const response = await fetch(`http://localhost/classes/${this.classe.id}/register`, {
+				method: 'PUT'
+			});
+			const json = await response.json();
+			
+			if (json.success) {
+				this.account = json.response;
+				this.registered = true;
 			} else {
 				this.error = json.response;
 			}
