@@ -1,4 +1,4 @@
-const { Domains, Branches, Courses, Chapters, Accounts, Certifications, Pages, database, ClientsCourses, Notifications, Classes } = require('../models');
+const { Domains, Branches, Courses, Chapters, Accounts, Certifications, Pages, database, ClientsCourses, Notifications, Classes, Cards } = require('../models');
 
 async function createDomains() {
 	await Domains.create('Architecture', 'architecture.jpg');
@@ -45,6 +45,7 @@ database.afterBulkSync(async() => {
 	console.log(`${++i}/${l} professionnal !`);
 
 	await Accounts.create('client@localhost', 'client@localhost', null, 'client@localhost', '62a1f575c3f3f1928ad535e69f840100bc1ef62eb385931a37a3e025d161d833', 'client', true);
+	await Cards.create(2, '1234567890123456', '12/20', 500);
 	console.log(`${++i}/${l} client !`);
 
 	await Accounts.create('operator@ecoleconfinee', 'operator@ecoleconfinee', null, 'operator@ecoleconfinee', '83ad68614748987041773b9a92229d5b3d213f2cbb3e1dfb988ad5b7043a6800', 'operator', true);
@@ -117,6 +118,9 @@ database.afterBulkSync(async() => {
 	await Classes.plan(1, '2020-08-08', '20:00:00', '21:00:00');
 
 	await Classes.create(1, 'PHP', 'Cours ludique sur PHP', false, 15.00, '');
+	await Classes.plan(2, '2020-08-08', '20:00:00', '21:00:00');
+
 	await Classes.create(1, 'Parachutisme', 'Cours pratique sur le parachutisme', false, 200.00, '');
+	await Classes.plan(3, '2020-08-08', '20:00:00', '21:00:00');
 	console.log(`${++i}/${l} classes !`);
 });

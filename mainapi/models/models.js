@@ -36,5 +36,6 @@ module.exports = {
 	Payments: require('./accounts/payments')(database),
 
 	Classes: require('./classes/classes')(database),
-	ClientsClasses: require('./classes/clientsClasses')(database)
+	ClientsClasses: require('./classes/clientsClasses')(database),
+	Chats: require('./classes/chats')(database)
 };

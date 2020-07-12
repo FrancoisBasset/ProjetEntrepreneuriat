@@ -82,7 +82,8 @@ module.exports = function(database) {
 			return Classes.findOne({
 				where: {
 					id: id
-				}
+				},
+				include: ['chats']
 			});
 		},
 

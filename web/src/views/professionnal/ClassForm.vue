@@ -67,7 +67,7 @@ export default {
 	},
 	data: function() {
 		return {
-			fonctionnalities: ['chat', 'camera'],
+			fonctionnalities: ['chat', 'microphone', 'camera', 'screen', 'users'],
 			classe: {
 				id: null,
 				name: '',

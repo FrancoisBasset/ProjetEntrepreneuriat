@@ -37,7 +37,9 @@
 			<div v-else>
 				<button v-if="!registered" v-on:click="register">S'inscrire</button>
 				<div v-else>
-					<button>Démarrer</button>
+					<router-link :to="{ name: 'classroom', query: { classId: classe.id }}">
+						<button>Démarrer</button>
+					</router-link>
 					<button v-on:click="unregister">Se désinscrire</button>
 				</div>
 			</div>

@@ -15,6 +15,8 @@ import OperatorCommunications from '@/views/operator/OperatorCommunications.vue'
 import OperatorFormations from '@/views/operator/OperatorFormations.vue';
 import OperatorCertifications from '@/views/operator/OperatorCertifications.vue';
 
+import ClassRoom from '@/views/ClassRoom.vue';
+
 import MyProfile from '@/views/MyProfile.vue';
 
 const routes = [
@@ -92,6 +94,11 @@ const routes = [
 		path: '/profile',
 		name: 'profile',
 		component: MyProfile
+	},
+	{
+		path: '/classroom',
+		name: 'classroom',
+		component: ClassRoom
 	}
 ];
 
