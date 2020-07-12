@@ -2,75 +2,92 @@
 	<div>
 		<HomeBar :home="home" />
 
-		<div>
-			<div v-if="!willUpdatePassword">
-				<button v-on:click="willUpdatePassword = true">Modifier le mot de passe</button>
-			</div>
-			<div v-else>
-				Ancien mot de passe : <input type="password" v-model="oldPassword" />
-				<br>
+		<div id="form">
+			<div>
+				<div v-if="!willUpdatePassword">
+					<button v-on:click="willUpdatePassword = true">Modifier le mot de passe</button>
+				</div>
+				<div v-else>
+					<div>
+						Ancien mot de passe : <input type="password" v-model="oldPassword" />
+					</div>
 
-				Nouveau mot de passe : <input type="password" v-model="newPassword1" />
-				<br>
-				Confirmer le mot de passe : <input type="password" v-model="newPassword2" />
-				<br>
+					<div>
+						Nouveau mot de passe : <input type="password" v-model="newPassword1" />
+					</div>
 
-				<label style="color: red">{{ errorChangePassword }}</label><br>
-				<button v-on:click="resetPasswordForm">Annuler</button>
-				<button v-on:click="updatePassword">Confirmer</button>
-			</div>
-		</div>
+					<div>
+						Confirmer le mot de passe : <input type="password" v-model="newPassword2" />
+					</div>
 
-		<div>
-			Prénom : <input type="text" v-model="profile.firstName" />
-		</div>
+					<div>
+						<label class="error">{{ errorChangePassword }}</label>
+					</div>
 
-		<div>
-			Nom : <input type="text" v-model="profile.lastName" />
-		</div>
-
-		<div>
-			Nom de l'organisation : <input type="text" v-model="profile.organization" />
-		</div>
-
-		<div>
-			Adresse mail : <input type="text" v-model="profile.mail" />
-		</div>
-
-		<div>
-			<button v-on:click="updateProfile">Modifier le compte</button>
-		</div>
-
-		<div>
-			<button v-if="profile.type == 'client'" v-on:click="deleteProfile">Supprimer le compte</button>
-		</div>
-
-		<div v-if="profile.type == 'client'">
-			<hr>
-
-			<h2>Améliorer le compte</h2>
-
-			<div v-if="profile.card == null">
-				<button v-if="!willAddCard" v-on:click="willAddCard = true">Ajouter une carte bancaire</button>
-				<button v-else v-on:click="willAddCard = false">Annuler l'ajout</button><br>
-				<br>
-				<div v-if="willAddCard">
-					Numéro de carte : <input type="text" v-model="card.code" maxlength="16" /><br>
-					Date d'expiration : <input type="text" v-model="card.expiryDate" maxlength="5" /><br>
-					<button v-on:click="addCard">Ajouter la carte</button>
+					<button v-on:click="resetPasswordForm">Annuler</button>
+					<button v-on:click="updatePassword">Confirmer</button>
 				</div>
 			</div>
-			<div v-else>
-				<label>Solde {{ profile.card.balance }}€</label><br>
-				<button v-on:click="deleteCard">Supprimer la carte bancaire</button>
+
+			<div>
+				Prénom : <input type="text" v-model="profile.firstName" />
 			</div>
 
-			<br>
-			<label style="color: green" v-if="mediumActivated">Compte medium activée</label>
-			<button v-else :disabled="profile.card == null" v-on:click="getMedium">Obtenir un compte Medium</button><br>
-			
-			<label style="color: green" v-if="premiumActivated">Compte premium activée</label>
-			<button v-else :disabled="profile.card == null" v-on:click="getPremium">Obtenir un compte Premium</button>
+			<div>
+				Nom : <input type="text" v-model="profile.lastName" />
+			</div>
+
+			<div>
+				Nom de l'organisation : <input type="text" v-model="profile.organization" />
+			</div>
+
+			<div>
+				Adresse mail : <input type="text" v-model="profile.mail" size="50" />
+			</div>
+
+			<div>
+				<button v-on:click="updateProfile">Modifier le compte</button>
+			</div>
+
+			<div>
+				<button v-if="profile.type == 'client'" v-on:click="deleteProfile">Supprimer le compte</button>
+			</div>
+
+			<div v-if="profile.type == 'client'">
+				<hr>
+
+				<h2>Améliorer le compte</h2>
+
+				<div v-if="profile.card == null">
+					<button v-if="!willAddCard" v-on:click="willAddCard = true">Ajouter une carte bancaire</button>
+					<button v-else v-on:click="willAddCard = false">Annuler l'ajout</button>
+					
+					<div v-if="willAddCard">
+						<div>
+							Numéro de carte : <input type="text" v-model="card.code" maxlength="16" />
+						</div>
+						<div>
+							Date d'expiration : <input type="text" v-model="card.expiryDate" maxlength="5" />
+						</div>
+						<button v-on:click="addCard">Ajouter la carte</button>
+					</div>
+				</div>
+				<div v-else>
+					<div>
+						<label>Solde {{ profile.card.balance }}€</label>
+					</div>
+					<div>
+						<button v-on:click="deleteCard">Supprimer la carte bancaire</button>
+					</div>
+				</div>
+				
+				<br>
+				<label style="color: green" v-if="mediumActivated">Compte medium activée</label>
+				<button v-else :disabled="profile.card == null" v-on:click="getMedium">Obtenir un compte Medium</button><br>
+				
+				<label style="color: green" v-if="premiumActivated">Compte premium activée</label>
+				<button v-else :disabled="profile.card == null" v-on:click="getPremium">Obtenir un compte Premium</button>
+			</div>
 		</div>
 	</div>
 </template>
@@ -254,3 +271,19 @@ export default {
 	}
 }
 </script>
+
+<style scoped>
+	#form {
+		text-align: center;
+		margin-top: 50px;
+	}
+
+	button, input {
+		padding: 5px;
+		margin: 5px;
+	}
+
+	.error {
+		color: red;
+	}
+</style>
