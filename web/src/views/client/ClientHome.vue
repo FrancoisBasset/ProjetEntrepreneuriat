@@ -2,8 +2,10 @@
 	<div>
 		<HomeBar home="clientHome" />
 
-		<MyCourses :account="account" :courses="account.courses" />
-		<AllClasses />
+		<div id="home">
+			<MyCourses :account="account" :courses="account.courses" />
+			<ClientHomeClasses />
+		</div>
 	</div>
 </template>
 
@@ -11,14 +13,14 @@
 import { getAccount } from '@/utils/promises';
 import HomeBar from '@/components/utils/HomeBar.vue';
 import MyCourses from '@/components/clientHome/MyCourses.vue';
-import AllClasses from '@/components/clientHome/AllClasses.vue';
+import ClientHomeClasses from '@/components/clientHome/ClientHomeClasses.vue';
 
 export default {
 	name: 'ClientHome',
 	components: {
 		HomeBar,
 		MyCourses,
-		AllClasses
+		ClientHomeClasses
 	},
 	data: function() {
 		return {
@@ -30,3 +32,9 @@ export default {
 	}
 }
 </script>
+
+<style scoped>
+	#home {
+		text-align: center;
+	}
+</style>
