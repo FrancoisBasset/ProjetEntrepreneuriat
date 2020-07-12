@@ -69,11 +69,11 @@ export default {
 		this.account = await getAccount();
 		this.classe = await getClass(this.$route.query.classId);
 
-		this.haveChat = this.classe.fonctionnalities.includes('chat');
-		this.haveMicrophone = this.classe.fonctionnalities.includes('microphone');
-		this.haveCamera = this.classe.fonctionnalities.includes('camera');
-		this.haveScreen = this.classe.fonctionnalities.includes('screen');
-		this.haveUsers = this.classe.fonctionnalities.includes('users');
+		this.haveChat = this.classe.fonctionnalities.includes('Chat');
+		this.haveMicrophone = this.classe.fonctionnalities.includes('Microphone');
+		this.haveCamera = this.classe.fonctionnalities.includes('Caméra');
+		this.haveScreen = this.classe.fonctionnalities.includes('Partage écran');
+		this.haveUsers = this.classe.fonctionnalities.includes('Utilisateurs');
 
 		setInterval(async () => {
 			this.chats = await getChats(this.$route.query.classId);

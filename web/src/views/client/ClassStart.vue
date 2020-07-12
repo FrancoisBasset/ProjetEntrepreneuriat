@@ -1,52 +1,59 @@
 <template>
 	<div>
-		<HomeBar home="clientHome" />
+		<HomeBar home="clientHome" /><br>
 
-		<div>
-			<h1>{{ classe.name }}</h1>
-		</div>
-
-		<div>
-			Description : <label>{{ classe.description }}</label>
-		</div>
-
-		<div>
-			Classe privée : <input type="checkbox" :checked="classe.private" disabled />
-		</div>
-
-		<div>
-			Prix : <label>{{ classe.price }} €</label>
-		</div>
-
-		<div>
-			Fonctionnalités :<br>
-			<select multiple v-if="classe.fonctionnalities != null">
-				<option v-for="fonctionnality of classe.fonctionnalities.split(';')" :key="fonctionnality">{{ fonctionnality }}</option>
-			</select>
-		</div>
-
-		<div>
-			Date et heure : <label>Le {{ classe.date }}, de {{ classe.beginHour }} à {{ classe.endHour }}</label>
-		</div><br>
-
-		<div>
-			<div v-if="classe.price > 0 && !owned">
-				<button :disabled="account.card == null" v-on:click="pay">Payer le cours</button><br>
-				<label v-if="account.card == null">Vous n'avez pas de carte enregistré</label> 
+		<div id="form">
+			<div>
+				<h1>{{ classe.name }}</h1>
 			</div>
-			<div v-else>
-				<button v-if="!registered" v-on:click="register">S'inscrire</button>
+
+			<div>
+				<h2>{{ classe.description }}</h2>
+			</div>
+
+			<div>
+				<h3 v-if="classe.private">Classe privée</h3>
+				<h3 v-else>Classe privée</h3>
+			</div>
+
+			<div>
+				<h3>Prix : {{ classe.price }} €</h3>
+			</div>
+
+			<div>
+				<h3>Fonctionnalités :</h3>
+				<label style="padding: 10px; font-size: 20px" v-for="fonctionnality of classe.fonctionnalities.split(';')" :key="fonctionnality">{{ fonctionnality }}</label>
+			</div>
+
+			<div>
+				<h3>Date</h3>
+				<h4>{{ classe.date }}</h4>
+			</div>
+
+			<div>
+				<h3>Heure</h3>
+				<h4>de {{ classe.beginHour }} à {{ classe.endHour }}</h4>
+			</div>
+
+			<div>
+				<div v-if="classe.price > 0 && !owned">
+					<button :disabled="account.card == null" v-on:click="pay">Payer le cours</button><br>
+					<label v-if="account.card == null">Vous n'avez pas de carte enregistré</label> 
+				</div>
 				<div v-else>
-					<router-link :to="{ name: 'classroom', query: { classId: classe.id }}">
-						<button>Démarrer</button>
-					</router-link>
-					<button v-on:click="unregister">Se désinscrire</button>
+					<button v-if="!registered" v-on:click="register">S'inscrire</button>
+					<div v-else>
+						<router-link :to="{ name: 'classroom', query: { classId: classe.id }}">
+							<button>Démarrer</button>
+						</router-link>
+						<button v-on:click="unregister">Se désinscrire</button>
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<div>
-			<label style="color: red">{{ error }}</label>
+			<div>
+				<label style="color: red">{{ error }}</label>
+			</div>
 		</div>
 	</div>
 </template>
@@ -127,3 +134,18 @@ export default {
 	}
 }
 </script>
+
+<style scoped>
+	#form {
+		text-align: center;
+	}
+
+	select {
+		width: 10%;
+		text-align: center;
+	}
+
+	button {
+		padding: 20px;
+	}
+</style>
