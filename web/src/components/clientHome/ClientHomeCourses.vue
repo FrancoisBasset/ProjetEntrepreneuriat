@@ -12,7 +12,7 @@
 
 <script>
 export default {
-	name: 'MyCourses',
+	name: 'ClientHomeCourses',
 	props: [
 		'account',
 		'courses'

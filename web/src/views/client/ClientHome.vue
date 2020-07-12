@@ -3,7 +3,7 @@
 		<HomeBar home="clientHome" />
 
 		<div id="home">
-			<MyCourses :account="account" :courses="account.courses" />
+			<ClientHomeCourses :account="account" :courses="account.courses" />
 			<ClientHomeClasses />
 		</div>
 	</div>
@@ -12,14 +12,14 @@
 <script>
 import { getAccount } from '@/utils/promises';
 import HomeBar from '@/components/utils/HomeBar.vue';
-import MyCourses from '@/components/clientHome/MyCourses.vue';
+import ClientHomeCourses from '@/components/clientHome/ClientHomeCourses.vue';
 import ClientHomeClasses from '@/components/clientHome/ClientHomeClasses.vue';
 
 export default {
 	name: 'ClientHome',
 	components: {
 		HomeBar,
-		MyCourses,
+		ClientHomeCourses,
 		ClientHomeClasses
 	},
 	data: function() {
@@ -36,5 +36,6 @@ export default {
 <style scoped>
 	#home {
 		text-align: center;
+		display: inline-flex;
 	}
 </style>
