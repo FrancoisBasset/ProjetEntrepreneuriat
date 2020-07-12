@@ -6,6 +6,7 @@ import ClassForm from '@/views/professionnal/ClassForm.vue';
 import ClientHome from '@/views/client/ClientHome.vue';
 import CourseStart from '@/views/client/CourseStart.vue';
 import CourseView from '@/views/client/CourseView.vue';
+import ClassStart from '@/views/client/ClassStart.vue';
 
 import OperatorHome from '@/views/operator/OperatorHome.vue';
 import OperatorUsers from '@/views/operator/OperatorUsers.vue';
@@ -56,6 +57,11 @@ const routes = [
 		path: '/courseView',
 		name: 'courseView',
 		component: CourseView
+	},
+	{
+		path: '/classStart',
+		name: 'classStart',
+		component: ClassStart
 	},
 	{
 		path: '/home/utilisateurs',

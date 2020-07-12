@@ -1,4 +1,4 @@
-const { Domains, Branches, Courses, Chapters, Accounts, Certifications, Pages, database, ClientsCourses, Notifications } = require('../models');
+const { Domains, Branches, Courses, Chapters, Accounts, Certifications, Pages, database, ClientsCourses, Notifications, Classes } = require('../models');
 
 async function createDomains() {
 	await Domains.create('Architecture', 'architecture.jpg');
@@ -38,7 +38,7 @@ async function createCourses() {
 }
 
 database.afterBulkSync(async() => {
-	const l = 11;
+	const l = 12;
 	var i = 0;
 
 	await Accounts.create('professionnal@localhost', 'professionnal@localhost', null, 'professionnal@localhost', '9d520a3e49fd65b9288a6283779ab8e841bc5cbc25abdddaf452511e58f490b5', 'professionnal', true);
@@ -112,4 +112,11 @@ database.afterBulkSync(async() => {
 	await Notifications.create('Joyeux Noël', 'Joyeux Noël, profitez de vos proches !');
 	await Notifications.create('Golang', 'Cours sur Golang disponible !');
 	console.log(`${++i}/${l} notifications !`);
+
+	await Classes.create(1, 'Node.Js', 'Cours ludique sur Node.Js', false, 5.00, '');
+	await Classes.plan(1, '2020-08-08', '20:00:00', '21:00:00');
+
+	await Classes.create(1, 'PHP', 'Cours ludique sur PHP', false, 15.00, '');
+	await Classes.create(1, 'Parachutisme', 'Cours pratique sur le parachutisme', false, 200.00, '');
+	console.log(`${++i}/${l} classes !`);
 });

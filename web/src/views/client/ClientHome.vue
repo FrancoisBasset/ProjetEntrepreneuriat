@@ -3,6 +3,7 @@
 		<HomeBar home="clientHome" />
 
 		<MyCourses :account="account" :courses="account.courses" />
+		<AllClasses />
 	</div>
 </template>
 
@@ -10,12 +11,14 @@
 import { getAccount } from '@/utils/promises';
 import HomeBar from '@/components/utils/HomeBar.vue';
 import MyCourses from '@/components/clientHome/MyCourses.vue';
+import AllClasses from '@/components/clientHome/AllClasses.vue';
 
 export default {
 	name: 'ClientHome',
 	components: {
 		HomeBar,
-		MyCourses
+		MyCourses,
+		AllClasses
 	},
 	data: function() {
 		return {

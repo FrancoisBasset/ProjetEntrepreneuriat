@@ -56,7 +56,18 @@ module.exports = function(database) {
 		Classes: Classes,
 
 		getAll: function() {
-			return Classes.findAll();
+			const date = new Date();
+
+			return Classes.findAll({
+				where: {
+					date: {
+						[Op.gte]: date
+					},
+					endHour: {
+						[Op.gte]: date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+					}
+				}
+			});
 		},
 
 		getByProfessionnalId: function(professionnalId) {
@@ -123,6 +134,27 @@ module.exports = function(database) {
 				}
 			}).then(() => {
 				return this.getById(id);
+			});
+		},
+
+		pay: async function(id, accountId) {
+			const { Payments, ClientsClasses, Accounts } = require('../index');
+
+			const classe = await this.getById(id);
+			const account = await Accounts.getById(accountId);
+
+			await ClientsClasses.create(account.id, id);
+			await Payments.create(account.id, account.card.id, classe.price, classe.name);
+		},
+		
+		exists: function(classId, accountId) {
+			const { ClientsClasses } = require('../index');
+
+			return ClientsClasses.ClientsClasses.findOne({
+				where: {
+					classId: classId,
+					accountId: accountId
+				}
 			});
 		}
 	};

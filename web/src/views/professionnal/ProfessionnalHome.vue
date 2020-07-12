@@ -24,7 +24,7 @@
 		<hr>
 		<h2>Mes classes virtuelles</h2>
 		<div>
-			<div v-for="classe of account.classes" :key="classe.id">
+			<div v-for="classe of account.givenClasses" :key="classe.id">
 				<router-link :to="{ path: '/classForm', query: { classId: classe.id } }">
 					<button style="width: 150px; height: 100px">{{ classe.name }}</button>
 				</router-link>
