@@ -1,24 +1,35 @@
 <template>
 	<div>
-		<HomeBar :home="home" />
-		
+		<HomeBar id="homeBar" :home="home" />
+
 		<div id=parts>
-			<div v-if="haveChat" style="border: 1px solid black; width: 400px; height: 100%;">
-				<div v-for="chat of chats" :key="chat.id">
-					<label >{{ chat.account.firstName }} {{ chat.account.lastName }} : {{ chat.value }}</label>
+			<div id="chat" v-if="haveChat">
+				<div id="messages">
+					<div v-for="chat of chats" :key="chat.id">
+						<label >{{ chat.account.firstName }} {{ chat.account.lastName }} : {{ chat.value }}</label>
+					</div>
 				</div>
-				<div>
-					<input type="text" v-model="toSend" />
-					<button v-on:click="sendMessage">Envoyer</button>
+				<div id="chatInputDiv">
+					<div>
+						<input id="toSendDiv" type="text" v-model="toSend" />
+					</div>
+					<div>
+						<button id="buttonSend" :disabled="toSend.trim() == ''" v-on:click="sendMessage">Envoyer</button>
+					</div>
 				</div>
 			</div>
 
-			<div>
+			<div id="board">
+				<div id="toShow">
+					
+				</div>
+				<div id="tools">
+					<img v-if="muted" v-on:click="changeMute" src="../assets/muted.png" />
+					<img v-else v-on:click="changeMute" src="../assets/unmuted.png" />
 
-			</div>
-
-			<div>
-				{{ classe }}
+					<img v-if="camera" v-on:click="changeCamera" src="../assets/cameraon.png" />
+					<img v-else v-on:click="changeCamera" src="../assets/cameraoff.png" />
+				</div>
 			</div>
 		</div>
 	</div>
@@ -46,7 +57,12 @@ export default {
 			haveUsers: false,
 
 			chats: [],
-			toSend: ''
+			toSend: '',
+
+			document: null,
+
+			muted: true,
+			camera: false
 		};
 	},
 	created: async function() {
@@ -78,7 +94,72 @@ export default {
 				})
 			});
 			this.toSend = '';
+		},
+		changeMute: function() {
+			this.muted = !this.muted;
+		},
+		changeCamera: function() {
+			this.camera = !this.camera;
 		}
 	}
 }
 </script>
+
+<style>
+	#homeBar {
+		height: 10%;
+	}
+
+	#parts {
+		height: 90%;
+		display: inline-flex;
+	}
+
+	#chat {
+		position: fixed;
+		border: 1px solid black;
+		width: 20%;
+		height: 90%;
+	}
+
+	#messages {
+		height: 95%;
+		overflow: auto;
+	}
+
+	#chatInputDiv {
+		margin-bottom: 0px;
+	}
+
+	#toSendDiv {
+		width: 98%;
+	}
+
+	#buttonSend {
+		width: 100%;
+	}
+	
+	#board {
+		position: fixed;
+		margin-left: 20%;
+		height: 90%;
+		width: 60%;
+		border: 1px solid black;
+	}
+
+	#toShow {
+		position: fixed;
+		margin-left: 0%;
+		height: 70%;
+		width: 60%;
+		border: 1px solid black;
+	}
+
+	#tools {
+		position: fixed;
+		margin-left: 0%;
+		
+		width: 60%;
+		top: 80%;
+	}
+</style>
