@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-	"start": "vue-cli service serve",
+    "start": "serve dist",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
@@ -12,6 +12,7 @@
     "module": "^1.2.5",
     "monaco-editor": "^0.20.0",
     "monaco-editor-webpack-plugin": "^1.9.0",
+    "serve": "^11.3.2",
     "vue": "^2.6.11",
     "vue-async-computed": "^3.8.2",
     "vue-pdf": "^4.1.0",
