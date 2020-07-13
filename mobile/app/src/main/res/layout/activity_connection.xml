@@ -36,6 +36,7 @@
         android:layout_marginEnd="40dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:text="client@localhost"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelAdresseMail" />
@@ -59,6 +60,7 @@
         android:layout_marginEnd="40dp"
         android:ems="10"
         android:inputType="textPassword"
+        android:text="client@localhost"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelMotDePasse" />
@@ -67,6 +69,7 @@
         android:id="@+id/connectButton"
         android:layout_width="188dp"
         android:layout_height="90dp"
+        android:onClick="connect"
         android:text="Se connecter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
