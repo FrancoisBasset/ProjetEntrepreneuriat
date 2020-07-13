@@ -49,7 +49,11 @@ public class MyProfileActivity extends AppCompatActivity {
         this.labelFirstNameLastName.setText(firstName + " " + lastName);
         this.firstNameInput.setText(firstName);
         this.lastNameInput.setText(lastName);
-        this.organizationInput.setText(organization);
+        if (organization.equals("null")) {
+            this.organizationInput.setText("");
+        } else {
+            this.organizationInput.setText(organization);
+        }
         this.mailInput.setText(mail);
     }
 
@@ -76,6 +80,29 @@ public class MyProfileActivity extends AppCompatActivity {
                         StaticData.account = response.getJSONObject("response");
                         Toast.makeText(getApplicationContext(), "Le compte a été modifié avec succès", Toast.LENGTH_LONG).show();
                         changeFirstLast();
+                    }
+                } catch (JSONException e) {}
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        queue.add(request);
+    }
+
+    public void deleteAccount(View view) {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, "http://192.168.1.21/accounts", new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if (response.getBoolean("success")) {
+                        StaticData.account = null;
+                        Intent intent = new Intent(getApplicationContext(), ConnectionActivity.class);
+                        startActivity(intent);
                     }
                 } catch (JSONException e) {}
             }
