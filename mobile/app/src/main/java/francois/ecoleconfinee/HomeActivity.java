@@ -37,4 +37,11 @@ public class HomeActivity extends AppCompatActivity {
             this.profileButton.setText(StaticData.account.getString("firstName") + " " + StaticData.account.getString("lastName"));
         } catch (JSONException e) {}
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, ConnectionActivity.class);
+        startActivity(intent);
+    }
 }

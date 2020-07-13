@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,6 +21,7 @@ import org.json.JSONObject;
 public class ConnectionActivity extends AppCompatActivity {
     private EditText mailAddressInput;
     private EditText passwordInput;
+    private TextView errorConnectionLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,8 @@ public class ConnectionActivity extends AppCompatActivity {
 
         this.mailAddressInput = findViewById(R.id.mailAddressInput);
         this.passwordInput = findViewById(R.id.passwordInput);
+        this.errorConnectionLabel = findViewById(R.id.errorConnectionLabel);
+        this.errorConnectionLabel.setText("");
     }
 
     public void connect(View view) throws JSONException {
@@ -46,8 +49,6 @@ public class ConnectionActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                         startActivity(intent);
-                    } else {
-                        System.out.println(response);
                     }
                 } catch (JSONException e) {}
             }
@@ -55,7 +56,7 @@ public class ConnectionActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (error.networkResponse.statusCode == 401) {
-                    Toast.makeText(getApplicationContext(), "Identifiants incorrects", Toast.LENGTH_LONG).show();
+                    wrongLogin();
                 }
             }
         });
@@ -67,7 +68,12 @@ public class ConnectionActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        this.errorConnectionLabel.setText("");
         //this.mailAddressInput.setText("");
         //this.passwordInput.setText("");
+    }
+
+    public void wrongLogin() {
+        this.errorConnectionLabel.setText("Identifiants incorrects !");
     }
 }

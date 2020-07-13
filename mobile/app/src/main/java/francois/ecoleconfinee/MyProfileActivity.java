@@ -119,4 +119,11 @@ public class MyProfileActivity extends AppCompatActivity {
     public void changeFirstLast() {
         this.labelFirstNameLastName.setText(this.firstNameInput.getText() + " " + this.lastNameInput.getText());
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+    }
 }
