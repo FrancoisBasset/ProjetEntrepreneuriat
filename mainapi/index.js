@@ -6,7 +6,7 @@ app.use(cors());
 
 app.use('/assets', express.static('./assets'));
 
-app.listen(81 || process.env.PORT, function() {
+app.listen(process.env.PORT || 81, function() {
 	console.log('Start on 80');
 });
 
