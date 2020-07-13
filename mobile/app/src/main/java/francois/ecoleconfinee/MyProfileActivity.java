@@ -72,7 +72,7 @@ public class MyProfileActivity extends AppCompatActivity {
         } catch (JSONException e) {}
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, "http://192.168.1.21/accounts", body, new Response.Listener<JSONObject>() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, getString(R.string.api) + "/accounts", body, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -95,7 +95,7 @@ public class MyProfileActivity extends AppCompatActivity {
 
     public void deleteAccount(View view) {
         RequestQueue queue = Volley.newRequestQueue(this);
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, "http://192.168.1.21/accounts", new Response.Listener<JSONObject>() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, getString(R.string.api) + "/accounts", new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {

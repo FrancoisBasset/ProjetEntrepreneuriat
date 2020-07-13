@@ -37,7 +37,7 @@ public class ConnectionActivity extends AppCompatActivity {
         body.put("hash", Utils.hash(this.passwordInput.getText().toString()));
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, "http://192.168.1.21/accounts/signin", body, new Response.Listener<JSONObject>() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, getString(R.string.api) + "/accounts/signin", body, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {

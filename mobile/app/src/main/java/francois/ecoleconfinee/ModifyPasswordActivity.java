@@ -48,7 +48,7 @@ public class ModifyPasswordActivity extends AppCompatActivity {
         System.out.println(body);
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, "http://192.168.1.21/accounts/password", body, new Response.Listener<JSONObject>() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, getString(R.string.api) + "/accounts/password", body, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
