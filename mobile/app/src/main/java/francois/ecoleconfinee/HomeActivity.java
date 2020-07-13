@@ -18,13 +18,23 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         this.profileButton = findViewById(R.id.profileButton);
-        try {
-            this.profileButton.setText(StaticData.account.getString("firstName") + " " + StaticData.account.getString("lastName"));
-        } catch (JSONException e) {}
+        this.changeProfileLabel();
     }
 
     public void goToProfile(View view) {
         Intent intent  = new Intent(this, MyProfileActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.changeProfileLabel();
+    }
+
+    public void changeProfileLabel() {
+        try {
+            this.profileButton.setText(StaticData.account.getString("firstName") + " " + StaticData.account.getString("lastName"));
+        } catch (JSONException e) {}
     }
 }

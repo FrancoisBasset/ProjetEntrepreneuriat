@@ -7,13 +7,23 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MyProfileActivity extends AppCompatActivity {
     private TextView labelFirstNameLastName;
     private EditText firstNameInput;
     private EditText lastNameInput;
+    private EditText organizationInput;
     private EditText mailInput;
 
     @Override
@@ -24,24 +34,62 @@ public class MyProfileActivity extends AppCompatActivity {
         this.labelFirstNameLastName = findViewById(R.id.labelFirstNameLastName);
         this.firstNameInput = findViewById(R.id.firstNameInput);
         this.lastNameInput = findViewById(R.id.lastNameInput);
+        this.organizationInput = findViewById(R.id.organizationInput);
         this.mailInput = findViewById(R.id.mailInput);
 
-        String firstName = "", lastName = "", mail = "";
+        String firstName = "", lastName = "", mail = "", organization = "";
 
         try {
             firstName = StaticData.account.getString("firstName");
             lastName = StaticData.account.getString("lastName");
+            organization = StaticData.account.getString("organizationName");
             mail = StaticData.account.getString("mail");
         } catch (JSONException e) {}
 
         this.labelFirstNameLastName.setText(firstName + " " + lastName);
         this.firstNameInput.setText(firstName);
         this.lastNameInput.setText(lastName);
+        this.organizationInput.setText(organization);
         this.mailInput.setText(mail);
     }
 
     public void goToModifyPassword(View view) {
         Intent intent = new Intent(this, ModifyPasswordActivity.class);
         startActivity(intent);
+    }
+
+    public void modifyAccount(View view) {
+        JSONObject body = new JSONObject();
+        try {
+            body.put("firstName", this.firstNameInput.getText());
+            body.put("lastName", this.lastNameInput.getText());
+            body.put("organizationName", this.organizationInput.getText());
+            body.put("mail", this.mailInput.getText());
+        } catch (JSONException e) {}
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, "http://192.168.1.21/accounts", body, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if (response.getBoolean("success")) {
+                        StaticData.account = response.getJSONObject("response");
+                        Toast.makeText(getApplicationContext(), "Le compte a été modifié avec succès", Toast.LENGTH_LONG).show();
+                        changeFirstLast();
+                    }
+                } catch (JSONException e) {}
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        queue.add(request);
+    }
+
+    public void changeFirstLast() {
+        this.labelFirstNameLastName.setText(this.firstNameInput.getText() + " " + this.lastNameInput.getText());
     }
 }

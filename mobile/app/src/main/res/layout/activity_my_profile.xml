@@ -80,7 +80,7 @@
         android:text="Adresse mail"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelNom" />
+        app:layout_constraintTop_toBottomOf="@+id/labelOrganization" />
 
     <EditText
         android:id="@+id/mailInput"
@@ -91,7 +91,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lastNameInput" />
+        app:layout_constraintTop_toBottomOf="@+id/organizationInput" />
 
     <Button
         android:id="@+id/modifyAccountButton"
@@ -99,8 +99,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
+        android:onClick="modifyAccount"
         android:text="Modifier le compte"
         app:layout_constraintEnd_toStartOf="@+id/deleteAccountButton"
+        app:layout_constraintHorizontal_bias="0.304"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mailInput" />
 
@@ -113,4 +115,26 @@
         android:text="Supprimer le compte"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mailInput" />
+
+    <TextView
+        android:id="@+id/labelOrganization"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:text="Organisation"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelNom" />
+
+    <EditText
+        android:id="@+id/organizationInput"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lastNameInput" />
 </androidx.constraintlayout.widget.ConstraintLayout>
