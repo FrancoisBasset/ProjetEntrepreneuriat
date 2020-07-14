@@ -7,13 +7,12 @@
 
 		<button v-on:click="goToPrevious">Page précédente</button>
 
-		<button v-if="atTheEnd" v-on:click="finishCourse">Retour au menu</button>
+		<router-link v-if="atTheEnd" :to="{ name: 'courseStart', query: { courseId: course.id } }">
+			<button>Retour au menu</button>
+		</router-link>
 		<button v-else v-on:click="goToNext">Page suivante</button>
 
 		<PageView v-if="page != null" :elements="page.elements" v-on:qcmRespond="qcmRespond" />
-
-		<button v-if="atTheEnd" v-on:click="finishCourse">Retour au menu</button>
-		<button v-else v-on:click="goToNext">Page suivante</button>
 	</div>
 </template>
 
@@ -126,7 +125,7 @@ export default {
 				this.atTheEnd = false;
 			}
 		},
-		finishCourse: async function() {
+		/*finishCourse: async function() {
 			const account = this.account;
 			const course = this.courseAccount;
 
@@ -138,7 +137,7 @@ export default {
 				},
 				props: true
 			})
-		},
+		},*/
 		oncharacteristicvaluechanged: function(e) {
 			const dataview = this.$store.joystickCharacteristic.value;
 			const decoder = new TextDecoder();

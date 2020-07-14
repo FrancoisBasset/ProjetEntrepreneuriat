@@ -122,7 +122,7 @@
 			</div>
 
 			<div v-if="modalReason == 'created'" slot="controls" id="controls">
-				<router-link to="/home">
+				<router-link :to="{ name: 'professionnalHome' }">
 					<button>Fermer</button>
 				</router-link>
 			</div>
@@ -394,7 +394,7 @@ export default {
 						this.message = json.response;
 					} else {
 						this.$router.push({
-							path: '/home'
+							name: 'professionnalHome'
 						});
 					}
 				});
