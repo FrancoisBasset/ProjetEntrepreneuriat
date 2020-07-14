@@ -1,12 +1,15 @@
 <template>
 	<div>
 		<h1>Mes classes virtuelles</h1>
-		<div id="myClasses">
+		<div id="myClasses" v-if="myClasses.length > 0">
 			<div v-for="classe of myClasses" :key="classe.id">
 				<router-link  :to="{ path: '/classStart', query: { classId: classe.id } }">
 					<button style="width: 150px; height: 100px;">{{ classe.name }}</button>
 				</router-link>
 			</div>
+		</div>
+		<div v-else>
+			<label>Rien ❌</label>
 		</div>
 
 		<h1>Classes virtuelles disponibles</h1>

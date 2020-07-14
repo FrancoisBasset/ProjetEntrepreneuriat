@@ -1,12 +1,15 @@
 <template>
 	<div>
 		<h1>Mes cours</h1>
-		<div>
+		<div v-if="myCourses.length > 0">
 			<div v-for="course of myCourses" :key="course.id">
 				<router-link  :to="{ path: '/courseStart', query: { courseId: course.id } }">
 					<button style="width: 150px; height: 100px;">{{ course.name }}</button>
 				</router-link>
 			</div>
+		</div>
+		<div v-else>
+			<label>Rien ❌</label>
 		</div>
 
 		<h1>Cours disponibles</h1>

@@ -1,32 +1,30 @@
 <template>
-	<div>
+	<div style="text-align: center">
 		<HomeBar home="professionnalHome" />
 
-		<h2>Créer</h2>
+		<h1>Créer</h1>
 		<router-link to="/courseForm">
-			<button>Créer cours</button>
+			<button style="font-size: 30px; padding: 10px; margin: 5px">Cours</button>
 		</router-link>
 		
 		<router-link to="/classForm">
-			<button>Créer classe virtuelle</button>
+			<button style="font-size: 30px; padding: 10px; margin: 5px">Classe virtuelle</button>
 		</router-link>
 
-		<hr>
-		<h2>Mes cours</h2>
+		<h1>Mes cours</h1>
 		<div>
 			<div v-for="course of account.sentCourses" :key="course.id">
 				<router-link :to="{ path: '/courseForm', query: { courseId: course.id } }">
-					<button style="width: 150px; height: 100px">{{ course.name }}</button>
+					<button style="font-size: 30px;width: 250px; height: 150px; margin: 20px">{{ course.name }}</button>
 				</router-link>
 			</div>
 		</div>
 
-		<hr>
-		<h2>Mes classes virtuelles</h2>
+		<h1>Mes classes virtuelles</h1>
 		<div>
 			<div v-for="classe of account.givenClasses" :key="classe.id">
 				<router-link :to="{ path: '/classForm', query: { classId: classe.id } }">
-					<button style="width: 150px; height: 100px">{{ classe.name }}</button>
+					<button style="font-size: 30px;width: 250px; height: 150px; margin: 20px">{{ classe.name }}</button>
 				</router-link>
 			</div>
 		</div>
