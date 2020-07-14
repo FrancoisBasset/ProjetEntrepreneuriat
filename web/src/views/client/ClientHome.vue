@@ -3,7 +3,7 @@
 		<HomeBar home="clientHome" />
 
 		<div id="home">
-			<ClientHomeCourses :account="account" :courses="account.courses" />
+			<ClientHomeCourses />
 			<ClientHomeClasses />
 		</div>
 	</div>

@@ -2,13 +2,32 @@
 	<div>
 		<HomeBar home="clientHome" />
 
+		<!--<label>{{ account }}</label>-->
+
 		<h1>{{ course.name }}</h1>
 		<br>
-		<div v-show="owned">
+		<img v-if="course.image != null" :src="`http://localhost/assets/images/${course.image}`" height="100" />
+		<h3>Difficulté</h3>
+		<div v-for="i of Array.from(Array(5).keys())" :key="`difficulty${i}`" style="display: inline-flex">
+			<label v-if="course.difficulty > i">★</label>
+			<label v-else>☆</label>
+		</div>
+
+		<h3>Objectifs</h3>
+		<div v-for="objective of course.objectives" :key="objective">
+			<label>- {{ objective }}</label>
+			<br>
+		</div>
+		<label v-if="course.objectives != null && course.objectives.length == 0">Aucun</label><br><br>
+
+		<div v-if="paying && !medium && !owned">
+			<label style="font-size: 20px; color: red">Ce cours est réservé aux comptes 'medium'</label>
+		</div>
+		<div v-else>
 			<button v-if="started" v-on:click="start">Continuer le cours</button>
 			<button v-else v-on:click="start">Commencer le cours</button>
 
-			<button v-if="favorite" v-on:click="setFavorite(false)">Favoris ★</button>
+			<button v-if="favorite" v-on:click="setFavorite(false)">Retirer le favoris ★</button>
 			<button v-else v-on:click="setFavorite(true)">Mettre en favoris ☆</button>
 		</div>
 	</div>
@@ -16,6 +35,7 @@
 
 <script>
 import HomeBar from '@/components/utils/HomeBar.vue';
+import { getAccount, getCourse } from '@/utils/promises';
 
 export default {
 	name: 'CourseStart',
@@ -27,27 +47,36 @@ export default {
 	],
 	data: function() {
 		return {
-			account: null,
-			course: null,
-			owned: null,
-			paying: null,
-			started: null,
-			favorite: null
+			account: {},
+			course: {},
+			owned: false,
+			paying: false,
+			started: false,
+			favorite: false,
+
+			medium: false
 		};
 	},
 	created: async function() {
-		this.account = this.$route.params.account;
-		this.course = this.$route.params.course;
+		this.account = await getAccount();
+		this.course = await getCourse(this.$route.query.courseId);
+
+		this.paying = this.course.paying;
 
 		for (const course of this.account.courses) {
 			if (course.id == this.course.id) {
 				this.owned = true;
+				this.started = course.clients_courses.started;
+				this.favorite = course.clients_courses.favorite;
 			}			
 		}
 
-		this.paying = this.course.paying;
-		this.started = this.course.clients_courses.started;
-		this.favorite = this.course.clients_courses.favorite;
+		for (const payment of this.account.payments) {
+			if (payment.item == 'medium') {
+				this.medium = true;
+				break;
+			}
+		}
 	},
 	methods: {
 		start: async function() {

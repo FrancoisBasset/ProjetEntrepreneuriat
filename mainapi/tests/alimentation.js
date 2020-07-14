@@ -1,4 +1,4 @@
-const { Domains, Branches, Courses, Chapters, Accounts, Certifications, Pages, database, ClientsCourses, Notifications, Classes, Cards } = require('../models');
+const { Domains, Branches, Courses, Chapters, Accounts, Certifications, Pages, database, ClientsCourses, Notifications, Classes } = require('../models');
 
 async function createDomains() {
 	await Domains.create('Architecture', 'architecture.jpg');
@@ -13,30 +13,6 @@ async function createDomains() {
 	await Domains.create('Sport', 'sport.jpg');
 }
 
-async function createBranches() {
-	var branchId = 1;
-
-	for (var domainId = 1; domainId <= 10; domainId++) {
-		for (var i = 1; i <= 5; i++) {
-			await Branches.create('domain' + domainId + '_branch' + branchId, 'branche.jpg', domainId);
-
-			branchId++;
-		}
-	}
-}
-
-async function createCourses() {
-	var courseId = 1;
-
-	for (var branchId = 1; branchId <= 50; branchId++) {
-		for (var i = 0; i < 5; i++) {
-			await Courses.create('branch' + branchId + '_course' + courseId, 'cours.jpg', branchId, 1, 1, 'Apprendre;Savoir;Connaitre', 1);
-			
-			courseId++;
-		}
-	}
-}
-
 database.afterBulkSync(async() => {
 	const l = 13;
 	var i = 0;
@@ -45,7 +21,6 @@ database.afterBulkSync(async() => {
 	console.log(`${++i}/${l} professionnal !`);
 
 	await Accounts.create('François', 'Basset', null, 'client@localhost', '948fe603f61dc036b5c596dc09fe3ce3f3d30dc90f024c85f3c82db2ccab679d', 'client', true);
-	await Cards.create(2, '1234567890123456', '12/20', 500);
 	console.log(`${++i}/${l} client !`);
 
 	await Accounts.create('operator@ecoleconfinee', 'operator@ecoleconfinee', null, 'operator@ecoleconfinee', '83ad68614748987041773b9a92229d5b3d213f2cbb3e1dfb988ad5b7043a6800', 'operator', true);
@@ -69,11 +44,11 @@ database.afterBulkSync(async() => {
 	await Branches.create('Temps Modernes', 'branche.jpg', 6);
 	console.log(`${++i}/${l} branches !`);
 
-	await Courses.create('France', 'cours.jpg', 1, 1, 1, '', 0);
-	await Courses.create('Espagne', 'cours.jpg', 1, 1, 2, '', 0);
-	await Courses.create('Allemagne', 'cours.jpg', 1, 1, 3, '', 0);
-	await Courses.create('Royaume-Uni', 'cours.jpg', 1, 1, 4, '', 0);
-	await Courses.create('Italie', 'cours.jpg', 1, 1, 5, '', 0);
+	await Courses.create('France', 'france.jpg', 1, 1, 1, '', 0);
+	await Courses.create('Espagne', 'espagne.jpg', 1, 1, 2, '', 0);
+	await Courses.create('Allemagne', 'allemagne.jpg', 1, 1, 3, '', 0);
+	await Courses.create('Royaume-Uni', 'uk.jpg', 1, 1, 4, '', 0);
+	await Courses.create('Italie', 'italie.jpg', 1, 1, 5, '', 0);
 	console.log(`${++i}/${l} courses !`);
 
 	await Chapters.create('Introduction', 0, 1);

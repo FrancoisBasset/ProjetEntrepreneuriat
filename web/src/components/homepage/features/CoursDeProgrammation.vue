@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<label>Cours de programmation avec IDE en ligne</label>
+		<label>Fiddle en ligne</label>
 
 		<div id="screen"></div>
 	</div>
