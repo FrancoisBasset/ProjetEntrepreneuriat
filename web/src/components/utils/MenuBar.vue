@@ -8,12 +8,14 @@
 		<router-link class="link" id="certificationsLink" to="/certifications">Certifications</router-link>
 		<router-link class="link" id="professionnalsLink" to="/professionnals">Professionnels</router-link>
 
-		<router-link class="link" to="/signup" style="height!: 100%">
-			<button id="signUpButton">Créer un compte</button>
-		</router-link>
-		<router-link class="link" to="/signin">
-			<button id="signInButton">Connexion</button>
-		</router-link>
+		<div id="buttons">
+			<router-link class="link" to="/signup" style="height!: 100%">
+				<button id="signUpButton">Créer un compte</button>
+			</router-link>
+			<router-link class="link" to="/signin">
+				<button id="signInButton">Connexion</button>
+			</router-link>
+		</div>
 	</div>
 </template>
 
@@ -55,7 +57,9 @@ export default {
 	}
 
 	#signUpButton, #signInButton {
-		margin-left: 100px;
+		margin-right: 5px;
+		margin-top: 5px;
+		margin-left: 10px;
 		border: none;
 
 		background-color: darkslateblue;
@@ -65,5 +69,11 @@ export default {
 		height: 30px;
 
 		cursor: pointer;
+	}
+
+	#buttons {
+		position: fixed;
+		top: 0px;
+		right: 0px;
 	}
 </style>
