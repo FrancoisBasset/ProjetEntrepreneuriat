@@ -41,10 +41,10 @@ database.afterBulkSync(async() => {
 	const l = 12;
 	var i = 0;
 
-	await Accounts.create('El Professor', 'Sananes', null, 'professionnal@localhost', '9d520a3e49fd65b9288a6283779ab8e841bc5cbc25abdddaf452511e58f490b5', 'professionnal', true);
+	await Accounts.create('El Professor', 'Sananes', null, 'pro@localhost', '07ed400759a0f606a8b5bfa84712aabe7d1b1c45cb6536c8a5727446b6647b84', 'professionnal', true);
 	console.log(`${++i}/${l} professionnal !`);
 
-	await Accounts.create('François', 'Basset', null, 'client@localhost', '62a1f575c3f3f1928ad535e69f840100bc1ef62eb385931a37a3e025d161d833', 'client', true);
+	await Accounts.create('François', 'Basset', null, 'client@localhost', '948fe603f61dc036b5c596dc09fe3ce3f3d30dc90f024c85f3c82db2ccab679d', 'client', true);
 	await Cards.create(2, '1234567890123456', '12/20', 500);
 	console.log(`${++i}/${l} client !`);
 
