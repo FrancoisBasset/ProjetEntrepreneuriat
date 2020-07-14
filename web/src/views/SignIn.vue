@@ -79,6 +79,10 @@ export default {
 							this.$router.push({
 								name: 'operatorHome'
 							});
+						} else if (json.response.type == 'organization') {
+							this.$router.push({
+								name: 'organizationHome'
+							});
 						}
 					}
 				});

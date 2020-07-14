@@ -19,6 +19,8 @@ import ClassRoom from '@/views/ClassRoom.vue';
 
 import MyProfile from '@/views/MyProfile.vue';
 
+import OrganizationHome from '@/views/organization/OrganizationHome.vue';
+
 const routes = [
 	{
 		path: '/home',
@@ -99,6 +101,11 @@ const routes = [
 		path: '/classroom',
 		name: 'classroom',
 		component: ClassRoom
+	},
+	{
+		path: '/home',
+		name: 'organizationHome',
+		component: OrganizationHome
 	}
 ];
 
