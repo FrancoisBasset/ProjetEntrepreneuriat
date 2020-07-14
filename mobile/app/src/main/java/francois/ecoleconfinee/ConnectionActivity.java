@@ -47,8 +47,12 @@ public class ConnectionActivity extends AppCompatActivity {
                     if (response.getBoolean("success")) {
                         StaticData.account = response.getJSONObject("response");
 
-                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                        startActivity(intent);
+                        if (StaticData.account.getString("type").equals("client")) {
+                            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                            startActivity(intent);
+                        } else {
+                            wrongLogin("L'application est réservée uniquement aux clients");
+                        }
                     }
                 } catch (JSONException e) {}
             }
@@ -56,7 +60,7 @@ public class ConnectionActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (error.networkResponse.statusCode == 401) {
-                    wrongLogin();
+                    wrongLogin("Identifiants incorrects !");
                 }
             }
         });
@@ -73,7 +77,7 @@ public class ConnectionActivity extends AppCompatActivity {
         this.passwordInput.setText("");
     }
 
-    public void wrongLogin() {
-        this.errorConnectionLabel.setText("Identifiants incorrects !");
+    public void wrongLogin(String error) {
+        this.errorConnectionLabel.setText(error);
     }
 }
