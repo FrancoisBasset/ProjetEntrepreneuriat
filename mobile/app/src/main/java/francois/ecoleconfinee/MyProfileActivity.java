@@ -126,4 +126,9 @@ public class MyProfileActivity extends AppCompatActivity {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
+
+    public void goToCard(View view) {
+        Intent intent = new Intent(this, CardActivity.class);
+        startActivity(intent);
+    }
 }
