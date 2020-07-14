@@ -69,8 +69,8 @@ public class ConnectionActivity extends AppCompatActivity {
         super.onResume();
 
         this.errorConnectionLabel.setText("");
-        //this.mailAddressInput.setText("");
-        //this.passwordInput.setText("");
+        this.mailAddressInput.setText("");
+        this.passwordInput.setText("");
     }
 
     public void wrongLogin() {

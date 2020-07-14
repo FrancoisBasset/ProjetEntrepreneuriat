@@ -115,6 +115,7 @@
         android:layout_marginTop="40dp"
         android:layout_marginEnd="60dp"
         android:enabled="true"
+        android:onClick="getMedium"
         android:text="Obtenir un compte Medium"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
@@ -128,10 +129,34 @@
         android:layout_marginStart="60dp"
         android:layout_marginEnd="60dp"
         android:enabled="true"
+        android:onClick="getPremium"
         android:text="Obtenir un compte Premium"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/getMediumAccountButton" />
+
+    <TextView
+        android:id="@+id/labelCompteMediumActive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="55dp"
+        android:text="Compte medium activé"
+        android:textColor="@android:color/holo_green_dark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deleteCardButton" />
+
+    <TextView
+        android:id="@+id/labelComptePremiumActive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Compte premium activé"
+        android:textColor="@android:color/holo_green_dark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/getMediumAccountButton" />
 

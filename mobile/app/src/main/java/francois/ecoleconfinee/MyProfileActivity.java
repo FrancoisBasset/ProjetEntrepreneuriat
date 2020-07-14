@@ -128,7 +128,24 @@ public class MyProfileActivity extends AppCompatActivity {
     }
 
     public void goToCard(View view) {
-        Intent intent = new Intent(this, CardActivity.class);
-        startActivity(intent);
+        RequestQueue queue = Volley.newRequestQueue(this);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, getString(R.string.api) + "/accounts", new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if (response.getBoolean("success")) {
+                        StaticData.account = response.getJSONObject("response");
+                    }
+
+                    Intent intent = new Intent(getApplicationContext(), CardActivity.class);
+                    startActivity(intent);
+                } catch (JSONException e) {}
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {}
+        });
+
+        queue.add(request);
     }
 }
