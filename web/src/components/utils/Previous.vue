@@ -1,5 +1,5 @@
 <template>
-	<router-link :to="to">
+	<router-link :to="{ name: to }">
 		<button>Retour</button>
 	</router-link>
 </template>

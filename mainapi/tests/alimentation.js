@@ -38,7 +38,7 @@ async function createCourses() {
 }
 
 database.afterBulkSync(async() => {
-	const l = 12;
+	const l = 13;
 	var i = 0;
 
 	await Accounts.create('El Professor', 'Sananes', null, 'pro@localhost', '07ed400759a0f606a8b5bfa84712aabe7d1b1c45cb6536c8a5727446b6647b84', 'professionnal', true);
@@ -50,6 +50,9 @@ database.afterBulkSync(async() => {
 
 	await Accounts.create('operator@ecoleconfinee', 'operator@ecoleconfinee', null, 'operator@ecoleconfinee', '83ad68614748987041773b9a92229d5b3d213f2cbb3e1dfb988ad5b7043a6800', 'operator', true);
 	console.log(`${++i}/${l} operator !`);
+
+	await Accounts.create('Ecole', 'ESGI', null, 'org@localhost', 'e87cb45c05ad389d58904ea398345c24b50f46c15d412d0f671e66b766247d39', 'organization', true);
+	console.log(`${++i}/${l} organization !`);
 
 	await createDomains();
 	console.log(`${++i}/${l} domains !`);

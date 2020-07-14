@@ -2,7 +2,7 @@
 	<div id="root">
 		<HomeBar home="professionnalHome" />
 
-		<Previous to="/home" />
+		<Previous to="professionnalHome" />
 
 		<div id="form">
 			<form>
