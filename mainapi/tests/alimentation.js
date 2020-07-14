@@ -23,7 +23,7 @@ database.afterBulkSync(async() => {
 	await Accounts.create('François', 'Basset', null, 'client@localhost', '948fe603f61dc036b5c596dc09fe3ce3f3d30dc90f024c85f3c82db2ccab679d', 'client', true);
 	console.log(`${++i}/${l} client !`);
 
-	await Accounts.create('operator@ecoleconfinee', 'operator@ecoleconfinee', null, 'operator@ecoleconfinee', '83ad68614748987041773b9a92229d5b3d213f2cbb3e1dfb988ad5b7043a6800', 'operator', true);
+	await Accounts.create('Louis', 'De Funès', null, 'op@ecoleconfinee', '037aeaeaf4bbf26ddabe7256a8294dc52da48d575a1247b5c2598c47de7aebab', 'operator', true);
 	console.log(`${++i}/${l} operator !`);
 
 	await Accounts.create('Ecole', 'ESGI', null, 'org@localhost', 'e87cb45c05ad389d58904ea398345c24b50f46c15d412d0f671e66b766247d39', 'organization', true);

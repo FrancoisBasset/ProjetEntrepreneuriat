@@ -70,8 +70,6 @@ export default {
 			if (this.page.index == 0 && this.chapter.index > 0) {
 				this.chapter = this.course.chapters[this.chapter.index - 1];
 				this.chapter = await getChapter(this.chapter.id);
-
-				//console.log(this.chapter);
 				
 				if (this.chapter.pages.length > 0) {
 					this.page = this.chapter.pages[this.chapter.pages.length - 1];

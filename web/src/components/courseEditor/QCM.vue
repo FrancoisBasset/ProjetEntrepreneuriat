@@ -31,8 +31,6 @@ export default {
 		seeFullQcm: async function(val) {
 			this.selected = 0;
 			if (this.$store.joystickCharacteristic != null && this.seeFullQcm) {
-				console.log(this.$store.joystickCharacteristic);
-
 				const data = JSON.stringify({
 					action: 'enterQcm'
 				});

@@ -78,8 +78,6 @@ module.exports = function(database) {
 			for (const account of accounts) {
 				accountsToReturn.push(await this.getById(account.id));
 			}
-
-			console.log(accountsToReturn);
 			
 			return accountsToReturn;
 		},
