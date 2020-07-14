@@ -4,7 +4,7 @@
 			<label>{{ certification.name }}</label>
 		</div>
 		<div id="certificationCourses">
-			<h2>Cours</h2>
+			<h2>Liste des cours</h2>
 			<div v-for="course in this.courses" :key="course.id">
 				<label>{{ course.name }}</label>
 			</div>
