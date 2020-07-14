@@ -6,7 +6,7 @@
 		
 		<div>
 			<div v-for="index of Array.from(Array(answers.length).keys())" :key="index">
-				<button class="answer"  v-on:click="respond(index)" :ref="`answer${index}`" :class="{ selected: selected == index }">{{ answers[index] }}</button>
+				<button class="answer"  v-on:click="respond(index)" :ref="`answer${index}`" :class="{ selected: selected == index && $store.joystickCharacteristic != null }">{{ answers[index] }}</button>
 			</div>
 		</div>
 	</div>
