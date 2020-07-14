@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div style="text-align: center">
 		<HomeBar home="professionnalHome" />
 
 		<div>
@@ -8,19 +8,19 @@
 
 			<div>
 				Nom : <br><input type="text" v-model="classe.name" />
-			</div>
+			</div><br>
 
 			<div>
 				Description : <br><textarea v-model="classe.description"></textarea>
-			</div>
+			</div><br>
 
 			<div>
 				Classe privée : <br><input type="checkbox" :checked="classe.private" v-model="classe.private" />
-			</div>
+			</div><br>
 
 			<div>
 				Prix : <br><input type="number" v-model="classe.price" />
-			</div>
+			</div><br>
 
 			<div>
 				Fonctionnalités : <br>
@@ -28,7 +28,7 @@
 					<option></option>
 					<option v-for="fonctionnality of fonctionnalities" :key="fonctionnality">{{ fonctionnality }}</option>
 				</select>
-			</div>
+			</div><br>
 
 			<div>
 				<button v-if="oldClasse == null" v-on:click="createVirtualClass">Créer la classe virtuelle</button>
@@ -36,14 +36,14 @@
 					<button v-on:click="updateVirtualClass">Modifier la classe virtuelle</button>
 					<button v-on:click="willPlan = true">Planifier</button>
 				</div>
-			</div>
+			</div><br>
 
 			<div v-if="willPlan || classe.date != null">
 				<h2>Planification de la classe virtuelle</h2>
 
-				Date : <input type="date" v-model="classe.date" /><br>
-				Heure de début : <input type="time" v-model="classe.beginHour" /><br>
-				Heure de fin : <input type="time" v-model="classe.endHour" /><br>
+				Date : <input type="date" v-model="classe.date" /><br><br>
+				Heure de début : <input type="time" v-model="classe.beginHour" /><br><br>
+				Heure de fin : <input type="time" v-model="classe.endHour" /><br><br>
 				
 				<button v-if="oldClasse.date == null" v-on:click="plan">Planifier</button>
 				<div v-else>
