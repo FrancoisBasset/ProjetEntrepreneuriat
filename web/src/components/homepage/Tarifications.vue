@@ -13,38 +13,32 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr class="notEven">
+				<tr class="even">
 					<td>Quelques cours en ligne</td>
 					<td>✅</td>
 					<td>✅</td>
 					<td>✅</td>
 				</tr>
+				<tr class="notEven">
+					<td>Suivi des cours avec télécommande</td>
+					<td>✅</td>
+					<td>✅</td>
+					<td>✅</td>
+				</tr>
 				<tr class="even">
+					<td>QCM</td>
+					<td>✅</td>
+					<td>✅</td>
+					<td>✅</td>
+				</tr>
+				<tr class="notEven">
 					<td>Tous les cours</td>
 					<td>❌</td>
 					<td>✅</td>
 					<td>✅</td>
 				</tr>
-				<tr class="notEven">
-					<td>Exercices</td>
-					<td>❌</td>
-					<td>✅</td>
-					<td>✅</td>
-				</tr>
 				<tr class="even">
-					<td>Tests</td>
-					<td>❌</td>
-					<td>✅</td>
-					<td>✅</td>
-				</tr>
-				<tr class="notEven">
 					<td>Classes virtuelles</td>
-					<td>❌</td>
-					<td>❌</td>
-					<td>✅</td>
-				</tr>
-				<tr class="even">
-					<td>Intelligence artificielle</td>
 					<td>❌</td>
 					<td>❌</td>
 					<td>✅</td>
@@ -58,8 +52,8 @@
 				<tr id="tarifTr">
 					<td id="tarif">Tarif</td>
 					<td id="tarif">Gratuit</td>
-					<td id="tarif">9.99 € / mois</td>
-					<td id="tarif">49.99 € / mois</td>
+					<td id="tarif">9.99 €</td>
+					<td id="tarif">49.99 €</td>
 				</tr>
 			</tbody>
 		</table>
