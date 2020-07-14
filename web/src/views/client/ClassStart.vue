@@ -36,7 +36,10 @@
 			</div>
 
 			<div>
-				<div v-if="classe.price > 0 && !owned">
+				<div v-if="!premium">
+					<label style="font-size: 20px; color: red">Vous n'avez pas de compte premium</label>
+				</div>
+				<div v-else-if="classe.price > 0 && !owned">
 					<button :disabled="account.card == null" v-on:click="pay">Payer le cours</button><br>
 					<label v-if="account.card == null">Vous n'avez pas de carte enregistré</label> 
 				</div>
@@ -74,7 +77,9 @@ export default {
 			owned: false,
 			registered: false,
 			
-			error : ''
+			error : '',
+
+			premium: false
 		}
 	},
 	created: async function() {
@@ -88,6 +93,13 @@ export default {
 			if (classe.id == this.classe.id) {
 				this.owned = true;
 				this.registered = classe.clients_classes.registered;
+			}
+		}
+
+		for (const payment of this.account.payments) {
+			if (payment.item == 'premium') {
+				this.premium = true;
+				break;
 			}
 		}
 	},
