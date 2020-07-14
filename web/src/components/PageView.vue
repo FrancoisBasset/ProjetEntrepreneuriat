@@ -19,7 +19,7 @@
 			<div v-if="element.type == 'DOCX' && element.data.base64 != null">
 				<DOCX :base64="element.data.base64" />
 			</div>
-			<div v-if="element.type == 'Tableau'">
+			<div v-if="element.type == 'Tableau'" class="tableau">
 				<Tableau :array="element.data.array" />
 			</div>
 			<div v-if="element.type == 'QCM'" id="qcm">
@@ -85,4 +85,9 @@ export default {
 	.qcm {
 		margin-bottom: 50px;
 	}
+
+	.tableau {
+		margin-bottom: 30px;
+	}
+
 </style>
