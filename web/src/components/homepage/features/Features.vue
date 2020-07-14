@@ -1,27 +1,12 @@
 <template>
 	<div class="div">
-		<label class="title">Quelles sont les fonctionnalités ?</label>
+		<label class="title">Quelles sont les fonctionnalités ?</label><br><br>
 
-		<div>
-			<table>
-				<tr>
-					<td>
-						<VirtualClassroom />
-					</td>
-					<td>
-						<OnlineCourse />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<CoursDeProgrammation />
-					</td>
-					<td>
-						<ExercicesInnovants />
-					</td>
-				</tr>
-			</table>
-		</div>
+		<h1>Classes virtuelles</h1>
+		<h1>Cours en ligne</h1>
+		<h1>Fiddle en ligne</h1>
+		<h1>QCM</h1>
+		<h1>Et surtout le suivi des cours grâce à notre télécommande reliée au site</h1>
 	</div>
 </template>
 
@@ -43,9 +28,9 @@ export default {
 </script>
 
 <style scoped>
-	table {
-		width: 70%;
-		margin-left: 15%;
-		margin-right: 15%;
+	h1 {
+		padding: 10px;
+		background-color: tomato;
+		color: white
 	}
 </style>
