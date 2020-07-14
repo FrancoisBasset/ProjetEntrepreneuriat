@@ -44,7 +44,6 @@ export default {
 
 <style scoped>
 	#certificationDiv {
-		display: inline-block;
 		border: 1px solid;
 	}
 
@@ -55,6 +54,6 @@ export default {
 	}
 
 	#certificationCourses {
-		height: 200px;;
+		height: 200px;
 	}
 </style>

@@ -1,9 +1,11 @@
 <template>
 	<div>
-		<MenuBar />
+		<MenuBar /><br><br>
 
-		<input type="text" v-model="search" />
-		<button v-on:click="searchCertification">Rechercher</button>
+		<div style="text-align: center">
+			<input type="text" v-model="search" />
+			<button v-on:click="searchCertification">Rechercher</button>
+		</div>
 
 		<br><br>
 

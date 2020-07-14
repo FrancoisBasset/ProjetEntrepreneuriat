@@ -2,7 +2,6 @@
 	<div>
 		<button v-if="returnTo != null" v-on:click="returnToParent">Retour aux {{ returnTo }}</button>
 		<Section v-on:click.native="select(child)" v-for="child of children" :key="child.id" :name="child.name" :image="child.image" />
-		<label v-if="course != null">{{ course }}</label>
 	</div>
 </template>
 
