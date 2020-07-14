@@ -1,10 +1,10 @@
 <template>
-	<div>
+	<div style="text-align: center; width: 100%">
 		<HomeBar home="clientHome" />
 
 		<div id="home">
-			<ClientHomeCourses />
-			<ClientHomeClasses />
+			<ClientHomeCourses style="margin-right: 30%" />
+			<ClientHomeClasses style="margin-left: 30%" />
 		</div>
 	</div>
 </template>
